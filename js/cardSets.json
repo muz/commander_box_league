@@ -803,8 +803,7 @@
       },
       "bonusSheet": {
         "name": "Final Fantasy Through the Ages",
-        "code": "FCA",
-        "range": false
+        "code": "FCA"
       }
     },
     {
@@ -817,11 +816,7 @@
       },
       "bonusSheet": {
         "name": "Special Guests",
-        "code": "SPG",
-        "range": {
-          "start": 104,
-          "end": 113
-        }
+        "code": "SPG"
       }
     }
   ]
