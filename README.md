@@ -52,6 +52,7 @@ Feel free to contribute by:
 - Improving the UI/UX
 - Adding new features
 - Fixing bugs
+- Correct the pull distribution for a given set or across boosters...
 
 ---
 

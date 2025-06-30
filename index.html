@@ -103,6 +103,8 @@
 
             // Add sets from JSON
             cardSets.forEach(set => {
+                // Only include sets where enabled is not declared or is not false
+                if (set.enabled === false) return;
                 const option = document.createElement('option');
                 option.value = set.code;
                 option.textContent = set.name;
