@@ -2,6 +2,8 @@
 
 A single-page web application that simulates opening random boosters from Magic the Gathering trading card boxes. This tool allows players to experience the thrill of opening boosters virtually without the cost of physical cards.
 
+**This tool was inspired by and can be used to simulate running a [Commander Box League](https://wpn.wizards.com/en/event/edge-of-eternities-commander-box-league) drafting pool.**
+
 ## Features
 
 - **Booster Simulation**: Open random boosters from various Magic the Gathering sets
@@ -25,7 +27,7 @@ commander_box_league/
 ├── js/                # JavaScript files
 │   ├── app.js         # Main application logic
 │   ├── cardData.js    # Card database/API integration
-│   └── simulator.js   # Booster simulation logic
+│   └── simulator.js   # Booster simulation logic    
 ├── assets/            # Images and other assets
 │   └── images/
 └── README.md          # This file
