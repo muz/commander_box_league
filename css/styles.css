@@ -156,17 +156,22 @@ input[type="number"]:focus {
 }
 
 #booster-display {
-    min-height: 400px;
-    border: 2px dashed #ddd;
-    border-radius: 10px;
-    padding: 20px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    padding: 1.5em;
+    margin-bottom: 2em;
+}
+
+#card-pool {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    padding: 1.5em;
+    margin-bottom: 2em;
     display: flex;
     flex-wrap: wrap;
-    gap: 15px;
-    align-items: flex-start;
-    justify-content: center;
-    width: 100%;
-    box-sizing: border-box;
+    gap: 1.5em;
 }
 
 #booster-display:empty::before {
@@ -286,4 +291,63 @@ input[type="number"]:focus {
 .booster-panel > div {
     padding: 15px 20px;
     color: #333;
+}
+
+.secondary-button {
+    background: linear-gradient(90deg, #6a82fb 0%, #fc5c7d 100%);
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    padding: 0.6em 1.4em;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background 0.2s, box-shadow 0.2s;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    margin-bottom: 1em;
+}
+.secondary-button:hover {
+    background: linear-gradient(90deg, #fc5c7d 0%, #6a82fb 100%);
+}
+
+.card-pool-group {
+    flex: 1 1 200px;
+    min-width: 220px;
+    background: #f8f9fa;
+    border-radius: 10px;
+    box-shadow: 0 1px 4px rgba(80,80,120,0.07);
+    padding: 1em 1.2em 1.2em 1.2em;
+    margin-bottom: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.card-pool-group h4 {
+    margin-top: 0;
+    margin-bottom: 0.7em;
+    font-size: 1.1em;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    color: #4a4a6a;
+}
+
+.card-pool-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+}
+
+.card-pool-list li {
+    background: #fff;
+    border-radius: 6px;
+    margin-bottom: 0.4em;
+    padding: 0.4em 0.8em;
+    box-shadow: 0 1px 2px rgba(80,80,120,0.04);
+    font-size: 0.98em;
+    color: #333;
+    transition: background 0.2s;
+}
+.card-pool-list li:last-child {
+    margin-bottom: 0;
 } 
