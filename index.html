@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Commander Box League - Booster Simulator</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div id="app">
+        <header>
+            <h1>Commander Box League</h1>
+            <h2>Booster Simulator</h2>
+            <a href="https://github.com/muz/commander_box_league" class="github-link" target="_blank" rel="noopener noreferrer">
+                <svg class="github-icon" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                </svg>
+                View on GitHub
+            </a>
+        </header>
+
+        <main>
+            <section id="controls">
+                <div class="set-selection">
+                    <label for="set-select">Select Set:</label>
+                    <select id="set-select">
+                        <option value="">Choose a set...</option>
+                    </select>
+                </div>
+
+                <div class="booster-type">
+                    <label for="booster-type">Booster Type:</label>
+                    <select id="booster-type">
+                        <option value="">Choose a booster type...</option>
+                    </select>
+                </div>
+
+                <div class="box-size">
+                    <label for="box-size">Box Size:</label>
+                    <input type="number" id="box-size" min="1" step="1" placeholder="Enter box size">
+                </div>
+
+                <button id="open-booster" class="primary-button">Open Box!</button>
+            </section>
+
+            <section id="results">
+                <div id="booster-display">
+                    <!-- Booster cards will be displayed here -->
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        // Global variables
+        let cardSets = [];
+        let selectedSet = null;
+        let setData = null;
+        let bonusSheetData = null;
+
+        // Fetch card sets data
+        async function fetchCardSets() {
+            try {
+                const response = await fetch('js/cardSets.json');
+                const data = await response.json();
+                cardSets = data.sets;
+                populateSetDropdown();
+            } catch (error) {
+                console.error('Error fetching card sets:', error);
+            }
+        }
+
+        // Populate set dropdown
+        function populateSetDropdown() {
+            const setSelect = document.getElementById('set-select');
+
+            // Clear existing options except the first one
+            setSelect.innerHTML = '<option value="">Choose a set...</option>';
+
+            // Add sets from JSON
+            cardSets.forEach(set => {
+                const option = document.createElement('option');
+                option.value = set.code;
+                option.textContent = set.name;
+                setSelect.appendChild(option);
+            });
+        }
+
+        // Fetch set data and bonus sheet data
+        async function fetchSetData(setCode) {
+            try {
+                // Fetch main set data
+                const setResponse = await fetch(`js/cards/${setCode}.json`);
+                setData = await setResponse.json();
+                console.log(`Fetched set data for ${setCode}:`, setData);
+
+                // Fetch bonus sheet data if it exists
+                if (selectedSet.bonusSheet) {
+                    const bonusResponse = await fetch(`js/cards/${selectedSet.bonusSheet.code}.json`);
+                    bonusSheetData = await bonusResponse.json();
+                    console.log(`Fetched bonus sheet data for ${selectedSet.bonusSheet.code}:`, bonusSheetData);
+                } else {
+                    bonusSheetData = null;
+                    console.log('No bonus sheet for this set');
+                }
+            } catch (error) {
+                console.error('Error fetching set data:', error);
+                setData = null;
+                bonusSheetData = null;
+            }
+        }
+
+        // Update booster types based on selected set
+        async function updateBoosterTypes() {
+            const boosterTypeSelect = document.getElementById('booster-type');
+            const boxSizeInput = document.getElementById('box-size');
+            const setSelect = document.getElementById('set-select');
+
+            // Clear existing options
+            boosterTypeSelect.innerHTML = '<option value="">Choose a booster type...</option>';
+            boxSizeInput.value = '';
+
+            if (setSelect.value) {
+                selectedSet = cardSets.find(set => set.code === setSelect.value);
+
+                if (selectedSet && selectedSet.boosterTypes) {
+                    Object.keys(selectedSet.boosterTypes).forEach(boosterType => {
+                        const boosterConfig = selectedSet.boosterTypes[boosterType];
+                        const option = document.createElement('option');
+                        option.value = boosterType.toLowerCase();
+                        option.textContent = boosterType;
+                        option.dataset.boxSize = boosterConfig.boxSize;
+                        boosterTypeSelect.appendChild(option);
+                    });
+                }
+
+                // Fetch set data and bonus sheet data
+                await fetchSetData(selectedSet.code);
+            } else {
+                selectedSet = null;
+                setData = null;
+                bonusSheetData = null;
+            }
+        }
+
+        // Update box size based on selected booster type
+        function updateBoxSize() {
+            const boosterTypeSelect = document.getElementById('booster-type');
+            const boxSizeInput = document.getElementById('box-size');
+
+            // Clear the input field
+            boxSizeInput.value = '';
+
+            if (boosterTypeSelect.value && selectedSet) {
+                const boosterType = boosterTypeSelect.value;
+                const boosterConfig = selectedSet.boosterTypes[boosterType.charAt(0).toUpperCase() + boosterType.slice(1)];
+
+                if (boosterConfig && boosterConfig.boxSize) {
+                    // Set the default box size as the input value
+                    boxSizeInput.value = boosterConfig.boxSize;
+                }
+            }
+        }
+
+        // Event listeners
+        document.addEventListener('DOMContentLoaded', function() {
+            fetchCardSets();
+
+            // Set selection change
+            document.getElementById('set-select').addEventListener('change', updateBoosterTypes);
+
+            // Booster type selection change
+            document.getElementById('booster-type').addEventListener('change', updateBoxSize);
+
+            // Open booster button
+            document.getElementById('open-booster').addEventListener('click', function() {
+                const setSelect = document.getElementById('set-select');
+                const boosterTypeSelect = document.getElementById('booster-type');
+                const boxSizeInput = document.getElementById('box-size');
+
+                if (!setSelect.value || !boosterTypeSelect.value) {
+                    alert('Please select a set and booster type.');
+                    return;
+                }
+
+                const boxSize = parseInt(boxSizeInput.value);
+                if (!boxSizeInput.value || isNaN(boxSize) || boxSize < 1) {
+                    alert('Please enter a valid box size (positive integer).');
+                    return;
+                }
+
+                console.log('Opening booster:', {
+                    set: selectedSet.name,
+                    boosterType: boosterTypeSelect.value,
+                    boxSize: boxSize,
+                    setData: setData,
+                    bonusSheetData: bonusSheetData
+                });
+
+                // Simulate opening packs and display results
+                const boosterDisplay = document.getElementById('booster-display');
+                let output = '';
+
+                // Helper: pick an item based on probability weights
+                function pickWeighted(items) {
+                    const total = items.reduce((sum, item) => sum + item.probability, 0);
+                    let r = Math.random() * total;
+                    for (const item of items) {
+                        if (r < item.probability) return item;
+                        r -= item.probability;
+                    }
+                    return items[items.length - 1]; // fallback
+                }
+
+                // Helper: get all cards from a set by rarity and collector number
+                function getCardsFromSet(setCode, rarity, collectorNumbers, collectorNumberRanges, exclusions) {
+                    let cardPool = [];
+                    let cardData = null;
+                    if (setData && setData.setCode === setCode) cardData = setData.cards;
+                    else if (bonusSheetData && bonusSheetData.setCode === setCode) cardData = bonusSheetData.cards;
+                    if (!cardData) return [];
+
+                    // Filter by rarity
+                    cardPool = cardData.filter(card => {
+                        if (Array.isArray(rarity)) {
+                            if (!rarity.includes(card.rarity)) return false;
+                        } else if (rarity && card.rarity !== rarity) {
+                            return false;
+                        }
+                        return true;
+                    });
+
+                    // Filter by collectorNumbers
+                    if (collectorNumbers) {
+                        cardPool = cardPool.filter(card => collectorNumbers.includes(card.collectorNumber));
+                    }
+
+                    // Filter by collectorNumberRanges
+                    if (collectorNumberRanges) {
+                        let validNumbers = new Set();
+                        collectorNumberRanges.forEach(range => {
+                            for (let n = range.start; n <= range.end; n++) validNumbers.add(n);
+                        });
+                        cardPool = cardPool.filter(card => validNumbers.has(card.collectorNumber));
+                    }
+
+                    // Exclude exclusions
+                    if (exclusions) {
+                        cardPool = cardPool.filter(card => !exclusions.includes(card.collectorNumber));
+                    }
+
+                    return cardPool;
+                }
+
+                // Main simulation
+                const boosterType = boosterTypeSelect.value;
+                const boosterConfig = selectedSet.boosterTypes[boosterType.charAt(0).toUpperCase() + boosterType.slice(1)];
+                const slots = boosterConfig.slots;
+
+                for (let i = 0; i < boxSize; i++) {
+                    let slotResults = '';
+                    slots.forEach((slot, slotIdx) => {
+                        let cardName = '(no card found)';
+                        let attempts = 0;
+                        while (attempts < 10) {
+                            const pickedItem = pickWeighted(slot.items);
+                            // Get card pool for this item
+                            const cards = getCardsFromSet(
+                                pickedItem.set,
+                                pickedItem.rarity || pickedItem.rarities || slot.rarity,
+                                pickedItem.collectorNumbers,
+                                pickedItem.collectorNumberRanges || pickedItem.collectorNumberRange,
+                                pickedItem.exclusions
+                            );
+                            if (cards.length > 0) {
+                                const card = cards[Math.floor(Math.random() * cards.length)];
+                                cardName = card.name + (card.rarity ? ` [${card.rarity}]` : '');
+                                break;
+                            }
+                            attempts++;
+                        }
+                        slotResults += `<div><strong>Slot ${slot.slot} (${slot.name}):</strong> ${cardName}</div>`;
+                    });
+                    output += `
+                        <details class="booster-panel">
+                            <summary>Booster ${i + 1}</summary>
+                            <div>${slotResults}</div>
+                        </details>
+                    `;
+                }
+                boosterDisplay.innerHTML = output;
+            });
+        });
+    </script>
+</body>
+</html>
