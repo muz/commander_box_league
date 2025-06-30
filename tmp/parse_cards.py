@@ -83,7 +83,7 @@ print(f"Cards with data: {sum(1 for card in extracted_cards if card)}")
 print(f"Empty slots: {sum(1 for card in extracted_cards if not card)}")
 
 # Save to a new JSON file in the tmp directory
-output_filename = f"{set_code}_extracted_cards_positional.json"
+output_filename = f"js/cards/{set_code}.json"
 with open(output_filename, 'w', encoding='utf-8') as file:
     json.dump(extracted_cards, file, indent=2, ensure_ascii=False)
 

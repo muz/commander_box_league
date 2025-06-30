@@ -1,5 +1,2132 @@
-{
-  "setCode": "TDM",
-  "setName": "Tarkir: Dragonstorm",
-  "cards": []
-} 
+[
+  {
+    "name": "Ugin, Eye of the Storms",
+    "rarity": "mythic",
+    "collectorNumber": 1
+  },
+  {
+    "name": "Anafenza, Unyielding Lineage",
+    "rarity": "rare",
+    "collectorNumber": 2
+  },
+  {
+    "name": "Arashin Sunshield",
+    "rarity": "common",
+    "collectorNumber": 3
+  },
+  {
+    "name": "Bearer of Glory",
+    "rarity": "common",
+    "collectorNumber": 4
+  },
+  {
+    "name": "Clarion Conqueror",
+    "rarity": "rare",
+    "collectorNumber": 5
+  },
+  {
+    "name": "Coordinated Maneuver",
+    "rarity": "common",
+    "collectorNumber": 6
+  },
+  {
+    "name": "Dalkovan Packbeasts",
+    "rarity": "uncommon",
+    "collectorNumber": 7
+  },
+  {
+    "name": "Descendant of Storms",
+    "rarity": "uncommon",
+    "collectorNumber": 8
+  },
+  {
+    "name": "Dragonback Lancer",
+    "rarity": "common",
+    "collectorNumber": 9
+  },
+  {
+    "name": "Duty Beyond Death",
+    "rarity": "uncommon",
+    "collectorNumber": 10
+  },
+  {
+    "name": "Elspeth, Storm Slayer",
+    "rarity": "mythic",
+    "collectorNumber": 11
+  },
+  {
+    "name": "Fortress Kin-Guard",
+    "rarity": "common",
+    "collectorNumber": 12
+  },
+  {
+    "name": "Furious Forebear",
+    "rarity": "uncommon",
+    "collectorNumber": 13
+  },
+  {
+    "name": "Lightfoot Technique",
+    "rarity": "common",
+    "collectorNumber": 14
+  },
+  {
+    "name": "Loxodon Battle Priest",
+    "rarity": "uncommon",
+    "collectorNumber": 15
+  },
+  {
+    "name": "Mardu Devotee",
+    "rarity": "common",
+    "collectorNumber": 16
+  },
+  {
+    "name": "Osseous Exhale",
+    "rarity": "common",
+    "collectorNumber": 17
+  },
+  {
+    "name": "Poised Practitioner",
+    "rarity": "common",
+    "collectorNumber": 18
+  },
+  {
+    "name": "Rally the Monastery",
+    "rarity": "uncommon",
+    "collectorNumber": 19
+  },
+  {
+    "name": "Rebellious Strike",
+    "rarity": "common",
+    "collectorNumber": 20
+  },
+  {
+    "name": "Riling Dawnbreaker // Signaling Roar",
+    "rarity": "common",
+    "collectorNumber": 21
+  },
+  {
+    "name": "Sage of the Skies",
+    "rarity": "rare",
+    "collectorNumber": 22
+  },
+  {
+    "name": "Salt Road Packbeast",
+    "rarity": "common",
+    "collectorNumber": 23
+  },
+  {
+    "name": "Smile at Death",
+    "rarity": "mythic",
+    "collectorNumber": 24
+  },
+  {
+    "name": "Starry-Eyed Skyrider",
+    "rarity": "uncommon",
+    "collectorNumber": 25
+  },
+  {
+    "name": "Static Snare",
+    "rarity": "uncommon",
+    "collectorNumber": 26
+  },
+  {
+    "name": "Stormbeacon Blade",
+    "rarity": "uncommon",
+    "collectorNumber": 27
+  },
+  {
+    "name": "Stormplain Detainment",
+    "rarity": "common",
+    "collectorNumber": 28
+  },
+  {
+    "name": "Sunpearl Kirin",
+    "rarity": "uncommon",
+    "collectorNumber": 29
+  },
+  {
+    "name": "Teeming Dragonstorm",
+    "rarity": "uncommon",
+    "collectorNumber": 30
+  },
+  {
+    "name": "Tempest Hawk",
+    "rarity": "common",
+    "collectorNumber": 31
+  },
+  {
+    "name": "United Battlefront",
+    "rarity": "rare",
+    "collectorNumber": 32
+  },
+  {
+    "name": "Voice of Victory",
+    "rarity": "rare",
+    "collectorNumber": 33
+  },
+  {
+    "name": "Wayspeaker Bodyguard",
+    "rarity": "uncommon",
+    "collectorNumber": 34
+  },
+  {
+    "name": "Aegis Sculptor",
+    "rarity": "uncommon",
+    "collectorNumber": 35
+  },
+  {
+    "name": "Agent of Kotis",
+    "rarity": "common",
+    "collectorNumber": 36
+  },
+  {
+    "name": "Ambling Stormshell",
+    "rarity": "rare",
+    "collectorNumber": 37
+  },
+  {
+    "name": "Bewildering Blizzard",
+    "rarity": "uncommon",
+    "collectorNumber": 38
+  },
+  {
+    "name": "Constrictor Sage",
+    "rarity": "uncommon",
+    "collectorNumber": 39
+  },
+  {
+    "name": "Dirgur Island Dragon // Skimming Strike",
+    "rarity": "common",
+    "collectorNumber": 40
+  },
+  {
+    "name": "Dispelling Exhale",
+    "rarity": "common",
+    "collectorNumber": 41
+  },
+  {
+    "name": "Dragonologist",
+    "rarity": "rare",
+    "collectorNumber": 42
+  },
+  {
+    "name": "Dragonstorm Forecaster",
+    "rarity": "uncommon",
+    "collectorNumber": 43
+  },
+  {
+    "name": "Essence Anchor",
+    "rarity": "uncommon",
+    "collectorNumber": 44
+  },
+  {
+    "name": "Focus the Mind",
+    "rarity": "common",
+    "collectorNumber": 45
+  },
+  {
+    "name": "Fresh Start",
+    "rarity": "uncommon",
+    "collectorNumber": 46
+  },
+  {
+    "name": "Highspire Bell-Ringer",
+    "rarity": "common",
+    "collectorNumber": 47
+  },
+  {
+    "name": "Humbling Elder",
+    "rarity": "common",
+    "collectorNumber": 48
+  },
+  {
+    "name": "Iceridge Serpent",
+    "rarity": "common",
+    "collectorNumber": 49
+  },
+  {
+    "name": "Kishla Trawlers",
+    "rarity": "uncommon",
+    "collectorNumber": 50
+  },
+  {
+    "name": "Marang River Regent // Coil and Catch",
+    "rarity": "rare",
+    "collectorNumber": 51
+  },
+  {
+    "name": "Naga Fleshcrafter",
+    "rarity": "rare",
+    "collectorNumber": 52
+  },
+  {
+    "name": "Ringing Strike Mastery",
+    "rarity": "common",
+    "collectorNumber": 53
+  },
+  {
+    "name": "Riverwalk Technique",
+    "rarity": "common",
+    "collectorNumber": 54
+  },
+  {
+    "name": "Roiling Dragonstorm",
+    "rarity": "uncommon",
+    "collectorNumber": 55
+  },
+  {
+    "name": "Sibsig Appraiser",
+    "rarity": "common",
+    "collectorNumber": 56
+  },
+  {
+    "name": "Snowmelt Stag",
+    "rarity": "common",
+    "collectorNumber": 57
+  },
+  {
+    "name": "Spectral Denial",
+    "rarity": "uncommon",
+    "collectorNumber": 58
+  },
+  {
+    "name": "Stillness in Motion",
+    "rarity": "rare",
+    "collectorNumber": 59
+  },
+  {
+    "name": "Taigam, Master Opportunist",
+    "rarity": "mythic",
+    "collectorNumber": 60
+  },
+  {
+    "name": "Temur Devotee",
+    "rarity": "common",
+    "collectorNumber": 61
+  },
+  {
+    "name": "Unending Whisper",
+    "rarity": "common",
+    "collectorNumber": 62
+  },
+  {
+    "name": "Ureni's Rebuff",
+    "rarity": "uncommon",
+    "collectorNumber": 63
+  },
+  {
+    "name": "Veteran Ice Climber",
+    "rarity": "uncommon",
+    "collectorNumber": 64
+  },
+  {
+    "name": "Wingblade Disciple",
+    "rarity": "uncommon",
+    "collectorNumber": 65
+  },
+  {
+    "name": "Wingspan Stride",
+    "rarity": "common",
+    "collectorNumber": 66
+  },
+  {
+    "name": "Winternight Stories",
+    "rarity": "rare",
+    "collectorNumber": 67
+  },
+  {
+    "name": "Abzan Devotee",
+    "rarity": "common",
+    "collectorNumber": 68
+  },
+  {
+    "name": "Adorned Crocodile",
+    "rarity": "common",
+    "collectorNumber": 69
+  },
+  {
+    "name": "Aggressive Negotiations",
+    "rarity": "common",
+    "collectorNumber": 70
+  },
+  {
+    "name": "Alchemist's Assistant",
+    "rarity": "uncommon",
+    "collectorNumber": 71
+  },
+  {
+    "name": "Alesha's Legacy",
+    "rarity": "common",
+    "collectorNumber": 72
+  },
+  {
+    "name": "Avenger of the Fallen",
+    "rarity": "rare",
+    "collectorNumber": 73
+  },
+  {
+    "name": "Caustic Exhale",
+    "rarity": "common",
+    "collectorNumber": 74
+  },
+  {
+    "name": "Corroding Dragonstorm",
+    "rarity": "uncommon",
+    "collectorNumber": 75
+  },
+  {
+    "name": "Cruel Truths",
+    "rarity": "common",
+    "collectorNumber": 76
+  },
+  {
+    "name": "Delta Bloodflies",
+    "rarity": "common",
+    "collectorNumber": 77
+  },
+  {
+    "name": "Desperate Measures",
+    "rarity": "uncommon",
+    "collectorNumber": 78
+  },
+  {
+    "name": "Dragon's Prey",
+    "rarity": "common",
+    "collectorNumber": 79
+  },
+  {
+    "name": "Feral Deathgorger // Dusk Sight",
+    "rarity": "common",
+    "collectorNumber": 80
+  },
+  {
+    "name": "Gurmag Rakshasa",
+    "rarity": "uncommon",
+    "collectorNumber": 81
+  },
+  {
+    "name": "Hundred-Battle Veteran",
+    "rarity": "uncommon",
+    "collectorNumber": 82
+  },
+  {
+    "name": "Kin-Tree Nurturer",
+    "rarity": "common",
+    "collectorNumber": 83
+  },
+  {
+    "name": "Krumar Initiate",
+    "rarity": "uncommon",
+    "collectorNumber": 84
+  },
+  {
+    "name": "Nightblade Brigade",
+    "rarity": "common",
+    "collectorNumber": 85
+  },
+  {
+    "name": "Qarsi Revenant",
+    "rarity": "rare",
+    "collectorNumber": 86
+  },
+  {
+    "name": "Rot-Curse Rakshasa",
+    "rarity": "mythic",
+    "collectorNumber": 87
+  },
+  {
+    "name": "Salt Road Skirmish",
+    "rarity": "uncommon",
+    "collectorNumber": 88
+  },
+  {
+    "name": "Sandskitter Outrider",
+    "rarity": "common",
+    "collectorNumber": 89
+  },
+  {
+    "name": "Scavenger Regent // Exude Toxin",
+    "rarity": "rare",
+    "collectorNumber": 90
+  },
+  {
+    "name": "The Sibsig Ceremony",
+    "rarity": "rare",
+    "collectorNumber": 91
+  },
+  {
+    "name": "Sidisi, Regent of the Mire",
+    "rarity": "rare",
+    "collectorNumber": 92
+  },
+  {
+    "name": "Sinkhole Surveyor",
+    "rarity": "rare",
+    "collectorNumber": 93
+  },
+  {
+    "name": "Strategic Betrayal",
+    "rarity": "uncommon",
+    "collectorNumber": 94
+  },
+  {
+    "name": "Unburied Earthcarver",
+    "rarity": "common",
+    "collectorNumber": 95
+  },
+  {
+    "name": "Unrooted Ancestor",
+    "rarity": "uncommon",
+    "collectorNumber": 96
+  },
+  {
+    "name": "Venerated Stormsinger",
+    "rarity": "uncommon",
+    "collectorNumber": 97
+  },
+  {
+    "name": "Wail of War",
+    "rarity": "uncommon",
+    "collectorNumber": 98
+  },
+  {
+    "name": "Worthy Cost",
+    "rarity": "common",
+    "collectorNumber": 99
+  },
+  {
+    "name": "Yathan Tombguard",
+    "rarity": "uncommon",
+    "collectorNumber": 100
+  },
+  {
+    "name": "Breaching Dragonstorm",
+    "rarity": "uncommon",
+    "collectorNumber": 101
+  },
+  {
+    "name": "Channeled Dragonfire",
+    "rarity": "uncommon",
+    "collectorNumber": 102
+  },
+  {
+    "name": "Cori-Steel Cutter",
+    "rarity": "rare",
+    "collectorNumber": 103
+  },
+  {
+    "name": "Devoted Duelist",
+    "rarity": "common",
+    "collectorNumber": 104
+  },
+  {
+    "name": "Dracogenesis",
+    "rarity": "mythic",
+    "collectorNumber": 105
+  },
+  {
+    "name": "Equilibrium Adept",
+    "rarity": "uncommon",
+    "collectorNumber": 106
+  },
+  {
+    "name": "Fire-Rim Form",
+    "rarity": "common",
+    "collectorNumber": 107
+  },
+  {
+    "name": "Fleeting Effigy",
+    "rarity": "uncommon",
+    "collectorNumber": 108
+  },
+  {
+    "name": "Iridescent Tiger",
+    "rarity": "uncommon",
+    "collectorNumber": 109
+  },
+  {
+    "name": "Jeskai Devotee",
+    "rarity": "common",
+    "collectorNumber": 110
+  },
+  {
+    "name": "Magmatic Hellkite",
+    "rarity": "rare",
+    "collectorNumber": 111
+  },
+  {
+    "name": "Meticulous Artisan",
+    "rarity": "common",
+    "collectorNumber": 112
+  },
+  {
+    "name": "Molten Exhale",
+    "rarity": "common",
+    "collectorNumber": 113
+  },
+  {
+    "name": "Narset's Rebuke",
+    "rarity": "common",
+    "collectorNumber": 114
+  },
+  {
+    "name": "Overwhelming Surge",
+    "rarity": "uncommon",
+    "collectorNumber": 115
+  },
+  {
+    "name": "Rescue Leopard",
+    "rarity": "common",
+    "collectorNumber": 116
+  },
+  {
+    "name": "Reverberating Summons",
+    "rarity": "uncommon",
+    "collectorNumber": 117
+  },
+  {
+    "name": "Sarkhan, Dragon Ascendant",
+    "rarity": "rare",
+    "collectorNumber": 118
+  },
+  {
+    "name": "Seize Opportunity",
+    "rarity": "common",
+    "collectorNumber": 119
+  },
+  {
+    "name": "Shock Brigade",
+    "rarity": "common",
+    "collectorNumber": 120
+  },
+  {
+    "name": "Shocking Sharpshooter",
+    "rarity": "uncommon",
+    "collectorNumber": 121
+  },
+  {
+    "name": "Stadium Headliner",
+    "rarity": "rare",
+    "collectorNumber": 122
+  },
+  {
+    "name": "Stormscale Scion",
+    "rarity": "mythic",
+    "collectorNumber": 123
+  },
+  {
+    "name": "Stormshriek Feral // Flush Out",
+    "rarity": "common",
+    "collectorNumber": 124
+  },
+  {
+    "name": "Summit Intimidator",
+    "rarity": "common",
+    "collectorNumber": 125
+  },
+  {
+    "name": "Sunset Strikemaster",
+    "rarity": "uncommon",
+    "collectorNumber": 126
+  },
+  {
+    "name": "Tersa Lightshatter",
+    "rarity": "rare",
+    "collectorNumber": 127
+  },
+  {
+    "name": "Twin Bolt",
+    "rarity": "common",
+    "collectorNumber": 128
+  },
+  {
+    "name": "Underfoot Underdogs",
+    "rarity": "common",
+    "collectorNumber": 129
+  },
+  {
+    "name": "Unsparing Boltcaster",
+    "rarity": "uncommon",
+    "collectorNumber": 130
+  },
+  {
+    "name": "War Effort",
+    "rarity": "uncommon",
+    "collectorNumber": 131
+  },
+  {
+    "name": "Wild Ride",
+    "rarity": "common",
+    "collectorNumber": 132
+  },
+  {
+    "name": "Zurgo's Vanguard",
+    "rarity": "uncommon",
+    "collectorNumber": 133
+  },
+  {
+    "name": "Ainok Wayfarer",
+    "rarity": "common",
+    "collectorNumber": 134
+  },
+  {
+    "name": "Attuned Hunter",
+    "rarity": "uncommon",
+    "collectorNumber": 135
+  },
+  {
+    "name": "Bloomvine Regent // Claim Territory",
+    "rarity": "rare",
+    "collectorNumber": 136
+  },
+  {
+    "name": "Champion of Dusan",
+    "rarity": "common",
+    "collectorNumber": 137
+  },
+  {
+    "name": "Craterhoof Behemoth",
+    "rarity": "mythic",
+    "collectorNumber": 138
+  },
+  {
+    "name": "Dragon Sniper",
+    "rarity": "uncommon",
+    "collectorNumber": 139
+  },
+  {
+    "name": "Dragonbroods' Relic",
+    "rarity": "uncommon",
+    "collectorNumber": 140
+  },
+  {
+    "name": "Dusyut Earthcarver",
+    "rarity": "common",
+    "collectorNumber": 141
+  },
+  {
+    "name": "Encroaching Dragonstorm",
+    "rarity": "uncommon",
+    "collectorNumber": 142
+  },
+  {
+    "name": "Formation Breaker",
+    "rarity": "uncommon",
+    "collectorNumber": 143
+  },
+  {
+    "name": "Herd Heirloom",
+    "rarity": "rare",
+    "collectorNumber": 144
+  },
+  {
+    "name": "Heritage Reclamation",
+    "rarity": "common",
+    "collectorNumber": 145
+  },
+  {
+    "name": "Inspirited Vanguard",
+    "rarity": "uncommon",
+    "collectorNumber": 146
+  },
+  {
+    "name": "Knockout Maneuver",
+    "rarity": "uncommon",
+    "collectorNumber": 147
+  },
+  {
+    "name": "Krotiq Nestguard",
+    "rarity": "common",
+    "collectorNumber": 148
+  },
+  {
+    "name": "Lasyd Prowler",
+    "rarity": "rare",
+    "collectorNumber": 149
+  },
+  {
+    "name": "Nature's Rhythm",
+    "rarity": "rare",
+    "collectorNumber": 150
+  },
+  {
+    "name": "Piercing Exhale",
+    "rarity": "common",
+    "collectorNumber": 151
+  },
+  {
+    "name": "Rainveil Rejuvenator",
+    "rarity": "uncommon",
+    "collectorNumber": 152
+  },
+  {
+    "name": "Rite of Renewal",
+    "rarity": "uncommon",
+    "collectorNumber": 153
+  },
+  {
+    "name": "Roamer's Routine",
+    "rarity": "common",
+    "collectorNumber": 154
+  },
+  {
+    "name": "Sage of the Fang",
+    "rarity": "uncommon",
+    "collectorNumber": 155
+  },
+  {
+    "name": "Sagu Pummeler",
+    "rarity": "common",
+    "collectorNumber": 156
+  },
+  {
+    "name": "Sagu Wildling // Roost Seek",
+    "rarity": "common",
+    "collectorNumber": 157
+  },
+  {
+    "name": "Sarkhan's Resolve",
+    "rarity": "common",
+    "collectorNumber": 158
+  },
+  {
+    "name": "Snakeskin Veil",
+    "rarity": "common",
+    "collectorNumber": 159
+  },
+  {
+    "name": "Sultai Devotee",
+    "rarity": "common",
+    "collectorNumber": 160
+  },
+  {
+    "name": "Surrak, Elusive Hunter",
+    "rarity": "rare",
+    "collectorNumber": 161
+  },
+  {
+    "name": "Synchronized Charge",
+    "rarity": "uncommon",
+    "collectorNumber": 162
+  },
+  {
+    "name": "Trade Route Envoy",
+    "rarity": "common",
+    "collectorNumber": 163
+  },
+  {
+    "name": "Traveling Botanist",
+    "rarity": "uncommon",
+    "collectorNumber": 164
+  },
+  {
+    "name": "Undergrowth Leopard",
+    "rarity": "common",
+    "collectorNumber": 165
+  },
+  {
+    "name": "Warden of the Grove",
+    "rarity": "rare",
+    "collectorNumber": 166
+  },
+  {
+    "name": "All-Out Assault",
+    "rarity": "mythic",
+    "collectorNumber": 167
+  },
+  {
+    "name": "Armament Dragon",
+    "rarity": "uncommon",
+    "collectorNumber": 168
+  },
+  {
+    "name": "Auroral Procession",
+    "rarity": "uncommon",
+    "collectorNumber": 169
+  },
+  {
+    "name": "Awaken the Honored Dead",
+    "rarity": "rare",
+    "collectorNumber": 170
+  },
+  {
+    "name": "Barrensteppe Siege",
+    "rarity": "rare",
+    "collectorNumber": 171
+  },
+  {
+    "name": "Betor, Kin to All",
+    "rarity": "mythic",
+    "collectorNumber": 172
+  },
+  {
+    "name": "Bone-Cairn Butcher",
+    "rarity": "uncommon",
+    "collectorNumber": 173
+  },
+  {
+    "name": "Call the Spirit Dragons",
+    "rarity": "mythic",
+    "collectorNumber": 174
+  },
+  {
+    "name": "Cori Mountain Stalwart",
+    "rarity": "uncommon",
+    "collectorNumber": 175
+  },
+  {
+    "name": "Death Begets Life",
+    "rarity": "mythic",
+    "collectorNumber": 176
+  },
+  {
+    "name": "Defibrillating Current",
+    "rarity": "uncommon",
+    "collectorNumber": 177
+  },
+  {
+    "name": "Disruptive Stormbrood // Petty Revenge",
+    "rarity": "uncommon",
+    "collectorNumber": 178
+  },
+  {
+    "name": "Dragonback Assault",
+    "rarity": "mythic",
+    "collectorNumber": 179
+  },
+  {
+    "name": "Dragonclaw Strike",
+    "rarity": "uncommon",
+    "collectorNumber": 180
+  },
+  {
+    "name": "Effortless Master",
+    "rarity": "uncommon",
+    "collectorNumber": 181
+  },
+  {
+    "name": "Eshki Dragonclaw",
+    "rarity": "rare",
+    "collectorNumber": 182
+  },
+  {
+    "name": "Fangkeeper's Familiar",
+    "rarity": "rare",
+    "collectorNumber": 183
+  },
+  {
+    "name": "Felothar, Dawn of the Abzan",
+    "rarity": "rare",
+    "collectorNumber": 184
+  },
+  {
+    "name": "Flamehold Grappler",
+    "rarity": "rare",
+    "collectorNumber": 185
+  },
+  {
+    "name": "Frontline Rush",
+    "rarity": "uncommon",
+    "collectorNumber": 186
+  },
+  {
+    "name": "Frostcliff Siege",
+    "rarity": "rare",
+    "collectorNumber": 187
+  },
+  {
+    "name": "Glacial Dragonhunt",
+    "rarity": "uncommon",
+    "collectorNumber": 188
+  },
+  {
+    "name": "Glacierwood Siege",
+    "rarity": "rare",
+    "collectorNumber": 189
+  },
+  {
+    "name": "Gurmag Nightwatch",
+    "rarity": "common",
+    "collectorNumber": 190
+  },
+  {
+    "name": "Hardened Tactician",
+    "rarity": "uncommon",
+    "collectorNumber": 191
+  },
+  {
+    "name": "Hollowmurk Siege",
+    "rarity": "rare",
+    "collectorNumber": 192
+  },
+  {
+    "name": "Host of the Hereafter",
+    "rarity": "uncommon",
+    "collectorNumber": 193
+  },
+  {
+    "name": "Inevitable Defeat",
+    "rarity": "rare",
+    "collectorNumber": 194
+  },
+  {
+    "name": "Jeskai Brushmaster",
+    "rarity": "uncommon",
+    "collectorNumber": 195
+  },
+  {
+    "name": "Jeskai Revelation",
+    "rarity": "mythic",
+    "collectorNumber": 196
+  },
+  {
+    "name": "Jeskai Shrinekeeper",
+    "rarity": "uncommon",
+    "collectorNumber": 197
+  },
+  {
+    "name": "Karakyk Guardian",
+    "rarity": "uncommon",
+    "collectorNumber": 198
+  },
+  {
+    "name": "Kheru Goldkeeper",
+    "rarity": "uncommon",
+    "collectorNumber": 199
+  },
+  {
+    "name": "Kin-Tree Severance",
+    "rarity": "uncommon",
+    "collectorNumber": 200
+  },
+  {
+    "name": "Kishla Skimmer",
+    "rarity": "uncommon",
+    "collectorNumber": 201
+  },
+  {
+    "name": "Kotis, the Fangkeeper",
+    "rarity": "rare",
+    "collectorNumber": 202
+  },
+  {
+    "name": "Lie in Wait",
+    "rarity": "uncommon",
+    "collectorNumber": 203
+  },
+  {
+    "name": "Lotuslight Dancers",
+    "rarity": "rare",
+    "collectorNumber": 204
+  },
+  {
+    "name": "Mammoth Bellow",
+    "rarity": "uncommon",
+    "collectorNumber": 205
+  },
+  {
+    "name": "Mardu Siegebreaker",
+    "rarity": "rare",
+    "collectorNumber": 206
+  },
+  {
+    "name": "Marshal of the Lost",
+    "rarity": "uncommon",
+    "collectorNumber": 207
+  },
+  {
+    "name": "Monastery Messenger",
+    "rarity": "common",
+    "collectorNumber": 208
+  },
+  {
+    "name": "Narset, Jeskai Waymaster",
+    "rarity": "rare",
+    "collectorNumber": 209
+  },
+  {
+    "name": "Neriv, Heart of the Storm",
+    "rarity": "mythic",
+    "collectorNumber": 210
+  },
+  {
+    "name": "New Way Forward",
+    "rarity": "rare",
+    "collectorNumber": 211
+  },
+  {
+    "name": "Perennation",
+    "rarity": "mythic",
+    "collectorNumber": 212
+  },
+  {
+    "name": "Purging Stormbrood // Absorb Essence",
+    "rarity": "uncommon",
+    "collectorNumber": 213
+  },
+  {
+    "name": "Rakshasa's Bargain",
+    "rarity": "uncommon",
+    "collectorNumber": 214
+  },
+  {
+    "name": "Rediscover the Way",
+    "rarity": "rare",
+    "collectorNumber": 215
+  },
+  {
+    "name": "Reigning Victor",
+    "rarity": "common",
+    "collectorNumber": 216
+  },
+  {
+    "name": "Reputable Merchant",
+    "rarity": "common",
+    "collectorNumber": 217
+  },
+  {
+    "name": "Revival of the Ancestors",
+    "rarity": "rare",
+    "collectorNumber": 218
+  },
+  {
+    "name": "Riverwheel Sweep",
+    "rarity": "uncommon",
+    "collectorNumber": 219
+  },
+  {
+    "name": "Roar of Endless Song",
+    "rarity": "rare",
+    "collectorNumber": 220
+  },
+  {
+    "name": "Runescale Stormbrood // Chilling Screech",
+    "rarity": "uncommon",
+    "collectorNumber": 221
+  },
+  {
+    "name": "Severance Priest",
+    "rarity": "rare",
+    "collectorNumber": 222
+  },
+  {
+    "name": "Shiko, Paragon of the Way",
+    "rarity": "mythic",
+    "collectorNumber": 223
+  },
+  {
+    "name": "Skirmish Rhino",
+    "rarity": "uncommon",
+    "collectorNumber": 224
+  },
+  {
+    "name": "Songcrafter Mage",
+    "rarity": "rare",
+    "collectorNumber": 225
+  },
+  {
+    "name": "Sonic Shrieker",
+    "rarity": "uncommon",
+    "collectorNumber": 226
+  },
+  {
+    "name": "Stalwart Successor",
+    "rarity": "uncommon",
+    "collectorNumber": 227
+  },
+  {
+    "name": "Temur Battlecrier",
+    "rarity": "rare",
+    "collectorNumber": 228
+  },
+  {
+    "name": "Temur Tawnyback",
+    "rarity": "common",
+    "collectorNumber": 229
+  },
+  {
+    "name": "Teval, Arbiter of Virtue",
+    "rarity": "mythic",
+    "collectorNumber": 230
+  },
+  {
+    "name": "Thunder of Unity",
+    "rarity": "rare",
+    "collectorNumber": 231
+  },
+  {
+    "name": "Twinmaw Stormbrood // Charring Bite",
+    "rarity": "uncommon",
+    "collectorNumber": 232
+  },
+  {
+    "name": "Ureni, the Song Unending",
+    "rarity": "mythic",
+    "collectorNumber": 233
+  },
+  {
+    "name": "Whirlwing Stormbrood // Dynamic Soar",
+    "rarity": "uncommon",
+    "collectorNumber": 234
+  },
+  {
+    "name": "Windcrag Siege",
+    "rarity": "rare",
+    "collectorNumber": 235
+  },
+  {
+    "name": "Yathan Roadwatcher",
+    "rarity": "rare",
+    "collectorNumber": 236
+  },
+  {
+    "name": "Zurgo, Thunder's Decree",
+    "rarity": "rare",
+    "collectorNumber": 237
+  },
+  {
+    "name": "Abzan Monument",
+    "rarity": "uncommon",
+    "collectorNumber": 238
+  },
+  {
+    "name": "Boulderborn Dragon",
+    "rarity": "common",
+    "collectorNumber": 239
+  },
+  {
+    "name": "Dragonfire Blade",
+    "rarity": "rare",
+    "collectorNumber": 240
+  },
+  {
+    "name": "Dragonstorm Globe",
+    "rarity": "common",
+    "collectorNumber": 241
+  },
+  {
+    "name": "Embermouth Sentinel",
+    "rarity": "common",
+    "collectorNumber": 242
+  },
+  {
+    "name": "Jade-Cast Sentinel",
+    "rarity": "common",
+    "collectorNumber": 243
+  },
+  {
+    "name": "Jeskai Monument",
+    "rarity": "uncommon",
+    "collectorNumber": 244
+  },
+  {
+    "name": "Mardu Monument",
+    "rarity": "uncommon",
+    "collectorNumber": 245
+  },
+  {
+    "name": "Mox Jasper",
+    "rarity": "mythic",
+    "collectorNumber": 246
+  },
+  {
+    "name": "Sultai Monument",
+    "rarity": "uncommon",
+    "collectorNumber": 247
+  },
+  {
+    "name": "Temur Monument",
+    "rarity": "uncommon",
+    "collectorNumber": 248
+  },
+  {
+    "name": "Watcher of the Wayside",
+    "rarity": "common",
+    "collectorNumber": 249
+  },
+  {
+    "name": "Bloodfell Caves",
+    "rarity": "common",
+    "collectorNumber": 250
+  },
+  {
+    "name": "Blossoming Sands",
+    "rarity": "common",
+    "collectorNumber": 251
+  },
+  {
+    "name": "Cori Mountain Monastery",
+    "rarity": "rare",
+    "collectorNumber": 252
+  },
+  {
+    "name": "Dalkovan Encampment",
+    "rarity": "rare",
+    "collectorNumber": 253
+  },
+  {
+    "name": "Dismal Backwater",
+    "rarity": "common",
+    "collectorNumber": 254
+  },
+  {
+    "name": "Evolving Wilds",
+    "rarity": "common",
+    "collectorNumber": 255
+  },
+  {
+    "name": "Frontier Bivouac",
+    "rarity": "uncommon",
+    "collectorNumber": 256
+  },
+  {
+    "name": "Great Arashin City",
+    "rarity": "rare",
+    "collectorNumber": 257
+  },
+  {
+    "name": "Jungle Hollow",
+    "rarity": "common",
+    "collectorNumber": 258
+  },
+  {
+    "name": "Kishla Village",
+    "rarity": "rare",
+    "collectorNumber": 259
+  },
+  {
+    "name": "Maelstrom of the Spirit Dragon",
+    "rarity": "rare",
+    "collectorNumber": 260
+  },
+  {
+    "name": "Mistrise Village",
+    "rarity": "rare",
+    "collectorNumber": 261
+  },
+  {
+    "name": "Mystic Monastery",
+    "rarity": "uncommon",
+    "collectorNumber": 262
+  },
+  {
+    "name": "Nomad Outpost",
+    "rarity": "uncommon",
+    "collectorNumber": 263
+  },
+  {
+    "name": "Opulent Palace",
+    "rarity": "uncommon",
+    "collectorNumber": 264
+  },
+  {
+    "name": "Rugged Highlands",
+    "rarity": "common",
+    "collectorNumber": 265
+  },
+  {
+    "name": "Sandsteppe Citadel",
+    "rarity": "uncommon",
+    "collectorNumber": 266
+  },
+  {
+    "name": "Scoured Barrens",
+    "rarity": "common",
+    "collectorNumber": 267
+  },
+  {
+    "name": "Swiftwater Cliffs",
+    "rarity": "common",
+    "collectorNumber": 268
+  },
+  {
+    "name": "Thornwood Falls",
+    "rarity": "common",
+    "collectorNumber": 269
+  },
+  {
+    "name": "Tranquil Cove",
+    "rarity": "common",
+    "collectorNumber": 270
+  },
+  {
+    "name": "Wind-Scarred Crag",
+    "rarity": "common",
+    "collectorNumber": 271
+  },
+  {
+    "name": "Plains",
+    "rarity": "common",
+    "collectorNumber": 272
+  },
+  {
+    "name": "Island",
+    "rarity": "common",
+    "collectorNumber": 273
+  },
+  {
+    "name": "Swamp",
+    "rarity": "common",
+    "collectorNumber": 274
+  },
+  {
+    "name": "Mountain",
+    "rarity": "common",
+    "collectorNumber": 275
+  },
+  {
+    "name": "Forest",
+    "rarity": "common",
+    "collectorNumber": 276
+  },
+  {
+    "name": "Plains",
+    "rarity": "common",
+    "collectorNumber": 277
+  },
+  {
+    "name": "Plains",
+    "rarity": "common",
+    "collectorNumber": 278
+  },
+  {
+    "name": "Island",
+    "rarity": "common",
+    "collectorNumber": 279
+  },
+  {
+    "name": "Island",
+    "rarity": "common",
+    "collectorNumber": 280
+  },
+  {
+    "name": "Swamp",
+    "rarity": "common",
+    "collectorNumber": 281
+  },
+  {
+    "name": "Swamp",
+    "rarity": "common",
+    "collectorNumber": 282
+  },
+  {
+    "name": "Mountain",
+    "rarity": "common",
+    "collectorNumber": 283
+  },
+  {
+    "name": "Mountain",
+    "rarity": "common",
+    "collectorNumber": 284
+  },
+  {
+    "name": "Forest",
+    "rarity": "common",
+    "collectorNumber": 285
+  },
+  {
+    "name": "Forest",
+    "rarity": "common",
+    "collectorNumber": 286
+  },
+  {
+    "name": "Plains",
+    "rarity": "common",
+    "collectorNumber": 287
+  },
+  {
+    "name": "Island",
+    "rarity": "common",
+    "collectorNumber": 288
+  },
+  {
+    "name": "Swamp",
+    "rarity": "common",
+    "collectorNumber": 289
+  },
+  {
+    "name": "Mountain",
+    "rarity": "common",
+    "collectorNumber": 290
+  },
+  {
+    "name": "Forest",
+    "rarity": "common",
+    "collectorNumber": 291
+  },
+  {
+    "name": "Riling Dawnbreaker // Signaling Roar",
+    "rarity": "common",
+    "collectorNumber": 292
+  },
+  {
+    "name": "Teeming Dragonstorm",
+    "rarity": "uncommon",
+    "collectorNumber": 293
+  },
+  {
+    "name": "Dirgur Island Dragon // Skimming Strike",
+    "rarity": "common",
+    "collectorNumber": 294
+  },
+  {
+    "name": "Dragonologist",
+    "rarity": "rare",
+    "collectorNumber": 295
+  },
+  {
+    "name": "Roiling Dragonstorm",
+    "rarity": "uncommon",
+    "collectorNumber": 296
+  },
+  {
+    "name": "Corroding Dragonstorm",
+    "rarity": "uncommon",
+    "collectorNumber": 297
+  },
+  {
+    "name": "Feral Deathgorger // Dusk Sight",
+    "rarity": "common",
+    "collectorNumber": 298
+  },
+  {
+    "name": "Breaching Dragonstorm",
+    "rarity": "uncommon",
+    "collectorNumber": 299
+  },
+  {
+    "name": "Dracogenesis",
+    "rarity": "mythic",
+    "collectorNumber": 300
+  },
+  {
+    "name": "Magmatic Hellkite",
+    "rarity": "rare",
+    "collectorNumber": 301
+  },
+  {
+    "name": "Sarkhan, Dragon Ascendant",
+    "rarity": "rare",
+    "collectorNumber": 302
+  },
+  {
+    "name": "Stormscale Scion",
+    "rarity": "mythic",
+    "collectorNumber": 303
+  },
+  {
+    "name": "Stormshriek Feral // Flush Out",
+    "rarity": "common",
+    "collectorNumber": 304
+  },
+  {
+    "name": "Encroaching Dragonstorm",
+    "rarity": "uncommon",
+    "collectorNumber": 305
+  },
+  {
+    "name": "Sagu Wildling // Roost Seek",
+    "rarity": "common",
+    "collectorNumber": 306
+  },
+  {
+    "name": "Armament Dragon",
+    "rarity": "uncommon",
+    "collectorNumber": 307
+  },
+  {
+    "name": "Betor, Kin to All",
+    "rarity": "mythic",
+    "collectorNumber": 308
+  },
+  {
+    "name": "Call the Spirit Dragons",
+    "rarity": "mythic",
+    "collectorNumber": 309
+  },
+  {
+    "name": "Disruptive Stormbrood // Petty Revenge",
+    "rarity": "uncommon",
+    "collectorNumber": 310
+  },
+  {
+    "name": "Jeskai Shrinekeeper",
+    "rarity": "uncommon",
+    "collectorNumber": 311
+  },
+  {
+    "name": "Karakyk Guardian",
+    "rarity": "uncommon",
+    "collectorNumber": 312
+  },
+  {
+    "name": "Kheru Goldkeeper",
+    "rarity": "uncommon",
+    "collectorNumber": 313
+  },
+  {
+    "name": "Neriv, Heart of the Storm",
+    "rarity": "mythic",
+    "collectorNumber": 314
+  },
+  {
+    "name": "Purging Stormbrood // Absorb Essence",
+    "rarity": "uncommon",
+    "collectorNumber": 315
+  },
+  {
+    "name": "Runescale Stormbrood // Chilling Screech",
+    "rarity": "uncommon",
+    "collectorNumber": 316
+  },
+  {
+    "name": "Shiko, Paragon of the Way",
+    "rarity": "mythic",
+    "collectorNumber": 317
+  },
+  {
+    "name": "Sonic Shrieker",
+    "rarity": "uncommon",
+    "collectorNumber": 318
+  },
+  {
+    "name": "Teval, Arbiter of Virtue",
+    "rarity": "mythic",
+    "collectorNumber": 319
+  },
+  {
+    "name": "Twinmaw Stormbrood // Charring Bite",
+    "rarity": "uncommon",
+    "collectorNumber": 320
+  },
+  {
+    "name": "Ureni, the Song Unending",
+    "rarity": "mythic",
+    "collectorNumber": 321
+  },
+  {
+    "name": "Whirlwing Stormbrood // Dynamic Soar",
+    "rarity": "uncommon",
+    "collectorNumber": 322
+  },
+  {
+    "name": "Boulderborn Dragon",
+    "rarity": "common",
+    "collectorNumber": 323
+  },
+  {
+    "name": "Dragonfire Blade",
+    "rarity": "rare",
+    "collectorNumber": 324
+  },
+  {
+    "name": "Mox Jasper",
+    "rarity": "mythic",
+    "collectorNumber": 325
+  },
+  {
+    "name": "Maelstrom of the Spirit Dragon",
+    "rarity": "rare",
+    "collectorNumber": 326
+  },
+  {
+    "name": "Anafenza, Unyielding Lineage",
+    "rarity": "rare",
+    "collectorNumber": 327
+  },
+  {
+    "name": "Sage of the Skies",
+    "rarity": "rare",
+    "collectorNumber": 328
+  },
+  {
+    "name": "Smile at Death",
+    "rarity": "mythic",
+    "collectorNumber": 329
+  },
+  {
+    "name": "United Battlefront",
+    "rarity": "rare",
+    "collectorNumber": 330
+  },
+  {
+    "name": "Voice of Victory",
+    "rarity": "rare",
+    "collectorNumber": 331
+  },
+  {
+    "name": "Ambling Stormshell",
+    "rarity": "rare",
+    "collectorNumber": 332
+  },
+  {
+    "name": "Naga Fleshcrafter",
+    "rarity": "rare",
+    "collectorNumber": 333
+  },
+  {
+    "name": "Stillness in Motion",
+    "rarity": "rare",
+    "collectorNumber": 334
+  },
+  {
+    "name": "Taigam, Master Opportunist",
+    "rarity": "mythic",
+    "collectorNumber": 335
+  },
+  {
+    "name": "Winternight Stories",
+    "rarity": "rare",
+    "collectorNumber": 336
+  },
+  {
+    "name": "Avenger of the Fallen",
+    "rarity": "rare",
+    "collectorNumber": 337
+  },
+  {
+    "name": "Qarsi Revenant",
+    "rarity": "rare",
+    "collectorNumber": 338
+  },
+  {
+    "name": "Rot-Curse Rakshasa",
+    "rarity": "mythic",
+    "collectorNumber": 339
+  },
+  {
+    "name": "The Sibsig Ceremony",
+    "rarity": "rare",
+    "collectorNumber": 340
+  },
+  {
+    "name": "Sidisi, Regent of the Mire",
+    "rarity": "rare",
+    "collectorNumber": 341
+  },
+  {
+    "name": "Sinkhole Surveyor",
+    "rarity": "rare",
+    "collectorNumber": 342
+  },
+  {
+    "name": "Cori-Steel Cutter",
+    "rarity": "rare",
+    "collectorNumber": 343
+  },
+  {
+    "name": "Stadium Headliner",
+    "rarity": "rare",
+    "collectorNumber": 344
+  },
+  {
+    "name": "Tersa Lightshatter",
+    "rarity": "rare",
+    "collectorNumber": 345
+  },
+  {
+    "name": "Craterhoof Behemoth",
+    "rarity": "mythic",
+    "collectorNumber": 346
+  },
+  {
+    "name": "Herd Heirloom",
+    "rarity": "rare",
+    "collectorNumber": 347
+  },
+  {
+    "name": "Lasyd Prowler",
+    "rarity": "rare",
+    "collectorNumber": 348
+  },
+  {
+    "name": "Nature's Rhythm",
+    "rarity": "rare",
+    "collectorNumber": 349
+  },
+  {
+    "name": "Surrak, Elusive Hunter",
+    "rarity": "rare",
+    "collectorNumber": 350
+  },
+  {
+    "name": "Warden of the Grove",
+    "rarity": "rare",
+    "collectorNumber": 351
+  },
+  {
+    "name": "All-Out Assault",
+    "rarity": "mythic",
+    "collectorNumber": 352
+  },
+  {
+    "name": "Betor, Kin to All",
+    "rarity": "mythic",
+    "collectorNumber": 353
+  },
+  {
+    "name": "Death Begets Life",
+    "rarity": "mythic",
+    "collectorNumber": 354
+  },
+  {
+    "name": "Dragonback Assault",
+    "rarity": "mythic",
+    "collectorNumber": 355
+  },
+  {
+    "name": "Eshki Dragonclaw",
+    "rarity": "rare",
+    "collectorNumber": 356
+  },
+  {
+    "name": "Fangkeeper's Familiar",
+    "rarity": "rare",
+    "collectorNumber": 357
+  },
+  {
+    "name": "Felothar, Dawn of the Abzan",
+    "rarity": "rare",
+    "collectorNumber": 358
+  },
+  {
+    "name": "Flamehold Grappler",
+    "rarity": "rare",
+    "collectorNumber": 359
+  },
+  {
+    "name": "Inevitable Defeat",
+    "rarity": "rare",
+    "collectorNumber": 360
+  },
+  {
+    "name": "Jeskai Revelation",
+    "rarity": "mythic",
+    "collectorNumber": 361
+  },
+  {
+    "name": "Kotis, the Fangkeeper",
+    "rarity": "rare",
+    "collectorNumber": 362
+  },
+  {
+    "name": "Lotuslight Dancers",
+    "rarity": "rare",
+    "collectorNumber": 363
+  },
+  {
+    "name": "Mardu Siegebreaker",
+    "rarity": "rare",
+    "collectorNumber": 364
+  },
+  {
+    "name": "Narset, Jeskai Waymaster",
+    "rarity": "rare",
+    "collectorNumber": 365
+  },
+  {
+    "name": "Neriv, Heart of the Storm",
+    "rarity": "mythic",
+    "collectorNumber": 366
+  },
+  {
+    "name": "New Way Forward",
+    "rarity": "rare",
+    "collectorNumber": 367
+  },
+  {
+    "name": "Perennation",
+    "rarity": "mythic",
+    "collectorNumber": 368
+  },
+  {
+    "name": "Severance Priest",
+    "rarity": "rare",
+    "collectorNumber": 369
+  },
+  {
+    "name": "Shiko, Paragon of the Way",
+    "rarity": "mythic",
+    "collectorNumber": 370
+  },
+  {
+    "name": "Songcrafter Mage",
+    "rarity": "rare",
+    "collectorNumber": 371
+  },
+  {
+    "name": "Temur Battlecrier",
+    "rarity": "rare",
+    "collectorNumber": 372
+  },
+  {
+    "name": "Teval, Arbiter of Virtue",
+    "rarity": "mythic",
+    "collectorNumber": 373
+  },
+  {
+    "name": "Ureni, the Song Unending",
+    "rarity": "mythic",
+    "collectorNumber": 374
+  },
+  {
+    "name": "Yathan Roadwatcher",
+    "rarity": "rare",
+    "collectorNumber": 375
+  },
+  {
+    "name": "Zurgo, Thunder's Decree",
+    "rarity": "rare",
+    "collectorNumber": 376
+  },
+  {
+    "name": "Clarion Conqueror // Clarion Conqueror",
+    "rarity": "rare",
+    "collectorNumber": 377
+  },
+  {
+    "name": "Marang River Regent // Coil and Catch // Marang River Regent",
+    "rarity": "rare",
+    "collectorNumber": 378
+  },
+  {
+    "name": "Scavenger Regent // Exude Toxin // Scavenger Regent",
+    "rarity": "rare",
+    "collectorNumber": 379
+  },
+  {
+    "name": "Magmatic Hellkite // Magmatic Hellkite",
+    "rarity": "rare",
+    "collectorNumber": 380
+  },
+  {
+    "name": "Bloomvine Regent // Claim Territory // Bloomvine Regent",
+    "rarity": "rare",
+    "collectorNumber": 381
+  },
+  {
+    "name": "Ugin, Eye of the Storms // Ugin, Eye of the Storms",
+    "rarity": "mythic",
+    "collectorNumber": 382
+  },
+  {
+    "name": "Awaken the Honored Dead",
+    "rarity": "rare",
+    "collectorNumber": 383
+  },
+  {
+    "name": "Barrensteppe Siege",
+    "rarity": "rare",
+    "collectorNumber": 384
+  },
+  {
+    "name": "Frostcliff Siege",
+    "rarity": "rare",
+    "collectorNumber": 385
+  },
+  {
+    "name": "Glacierwood Siege",
+    "rarity": "rare",
+    "collectorNumber": 386
+  },
+  {
+    "name": "Hollowmurk Siege",
+    "rarity": "rare",
+    "collectorNumber": 387
+  },
+  {
+    "name": "Rediscover the Way",
+    "rarity": "rare",
+    "collectorNumber": 388
+  },
+  {
+    "name": "Revival of the Ancestors",
+    "rarity": "rare",
+    "collectorNumber": 389
+  },
+  {
+    "name": "Roar of Endless Song",
+    "rarity": "rare",
+    "collectorNumber": 390
+  },
+  {
+    "name": "Thunder of Unity",
+    "rarity": "rare",
+    "collectorNumber": 391
+  },
+  {
+    "name": "Windcrag Siege",
+    "rarity": "rare",
+    "collectorNumber": 392
+  },
+  {
+    "name": "Cori Mountain Monastery",
+    "rarity": "rare",
+    "collectorNumber": 393
+  },
+  {
+    "name": "Dalkovan Encampment",
+    "rarity": "rare",
+    "collectorNumber": 394
+  },
+  {
+    "name": "Great Arashin City",
+    "rarity": "rare",
+    "collectorNumber": 395
+  },
+  {
+    "name": "Kishla Village",
+    "rarity": "rare",
+    "collectorNumber": 396
+  },
+  {
+    "name": "Mistrise Village",
+    "rarity": "rare",
+    "collectorNumber": 397
+  },
+  {
+    "name": "Elspeth, Storm Slayer",
+    "rarity": "mythic",
+    "collectorNumber": 398
+  },
+  {
+    "name": "Ugin, Eye of the Storms",
+    "rarity": "mythic",
+    "collectorNumber": 399
+  },
+  {
+    "name": "Clarion Conqueror",
+    "rarity": "mythic",
+    "collectorNumber": 400
+  },
+  {
+    "name": "Elspeth, Storm Slayer",
+    "rarity": "mythic",
+    "collectorNumber": 401
+  },
+  {
+    "name": "Dracogenesis",
+    "rarity": "mythic",
+    "collectorNumber": 402
+  },
+  {
+    "name": "Sarkhan, Dragon Ascendant",
+    "rarity": "mythic",
+    "collectorNumber": 403
+  },
+  {
+    "name": "Craterhoof Behemoth",
+    "rarity": "mythic",
+    "collectorNumber": 404
+  },
+  {
+    "name": "All-Out Assault",
+    "rarity": "mythic",
+    "collectorNumber": 405
+  },
+  {
+    "name": "Death Begets Life",
+    "rarity": "mythic",
+    "collectorNumber": 406
+  },
+  {
+    "name": "Narset, Jeskai Waymaster",
+    "rarity": "mythic",
+    "collectorNumber": 407
+  },
+  {
+    "name": "Skirmish Rhino",
+    "rarity": "mythic",
+    "collectorNumber": 408
+  },
+  {
+    "name": "Ugin, Eye of the Storms",
+    "rarity": "mythic",
+    "collectorNumber": 409
+  },
+  {
+    "name": "Clarion Conqueror",
+    "rarity": "mythic",
+    "collectorNumber": 410
+  },
+  {
+    "name": "Elspeth, Storm Slayer",
+    "rarity": "mythic",
+    "collectorNumber": 411
+  },
+  {
+    "name": "Dracogenesis",
+    "rarity": "mythic",
+    "collectorNumber": 412
+  },
+  {
+    "name": "Sarkhan, Dragon Ascendant",
+    "rarity": "mythic",
+    "collectorNumber": 413
+  },
+  {
+    "name": "Craterhoof Behemoth",
+    "rarity": "mythic",
+    "collectorNumber": 414
+  },
+  {
+    "name": "All-Out Assault",
+    "rarity": "mythic",
+    "collectorNumber": 415
+  },
+  {
+    "name": "Death Begets Life",
+    "rarity": "mythic",
+    "collectorNumber": 416
+  },
+  {
+    "name": "Narset, Jeskai Waymaster",
+    "rarity": "mythic",
+    "collectorNumber": 417
+  },
+  {
+    "name": "Skirmish Rhino",
+    "rarity": "mythic",
+    "collectorNumber": 418
+  },
+  {
+    "name": "Mox Jasper",
+    "rarity": "mythic",
+    "collectorNumber": 419
+  },
+  {
+    "name": "Static Snare",
+    "rarity": "uncommon",
+    "collectorNumber": 420
+  },
+  {
+    "name": "Roiling Dragonstorm",
+    "rarity": "uncommon",
+    "collectorNumber": 421
+  },
+  {
+    "name": "Strategic Betrayal",
+    "rarity": "uncommon",
+    "collectorNumber": 422
+  },
+  {
+    "name": "Channeled Dragonfire",
+    "rarity": "uncommon",
+    "collectorNumber": 423
+  },
+  {
+    "name": "Encroaching Dragonstorm",
+    "rarity": "uncommon",
+    "collectorNumber": 424
+  },
+  {
+    "name": "Temur Battlecrier",
+    "rarity": "rare",
+    "collectorNumber": 425
+  },
+  {
+    "name": "Qarsi Revenant",
+    "rarity": "rare",
+    "collectorNumber": 426
+  }
+]
