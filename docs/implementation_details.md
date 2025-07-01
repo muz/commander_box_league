@@ -2,6 +2,28 @@
 
 These are various implementation details to aid with AI prompts.
 
+## Moxfield
+
+### Importing a Deck
+
+Moxfield allows users to import decks by pasting deck lists.
+
+Deck lists are in the following format:
+
+```
+AMOUNT CARDNAME (SETCODE) NUMBER
+```
+
+An example is:
+
+```
+1 Counterspell (CMR) 632 *F*
+1 Sol Ring
+1 Arcane Signet *F*
+```
+
+For commander decks, the first line represents the commander.
+
 ## Scryfall
 
 ### Card Search Response

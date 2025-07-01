@@ -79,7 +79,8 @@
                         <div style="display: flex; align-items: center; gap: 1em; margin-bottom: 0.5em;">
                             <h3 style="margin: 0;">Commander Deck</h3>
                             <div id="commander-deck-stats" class="deck-stats-pane">0 / 60 cards</div>
-                            <button id="clear-deck-btn" class="secondary-button small" style="margin-left: auto;">Clear Deck</button>
+                            <button id="clear-deck-btn" class="secondary-button small">Clear Deck</button>
+                            <button id="export-deck-btn" class="secondary-button small">Export to Moxfield</button>
                         </div>
                         <div id="commander-deck-scroll" class="scroll-section">
                             <div id="commander-deck" class="card-pool-group">
@@ -107,6 +108,24 @@
                 </div>
             </section>
         </main>
+    </div>
+
+    <!-- Export Overlay -->
+    <div id="export-overlay" class="overlay" style="display: none;">
+        <div class="overlay-content">
+            <div class="overlay-header">
+                <h3>Export Deck to Moxfield</h3>
+                <button id="close-export-overlay" class="close-btn">&times;</button>
+            </div>
+            <div class="overlay-body">
+                <p>Copy the deck list below and paste it into Moxfield's import function:</p>
+                <textarea id="deck-export-text" readonly></textarea>
+            </div>
+            <div class="overlay-footer">
+                <button id="copy-deck-btn" class="primary-button">Copy to Clipboard</button>
+                <button id="cancel-export-btn" class="secondary-button">Close</button>
+            </div>
+        </div>
     </div>
 
     <script src="js/scryfall-api.js"></script>
@@ -256,7 +275,7 @@
             statsPane.textContent = `${totalCount} / 60 cards`;
         }
 
-        // Clear the entire deck and return all cards to the pool
+                // Clear the entire deck and return all cards to the pool
         function clearDeck() {
             if (commanderDeck.cards.length === 0 && !commanderDeck.commander &&
                 Object.values(commanderDeck.basicLands).every(count => count === 0)) {
@@ -282,6 +301,87 @@
             // Re-render everything
             renderCommanderDeck();
             renderCardPool();
+        }
+
+                // Generate deck list in Moxfield format
+        function generateMoxfieldDeckList() {
+            let deckList = '';
+
+            // Add commander first (if exists)
+            if (commanderDeck.commander) {
+                const setCode = commanderDeck.commander.setCode || '';
+                const collectorNumber = commanderDeck.commander.collectorNumber || '';
+                deckList += `1 ${commanderDeck.commander.name}${setCode ? ` (${setCode}) ${collectorNumber}` : ''}\n`;
+            }
+
+            // Add deck cards
+            const deckCounts = {};
+            const cardDetails = {};
+            commanderDeck.cards.forEach(card => {
+                if (!deckCounts[card.name]) {
+                    deckCounts[card.name] = 0;
+                    cardDetails[card.name] = card;
+                }
+                deckCounts[card.name]++;
+            });
+
+            // Sort cards alphabetically
+            Object.keys(deckCounts).sort().forEach(cardName => {
+                const count = deckCounts[cardName];
+                const card = cardDetails[cardName];
+                const setCode = card.setCode || '';
+                const collectorNumber = card.collectorNumber || '';
+                deckList += `${count} ${cardName}${setCode ? ` (${setCode}) ${collectorNumber}` : ''}\n`;
+            });
+
+            // Add basic lands (no set code needed for basic lands)
+            Object.keys(commanderDeck.basicLands).forEach(landType => {
+                const count = commanderDeck.basicLands[landType];
+                if (count > 0) {
+                    deckList += `${count} ${landType}\n`;
+                }
+            });
+
+            return deckList.trim();
+        }
+
+        // Show export overlay
+        function showExportOverlay() {
+            const deckList = generateMoxfieldDeckList();
+            if (!deckList) {
+                alert('Your deck is empty. Add some cards before exporting.');
+                return;
+            }
+
+            document.getElementById('deck-export-text').value = deckList;
+            document.getElementById('export-overlay').style.display = 'flex';
+        }
+
+        // Hide export overlay
+        function hideExportOverlay() {
+            document.getElementById('export-overlay').style.display = 'none';
+        }
+
+        // Copy deck list to clipboard
+        async function copyDeckToClipboard() {
+            try {
+                const deckText = document.getElementById('deck-export-text').value;
+                await navigator.clipboard.writeText(deckText);
+
+                // Show success feedback
+                const copyBtn = document.getElementById('copy-deck-btn');
+                const originalText = copyBtn.textContent;
+                copyBtn.textContent = 'Copied!';
+                copyBtn.style.background = '#22c55e';
+
+                setTimeout(() => {
+                    copyBtn.textContent = originalText;
+                    copyBtn.style.background = '';
+                }, 2000);
+            } catch (err) {
+                console.error('Failed to copy to clipboard:', err);
+                alert('Failed to copy to clipboard. Please select and copy the text manually.');
+            }
         }
 
         // Fetch card sets data
@@ -488,14 +588,22 @@
                         cardImageHtml = `<div class='card-fallback-text'><strong>${cardData.name}</strong><br><span>${cardData.typeLine||''}</span></div>`;
                     }
                     let actionIcons = '';
+                    // Always include commander button position (top)
                     if (isLegendaryCreature(cardData)) {
                         actionIcons += `<button class=\"icon-btn set-commander-btn\" data-card-name=\"${cardData.name.replace(/\"/g, '&quot;')}\" aria-label=\"Set as Commander\"><span class=\"icon crown\"></span></button>`;
+                    } else {
+                        actionIcons += `<div class=\"icon-btn-placeholder\"></div>`;
                     }
+                    // Always include add to deck button position (bottom)
                     if (!isLegendaryCreature(cardData) || cardData.name !== commanderName) {
                         const inDeck = deckCounts[cardData.name] || 0;
                         if (count > inDeck) {
                             actionIcons += `<button class=\"icon-btn add-to-deck-btn\" data-card-name=\"${cardData.name.replace(/\"/g, '&quot;')}\" aria-label=\"Add to Deck\"><span class=\"icon plus\"></span></button>`;
+                        } else {
+                            actionIcons += `<div class=\"icon-btn-placeholder\"></div>`;
                         }
+                    } else {
+                        actionIcons += `<div class=\"icon-btn-placeholder\"></div>`;
                     }
                     let countBadge = '';
                     if (available >= 2) {
@@ -643,7 +751,7 @@
                 alert('Cache cleared!');
             });
 
-            // Clear deck button
+                        // Clear deck button
             document.getElementById('clear-deck-btn').addEventListener('click', function() {
                 if (commanderDeck.cards.length === 0 && !commanderDeck.commander &&
                     Object.values(commanderDeck.basicLands).every(count => count === 0)) {
@@ -653,6 +761,28 @@
 
                 if (confirm('Are you sure you want to clear the entire deck? This will remove all cards, the commander, and reset basic lands to zero.')) {
                     clearDeck();
+                }
+            });
+
+            // Export deck button
+            document.getElementById('export-deck-btn').addEventListener('click', showExportOverlay);
+
+            // Export overlay event listeners
+            document.getElementById('close-export-overlay').addEventListener('click', hideExportOverlay);
+            document.getElementById('cancel-export-btn').addEventListener('click', hideExportOverlay);
+            document.getElementById('copy-deck-btn').addEventListener('click', copyDeckToClipboard);
+
+            // Close overlay when clicking outside
+            document.getElementById('export-overlay').addEventListener('click', function(e) {
+                if (e.target === this) {
+                    hideExportOverlay();
+                }
+            });
+
+            // Close overlay with Escape key
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && document.getElementById('export-overlay').style.display === 'flex') {
+                    hideExportOverlay();
                 }
             });
 
