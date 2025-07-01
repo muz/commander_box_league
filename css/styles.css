@@ -218,10 +218,9 @@ input[type="number"]:focus {
 /* Results section */
 #results {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     gap: 2em;
-    align-items: flex-start;
-    flex-wrap: wrap;
+    align-items: stretch;
 }
 
 #card-pool-and-deck-wrapper {
@@ -229,12 +228,18 @@ input[type="number"]:focus {
     flex-direction: row;
     gap: 2em;
     align-items: flex-start;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
+    width: 100%;
 }
 
 #card-pool-section, #commander-deck-section {
-    flex: 1 1 350px;
-    min-width: 320px;
+    flex: 1 1 0;
+    min-width: 0;
+    min-height: 400px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    padding: 1.5em;
 }
 
 #boosters-section {
@@ -251,14 +256,10 @@ input[type="number"]:focus {
 }
 
 #card-pool {
-    background: #fff;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-    padding: 1.5em;
-    margin-bottom: 2em;
     display: flex;
     flex-wrap: wrap;
     gap: 1.5em;
+    margin-bottom: 2em;
 }
 
 #booster-display:empty::before {
@@ -344,7 +345,7 @@ input[type="number"]:focus {
 }
 
 /* Responsive design */
-@media (max-width: 768px) {
+@media (max-width: 600px) {
     #app {
         padding: 10px;
     }
@@ -366,13 +367,14 @@ input[type="number"]:focus {
         align-items: stretch;
     }
 
-    #results {
+    #card-pool-and-deck-wrapper {
         flex-direction: column;
         gap: 1.5em;
     }
 
     #card-pool-section, #commander-deck-section {
         min-width: 0;
+        max-width: none;
     }
 
     .card {
@@ -381,15 +383,7 @@ input[type="number"]:focus {
     }
 }
 
-@media (max-width: 1000px) {
-    #results, #card-pool-and-deck-wrapper {
-        flex-direction: column;
-        gap: 1.5em;
-    }
-    #card-pool-section, #commander-deck-section {
-        min-width: 0;
-    }
-}
+
 
 .booster-panel {
     width: 100%;
@@ -491,20 +485,21 @@ input[type="number"]:focus {
     padding: 0;
     margin: 0;
     width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8em;
 }
 
 .card-pool-list li {
-    background: #fff;
-    border-radius: 6px;
-    margin-bottom: 0.4em;
-    padding: 0.4em 0.8em;
-    box-shadow: 0 1px 2px rgba(80,80,120,0.04);
+    background: none;
+    border-radius: 0;
+    margin-bottom: 0;
+    padding: 0;
+    box-shadow: none;
     font-size: 0.98em;
     color: #333;
     transition: background 0.2s;
-}
-.card-pool-list li:last-child {
-    margin-bottom: 0;
+    flex: 0 0 auto;
 }
 
 .card-pool-item {
@@ -515,6 +510,10 @@ input[type="number"]:focus {
 
 .card-pool-name {
     font-weight: 500;
+    text-align: center;
+    font-size: 0.9em;
+    color: #666;
+    margin-top: 0.3em;
 }
 
 .card-pool-details {

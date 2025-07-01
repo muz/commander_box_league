@@ -413,21 +413,47 @@
                 ul.innerHTML = '';
                 const cards = cardPool[rarity];
                 const sortedNames = Object.keys(cards).sort();
+
+                // Filter out cards that shouldn't be shown
+                const visibleCards = [];
                 sortedNames.forEach(name => {
                     const count = cards[name];
-                    const li = document.createElement('li');
-
-                    // Get card data from our map
                     const cardData = cardDataMap[name];
+                    if (!cardData) return;
+
+                    const available = count - (deckCounts[cardData.name] || 0);
+                    if (available <= 0) return; // Skip rendering this card if none are available
+                    // Skip rendering if this card is the commander
+                    if (commanderName && cardData.name === commanderName) return;
+
+                    visibleCards.push({ name, count, cardData, available });
+                });
+
+                // Only show rarity section if there are visible cards
+                if (visibleCards.length === 0) {
+                    const rarityGroup = ul.closest('.card-pool-group');
+                    if (rarityGroup) {
+                        rarityGroup.style.display = 'none';
+                    }
+                    return;
+                } else {
+                    const rarityGroup = ul.closest('.card-pool-group');
+                    if (rarityGroup) {
+                        rarityGroup.style.display = 'block';
+                    }
+                }
+
+                visibleCards.forEach(({ name, count, cardData, available }) => {
+                    const li = document.createElement('li');
                     let cardImageHtml = '';
-                    if (cardData && cardData.imageUris) {
+                    if (cardData.imageUris) {
                         if (cardData.imageUris.normal) {
                             cardImageHtml = `<div class=\"card-image-container\"><img src=\"${cardData.imageUris.normal}\" alt=\"${cardData.name}\" class=\"card-thumbnail\" loading=\"lazy\"></div>`;
                         } else if (cardData.imageUris.small) {
                             cardImageHtml = `<div class=\"card-image-container\"><img src=\"${cardData.imageUris.small}\" alt=\"${cardData.name}\" class=\"card-thumbnail\" loading=\"lazy\"></div>`;
                         }
                     }
-                    if (!cardImageHtml && cardData) {
+                    if (!cardImageHtml) {
                         cardImageHtml = `<div class='card-fallback-text'><strong>${cardData.name}</strong><br><span>${cardData.typeLine||''}</span></div>`;
                     }
                     let actionIcons = '';
@@ -440,10 +466,6 @@
                             actionIcons += `<button class=\"icon-btn add-to-deck-btn\" data-card-name=\"${cardData.name.replace(/\"/g, '&quot;')}\" aria-label=\"Add to Deck\"><span class=\"icon plus\"></span></button>`;
                         }
                     }
-                    const available = count - (deckCounts[cardData.name] || 0);
-                    if (available <= 0) return; // Skip rendering this card if none are available
-                    // Skip rendering if this card is the commander
-                    if (commanderName && cardData.name === commanderName) return;
                     let countBadge = '';
                     if (available >= 2) {
                         countBadge = `<span class=\"card-count-badge\">${available}</span>`;
@@ -567,6 +589,12 @@
 
         // Event listeners
         document.addEventListener('DOMContentLoaded', function() {
+            // Hide card pool sections initially
+            const rarityGroups = document.querySelectorAll('#card-pool .card-pool-group');
+            rarityGroups.forEach(group => {
+                group.style.display = 'none';
+            });
+
             fetchCardSets();
             updateCacheStatus(); // Initialize cache status
 
