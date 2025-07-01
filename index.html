@@ -152,9 +152,11 @@
                 }
                 li.innerHTML = `
                     <div class=\"card-pool-item\">
-                        ${cardImageHtml}
+                        <div class=\"card-image-action-container\">
+                            ${cardImageHtml}
+                            <div class=\"card-action-icons\"><button class=\"icon-btn remove-from-deck-btn\" data-card-name=\"${card.name.replace(/\"/g, '&quot;')}\" aria-label=\"Remove from Deck\"><span class=\"icon minus\"></span></button></div>
+                        </div>
                         <div class=\"card-pool-name\">${name} x${count}</div>
-                        <button class=\"remove-from-deck-btn\" data-card-name=\"${card.name.replace(/"/g, '&quot;')}\">Remove</button>
                     </div>
                 `;
                 deckList.appendChild(li);
@@ -196,9 +198,11 @@
                 }
                 li.innerHTML = `
                     <div class=\"card-pool-item\">
-                        ${cardImageHtml}
+                        <div class=\"card-image-action-container\">
+                            ${cardImageHtml}
+                            <div class=\"card-action-icons\"><button class=\"icon-btn unset-commander-btn\" aria-label=\"Remove as Commander\"><span class=\"icon minus\"></span></button></div>
+                        </div>
                         <div class=\"card-pool-name\">${card.name}</div>
-                        <button class=\"unset-commander-btn\">Remove as Commander</button>
                     </div>
                 `;
                 commanderList.appendChild(li);
@@ -593,30 +597,25 @@
                             if (!cardImageHtml && cardData) {
                                 cardImageHtml = `<div class='card-fallback-text'><strong>${cardData.name}</strong><br><span>${cardData.typeLine||''}</span></div>`;
                             }
-                            let commanderBtn = '';
-                            let addToDeckBtn = '';
+                            let actionIcons = '';
                             if (isLegendaryCreature(cardData)) {
-                                commanderBtn = `<button class=\"set-commander-btn\" data-card-name=\"${cardData.name.replace(/"/g, '&quot;')}\">Set as Commander</button>`;
+                                actionIcons += `<button class=\"icon-btn set-commander-btn\" data-card-name=\"${cardData.name.replace(/\"/g, '&quot;')}\" aria-label=\"Set as Commander\"><span class=\"icon crown\"></span></button>`;
                             }
-                            // Only show add-to-deck for non-commander, and if pool has more than in deck
                             if (!isLegendaryCreature(cardData) || cardData.name !== commanderName) {
                                 const inDeck = deckCounts[cardData.name] || 0;
                                 if (count > inDeck) {
-                                    addToDeckBtn = `<button class=\"add-to-deck-btn\" data-card-name=\"${cardData.name.replace(/"/g, '&quot;')}\">Add to Deck</button>`;
+                                    actionIcons += `<button class=\"icon-btn add-to-deck-btn\" data-card-name=\"${cardData.name.replace(/\"/g, '&quot;')}\" aria-label=\"Add to Deck\"><span class=\"icon plus\"></span></button>`;
                                 }
                             }
-                            if (cardData) {
-                                li.innerHTML = `
-                                    <div class=\"card-pool-item\">
+                            li.innerHTML = `
+                                <div class=\"card-pool-item\">
+                                    <div class=\"card-image-action-container\">
                                         ${cardImageHtml}
-                                        <div class=\"card-pool-name\">${name} x${count - (deckCounts[cardData.name] || 0)}</div>
-                                        ${commanderBtn}
-                                        ${addToDeckBtn}
+                                        <div class=\"card-action-icons\">${actionIcons}</div>
                                     </div>
-                                `;
-                            } else {
-                                li.textContent = `${name} x${count}`;
-                            }
+                                    <div class=\"card-pool-name\">${name} x${count - (deckCounts[cardData.name] || 0)}</div>
+                                </div>
+                            `;
                             ul.appendChild(li);
                         });
                     });
