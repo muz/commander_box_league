@@ -315,6 +315,17 @@
 
             // Open booster button
             document.getElementById('open-booster').addEventListener('click', function() {
+                // If deck is not empty, prompt for confirmation
+                if (commanderDeck.commander || (commanderDeck.cards && commanderDeck.cards.length > 0)) {
+                    if (!confirm('You have a Commander Deck in progress. Are you sure you want to open a new box and reset your deck?')) {
+                        return;
+                    }
+                }
+                // Reset commander deck
+                commanderDeck.commander = null;
+                commanderDeck.cards = [];
+                renderCommanderDeck();
+
                 const setSelect = document.getElementById('set-select');
                 const boosterTypeSelect = document.getElementById('booster-type');
                 const boxSizeInput = document.getElementById('box-size');
