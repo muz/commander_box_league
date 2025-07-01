@@ -868,9 +868,7 @@
                         // Skip empty card objects (from the array structure)
                         if (!card || !card.name) return false;
 
-                        if (Array.isArray(rarity)) {
-                            if (!rarity.includes(card.rarity)) return false;
-                        } else if (rarity && card.rarity !== rarity) {
+                        if (rarity && card.rarity !== rarity) {
                             return false;
                         }
                         return true;
@@ -917,7 +915,7 @@
                                 pickedItem.set,
                                 pickedItem.rarity || pickedItem.rarities || slot.rarity,
                                 pickedItem.collectorNumbers,
-                                pickedItem.collectorNumberRanges || pickedItem.collectorNumberRange,
+                                pickedItem.collectorNumberRanges,
                                 pickedItem.exclusions
                             );
                             if (cards.length > 0) {

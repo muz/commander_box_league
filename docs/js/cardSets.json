@@ -18,9 +18,8 @@
                       "start": 1,
                       "end": 293
                     }
-
                   ],
-                  "rarity": ["common"],
+                  "rarity": "common",
                   "probability": 1
                 }
               ]
@@ -37,7 +36,7 @@
                       "end": 293
                     }
                   ],
-                  "rarity": ["common"],
+                  "rarity": "common",
                   "probability": 1
                 }
               ]
@@ -54,7 +53,7 @@
                       "end": 293
                     }
                   ],
-                  "rarity": ["common"],
+                  "rarity": "common",
                   "probability": 1
                 }
               ]
@@ -71,7 +70,7 @@
                       "end": 293
                     }
                   ],
-                  "rarity": ["common"],
+                  "rarity": "common",
                   "probability": 1
                 }
               ]
@@ -88,7 +87,7 @@
                       "end": 293
                     }
                   ],
-                  "rarity": ["common"],
+                  "rarity": "common",
                   "probability": 1
                 }
               ]
@@ -105,7 +104,7 @@
                       "end": 293
                     }
                   ],
-                  "rarity": ["common"],
+                  "rarity": "common",
                   "probability": 1
                 }
               ]
@@ -253,7 +252,7 @@
                   "probability": 0.003,
                   "rarity": "uncommon",
                   "set": "FIN",
-                  "collectorNumberRange": [
+                  "collectorNumberRanges": [
                     {
                       "start": 315,
                       "end": 518
@@ -324,7 +323,7 @@
                   "probability": 0.003,
                   "rarity": "uncommon",
                   "set": "FIN",
-                  "collectorNumberRange": [
+                  "collectorNumberRanges": [
                     {
                       "start": 315,
                       "end": 518
@@ -421,7 +420,7 @@
                   "probability": 0.001749,
                   "rarity": "uncommon",
                   "set": "FIN",
-                  "collectorNumberRange": [
+                  "collectorNumberRanges": [
                     {
                       "start": 315,
                       "end": 518
