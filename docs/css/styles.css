@@ -14,9 +14,10 @@ body {
 }
 
 #app {
-    max-width: 1200px;
-    margin: 0 auto;
+    max-width: none;
+    margin: 0;
     padding: 20px;
+    width: 100%;
 }
 
 /* Header styles */
@@ -191,6 +192,7 @@ select:focus, input[type="number"]:focus, #deck-export-text:focus {
     width: 100%;
     flex: 1;
     min-height: 0;
+    max-width: 100%;
 }
 
 #card-pool-section, #commander-deck-section, #booster-display {
@@ -200,6 +202,7 @@ select:focus, input[type="number"]:focus, #deck-export-text:focus {
     border-radius: 8px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.08);
     padding: 1.5em;
+    max-width: none;
 }
 
 /* Ensure Card Pool and Deck panels have equal height */
@@ -275,11 +278,13 @@ select:focus, input[type="number"]:focus, #deck-export-text:focus {
     flex-wrap: wrap;
     gap: 1.5em;
     margin-bottom: 2em;
+    width: 100%;
 }
 
 .card-pool-group {
-    flex: 1 1 200px;
-    min-width: 220px;
+    flex: 1 1 300px;
+    min-width: 280px;
+    max-width: none;
     background: #f8f9fa;
     border-radius: 10px;
     box-shadow: 0 1px 4px rgba(80,80,120,0.07);
@@ -749,31 +754,53 @@ select:focus, input[type="number"]:focus, #deck-export-text:focus {
     }
 }
 
+@media (min-width: 1400px) {
+    #card-pool-and-deck-wrapper {
+        gap: 3em;
+    }
+
+    .card-pool-group {
+        flex: 1 1 400px;
+        min-width: 350px;
+    }
+
+    #card-pool-section, #commander-deck-section, #booster-display {
+        padding: 2em;
+    }
+}
+
+@media (min-width: 1800px) {
+    .card-pool-group {
+        flex: 1 1 500px;
+        min-width: 450px;
+    }
+}
+
 @media (max-width: 600px) {
     #app {
         padding: 10px;
     }
-    
+
     header h1 {
         font-size: 2rem;
     }
-    
+
     main {
         padding: 20px;
         min-height: auto; /* Allow natural height on mobile */
     }
-    
+
     #controls {
         flex-direction: column;
         align-items: stretch;
     }
-    
+
     #card-pool-and-deck-wrapper {
         flex-direction: column;
         gap: 1.5em;
         flex: none; /* Don't expand on mobile */
     }
-    
+
     #card-pool-section, #commander-deck-section {
         min-width: 0;
         max-width: none;
