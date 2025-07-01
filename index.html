@@ -82,6 +82,7 @@
                         <div style="display: flex; align-items: center; gap: 1em; margin-bottom: 0.5em;">
                             <h3 style="margin: 0;">Commander Deck</h3>
                             <div id="commander-deck-stats" class="deck-stats-pane">0 / 60 cards</div>
+                            <button id="clear-deck-btn" class="secondary-button small" style="margin-left: auto;">Clear Deck</button>
                         </div>
                         <div id="commander-deck-scroll" class="scroll-section">
                             <div id="commander-deck" class="card-pool-group">
@@ -256,6 +257,34 @@
             const basicLandsCount = Object.values(commanderDeck.basicLands).reduce((sum, count) => sum + count, 0);
             const totalCount = commanderCount + deckCount + basicLandsCount;
             statsPane.textContent = `${totalCount} / 60 cards`;
+        }
+
+        // Clear the entire deck and return all cards to the pool
+        function clearDeck() {
+            if (commanderDeck.cards.length === 0 && !commanderDeck.commander &&
+                Object.values(commanderDeck.basicLands).every(count => count === 0)) {
+                return; // Nothing to clear
+            }
+
+            // Clear commander
+            commanderDeck.commander = null;
+
+            // Clear deck cards (they're already in the pool, so no need to add them back)
+            commanderDeck.cards = [];
+
+            // Clear basic lands
+            commanderDeck.basicLands = {
+                Plains: 0,
+                Island: 0,
+                Swamp: 0,
+                Mountain: 0,
+                Forest: 0,
+                Wastes: 0
+            };
+
+            // Re-render everything
+            renderCommanderDeck();
+            renderCardPool();
         }
 
         // Fetch card sets data
@@ -609,6 +638,19 @@
                 scryfallAPI.clearCache();
                 updateCacheStatus();
                 alert('Cache cleared!');
+            });
+
+            // Clear deck button
+            document.getElementById('clear-deck-btn').addEventListener('click', function() {
+                if (commanderDeck.cards.length === 0 && !commanderDeck.commander &&
+                    Object.values(commanderDeck.basicLands).every(count => count === 0)) {
+                    alert('The deck is already empty.');
+                    return;
+                }
+
+                if (confirm('Are you sure you want to clear the entire deck? This will remove all cards, the commander, and reset basic lands to zero.')) {
+                    clearDeck();
+                }
             });
 
             // Open booster button
