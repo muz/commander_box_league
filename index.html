@@ -93,6 +93,10 @@
                                     <h4>Deck Cards</h4>
                                     <ul class="card-pool-list" id="commander-deck-cards"></ul>
                                 </div>
+                                <div class="card-pool-group">
+                                    <h4>Basic Lands</h4>
+                                    <ul class="card-pool-list" id="commander-deck-basic-lands"></ul>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -118,7 +122,15 @@
         // Commander deck state
         let commanderDeck = {
             commander: null, // { name, ... }
-            cards: [] // for future deck-building
+            cards: [], // for future deck-building
+            basicLands: {
+                Plains: 0,
+                Island: 0,
+                Swamp: 0,
+                Mountain: 0,
+                Forest: 0,
+                Wastes: 0
+            }
         };
         // Add at the top-level script scope:
         let cardPool = {
@@ -221,6 +233,8 @@
             }
             // Deck cards
             renderDeckCards();
+            // Basic lands
+            renderBasicLands();
             // Stats
             updateCommanderDeckStats();
             // Unset commander event
@@ -237,8 +251,11 @@
         // Update the stats pane
         function updateCommanderDeckStats() {
             const statsPane = document.getElementById('commander-deck-stats');
-            const count = (commanderDeck.commander ? 1 : 0) + commanderDeck.cards.length;
-            statsPane.textContent = `${count} / 60 cards`;
+            const commanderCount = commanderDeck.commander ? 1 : 0;
+            const deckCount = commanderDeck.cards.length;
+            const basicLandsCount = Object.values(commanderDeck.basicLands).reduce((sum, count) => sum + count, 0);
+            const totalCount = commanderCount + deckCount + basicLandsCount;
+            statsPane.textContent = `${totalCount} / 60 cards`;
         }
 
         // Fetch card sets data
@@ -484,6 +501,70 @@
             });
         }
 
+        // Update renderBasicLands to include a quick-add panel:
+        function renderBasicLands() {
+            const basicLandsList = document.getElementById('commander-deck-basic-lands');
+            basicLandsList.innerHTML = '';
+
+            // Add quick-add panel
+            const quickAddPanel = document.createElement('div');
+            quickAddPanel.className = 'basic-lands-quick-add';
+            quickAddPanel.innerHTML = `
+                <div class="quick-add-label">Quick Add:</div>
+                <div class="quick-add-buttons">
+                    <button class="quick-add-btn" data-land="Plains">Plains</button>
+                    <button class="quick-add-btn" data-land="Island">Island</button>
+                    <button class="quick-add-btn" data-land="Swamp">Swamp</button>
+                    <button class="quick-add-btn" data-land="Mountain">Mountain</button>
+                    <button class="quick-add-btn" data-land="Forest">Forest</button>
+                    <button class="quick-add-btn" data-land="Wastes">Wastes</button>
+                </div>
+            `;
+            basicLandsList.appendChild(quickAddPanel);
+
+            // Add event listeners for quick-add buttons
+            document.querySelectorAll('.quick-add-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const landType = this.getAttribute('data-land');
+                    commanderDeck.basicLands[landType]++;
+                    renderBasicLands();
+                    updateCommanderDeckStats();
+                });
+            });
+
+            // Add individual land controls
+            Object.keys(commanderDeck.basicLands).forEach(landType => {
+                const count = commanderDeck.basicLands[landType];
+                const li = document.createElement('li');
+                li.innerHTML = `
+                    <div class="basic-land-item">
+                        <span class="land-name">${landType}</span>
+                        <div class="land-controls">
+                            <button class="land-btn minus-btn" data-land="${landType}">-</button>
+                            <span class="land-count">${count}</span>
+                            <button class="land-btn plus-btn" data-land="${landType}">+</button>
+                        </div>
+                    </div>
+                `;
+                basicLandsList.appendChild(li);
+            });
+
+            // Add event listeners for land buttons
+            document.querySelectorAll('.land-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const landType = this.getAttribute('data-land');
+                    const isPlus = this.classList.contains('plus-btn');
+                    if (isPlus) {
+                        commanderDeck.basicLands[landType]++;
+                    } else if (commanderDeck.basicLands[landType] > 0) {
+                        commanderDeck.basicLands[landType]--;
+                    }
+                    renderBasicLands();
+                    updateCommanderDeckStats();
+                });
+            });
+        }
+
         // Event listeners
         document.addEventListener('DOMContentLoaded', function() {
             fetchCardSets();
@@ -513,6 +594,14 @@
                 // Reset commander deck
                 commanderDeck.commander = null;
                 commanderDeck.cards = [];
+                commanderDeck.basicLands = {
+                    Plains: 0,
+                    Island: 0,
+                    Swamp: 0,
+                    Mountain: 0,
+                    Forest: 0,
+                    Wastes: 0
+                };
                 renderCommanderDeck();
 
                 const setSelect = document.getElementById('set-select');
