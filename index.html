@@ -424,6 +424,9 @@
                         }
                     }
                     const available = count - (deckCounts[cardData.name] || 0);
+                    if (available <= 0) return; // Skip rendering this card if none are available
+                    // Skip rendering if this card is the commander
+                    if (commanderName && cardData.name === commanderName) return;
                     let countBadge = '';
                     if (available >= 2) {
                         countBadge = `<span class=\"card-count-badge\">${available}</span>`;
