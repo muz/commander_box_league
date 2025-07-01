@@ -10,13 +10,11 @@
     <div id="app">
         <header>
             <h1>Commander Box League</h1>
-            <h2>Booster Simulator</h2>
-            <a href="https://github.com/muz/commander_box_league" class="github-link" target="_blank" rel="noopener noreferrer">
-                <svg class="github-icon" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
-                </svg>
-                View on GitHub
-            </a>
+            <div class="cbl-description" style="margin-bottom: 1em; font-size: 1em;">
+                <small>
+                    This tool is for simulating virtual <a href="https://wpn.wizards.com/en/event/edge-of-eternities-commander-box-league" target="_blank" rel="noopener noreferrer">Commander Box League</a> deck building.
+                </small>
+            </div>
         </header>
 
         <main>
@@ -41,13 +39,6 @@
                 </div>
 
                 <button id="open-booster" class="primary-button">Open Box!</button>
-
-                <div id="cache-status" class="cache-status">
-                    <small>Status: <span id="status-info">Ready</span></small>
-                    <small>Cache: <span id="cache-info">0 sets cached</span></small>
-                    <button id="clear-cache" class="secondary-button small">Clear Cache</button>
-                    <small class="api-note">Data fetched from <a href="https://scryfall.com" target="_blank" rel="noopener noreferrer">Scryfall.com</a></small>
-                </div>
             </section>
 
             <section id="results">
@@ -77,8 +68,8 @@
                     </div>
                     <div id="commander-deck-section">
                         <div style="display: flex; align-items: center; gap: 1em; margin-bottom: 0.5em;">
-                            <h3 style="margin: 0;">Commander Deck</h3>
-                            <div id="commander-deck-stats" class="deck-stats-pane">0 / 60 cards</div>
+                            <h3 style="margin: 0;">Deck</h3>
+                            <div id="commander-deck-stats" class="deck-stats-pane">0 / 60</div>
                             <button id="clear-deck-btn" class="secondary-button small">Clear Deck</button>
                             <button id="export-deck-btn" class="secondary-button small">Export to Moxfield</button>
                         </div>
@@ -89,7 +80,7 @@
                                     <ul class="card-pool-list" id="commander-deck-commander"></ul>
                                 </div>
                                 <div class="card-pool-group">
-                                    <h4>Deck Cards</h4>
+                                    <h4>Deck</h4>
                                     <ul class="card-pool-list" id="commander-deck-cards"></ul>
                                 </div>
                                 <div class="card-pool-group">
@@ -99,6 +90,12 @@
                             </div>
                         </div>
                     </div>
+                </div>
+                <div id="cache-status" class="cache-status">
+                    <small>Status: <span id="status-info">Ready</span></small>
+                    <small>Cache: <span id="cache-info">0 sets cached</span></small>
+                    <button id="clear-cache" class="secondary-button small">Clear Cache</button>
+                    <small class="api-note">Data fetched from <a href="https://scryfall.com" target="_blank" rel="noopener noreferrer">Scryfall.com</a></small>
                 </div>
                 <div id="boosters-section">
                     <h3>Boosters</h3>
@@ -127,6 +124,16 @@
             </div>
         </div>
     </div>
+
+    <!-- GitHub link moved to bottom -->
+    <footer style="text-align: center; margin-top: 2em;">
+        <a href="https://github.com/muz/commander_box_league" class="github-link" target="_blank" rel="noopener noreferrer" style="display: inline-flex; align-items: center; gap: 0.5em; font-size: 1.1em;">
+            <svg class="github-icon" viewBox="0 0 24 24" fill="currentColor" style="width: 1.5em; height: 1.5em; vertical-align: middle;">
+                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+            </svg>
+            View on GitHub
+        </a>
+    </footer>
 
     <script src="js/scryfall-api.js"></script>
     <script>
@@ -271,7 +278,7 @@
             const deckCount = commanderDeck.cards.length;
             const basicLandsCount = Object.values(commanderDeck.basicLands).reduce((sum, count) => sum + count, 0);
             const totalCount = commanderCount + deckCount + basicLandsCount;
-            statsPane.textContent = `${totalCount} / 60 cards`;
+            statsPane.textContent = `${totalCount} / 60`;
         }
 
                 // Clear the entire deck and return all cards to the pool
@@ -831,7 +838,7 @@
             document.getElementById('open-booster').addEventListener('click', function() {
                 // If deck is not empty, prompt for confirmation
                 if (commanderDeck.commander || (commanderDeck.cards && commanderDeck.cards.length > 0)) {
-                    if (!confirm('You have a Commander Deck in progress. Are you sure you want to open a new box and reset your deck?')) {
+                    if (!confirm('You have a deck in progress. Are you sure you want to open a new box and reset your deck?')) {
                         return;
                     }
                 }

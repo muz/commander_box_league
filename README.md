@@ -2,7 +2,11 @@
 
 A single-page web application that simulates opening random boosters from Magic the Gathering trading card boxes. This tool allows players to experience the thrill of opening boosters virtually without the cost of physical cards.
 
-**This tool was inspired by and can be used to simulate running a [Commander Box League](https://wpn.wizards.com/en/event/edge-of-eternities-commander-box-league) drafting pool.**
+**This tool is designed for simulating virtual Commander Box League deck building.**
+
+[Try the live interface here!](https://muz.github.io/commander_box_league/)
+
+**Inspired by [Commander Box League](https://wpn.wizards.com/en/event/edge-of-eternities-commander-box-league).**
 
 ## Features
 
@@ -22,21 +26,23 @@ A single-page web application that simulates opening random boosters from Magic 
 
 ```
 commander_box_league/
-├── index.html          # Main HTML file
-├── css/               # Stylesheets
-│   └── styles.css
-├── js/                # JavaScript files
-│   ├── scryfall-api.js # Scryfall API integration
-│   └── cardSets.json   # Set configuration data
-├── assets/            # Images and other assets
-│   └── images/
-└── README.md          # This file
+├── docs/
+│   ├── css/
+│   │   └── styles.css
+│   ├── index.html
+│   └── js/
+│       ├── cardSets.json
+│       └── scryfall-api.js
+├── notes/
+│   └── implementation_details.md
+├── README.md
+└── test-api.html
 ```
 
 ## Getting Started
 
 1. Clone or download this repository
-2. Open `index.html` in your web browser
+2. Open `docs/index.html` in your web browser, or use the [live interface](https://muz.github.io/commander_box_league/)
 3. Start simulating booster openings!
 
 **Note**: This application fetches card data from the Scryfall.com API. The API has rate limits, so the application includes built-in delays between requests and browser-based caching to minimize API calls.
