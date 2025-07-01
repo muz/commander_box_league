@@ -111,6 +111,54 @@
         let setData = null;
         let bonusSheetData = null;
         let scryfallAPI = new ScryfallAPI();
+        // Commander deck state
+        let commanderDeck = {
+            commander: null, // { name, ... }
+            cards: [] // for future deck-building
+        };
+
+        // Helper: check if a card is a Legendary Creature
+        function isLegendaryCreature(card) {
+            return card && card.typeLine && card.typeLine.includes('Legendary Creature');
+        }
+
+        // Render the commander in the deck UI
+        function renderCommanderDeck() {
+            // Commander
+            const commanderList = document.getElementById('commander-deck-commander');
+            commanderList.innerHTML = '';
+            if (commanderDeck.commander) {
+                const card = commanderDeck.commander;
+                const li = document.createElement('li');
+                let cardImageHtml = '';
+                if (card.imageUris) {
+                    if (card.imageUris.normal) {
+                        cardImageHtml = `<div class=\"card-image-container\"><img src=\"${card.imageUris.normal}\" alt=\"${card.name}\" class=\"card-thumbnail\" loading=\"lazy\"></div>`;
+                    } else if (card.imageUris.small) {
+                        cardImageHtml = `<div class=\"card-image-container\"><img src=\"${card.imageUris.small}\" alt=\"${card.name}\" class=\"card-thumbnail\" loading=\"lazy\"></div>`;
+                    }
+                }
+                if (!cardImageHtml) {
+                    cardImageHtml = `<div class='card-fallback-text'><strong>${card.name}</strong><br><span>${card.typeLine||''}</span></div>`;
+                }
+                li.innerHTML = `
+                    <div class=\"card-pool-item\">
+                        ${cardImageHtml}
+                        <div class=\"card-pool-name\">${card.name}</div>
+                    </div>
+                `;
+                commanderList.appendChild(li);
+            }
+            // Stats
+            updateCommanderDeckStats();
+        }
+
+        // Update the stats pane
+        function updateCommanderDeckStats() {
+            const statsPane = document.getElementById('commander-deck-stats');
+            const count = (commanderDeck.commander ? 1 : 0) + commanderDeck.cards.length;
+            statsPane.textContent = `${count} / 60 cards`;
+        }
 
         // Fetch card sets data
         async function fetchCardSets() {
@@ -142,7 +190,7 @@
             });
         }
 
-                // Fetch set data and bonus sheet data
+        // Fetch set data and bonus sheet data
         async function fetchSetData(setCode) {
             try {
                 // Show loading indicator
@@ -445,7 +493,7 @@
                         ul.innerHTML = '';
                         const cards = cardPool[rarity];
                         const sortedNames = Object.keys(cards).sort();
-                                                sortedNames.forEach(name => {
+                        sortedNames.forEach(name => {
                             const count = cards[name];
                             const li = document.createElement('li');
 
@@ -462,17 +510,40 @@
                             if (!cardImageHtml && cardData) {
                                 cardImageHtml = `<div class='card-fallback-text'><strong>${cardData.name}</strong><br><span>${cardData.typeLine||''}</span></div>`;
                             }
+                            let commanderBtn = '';
+                            if (isLegendaryCreature(cardData)) {
+                                commanderBtn = `<button class=\"set-commander-btn\" data-card-name=\"${cardData.name.replace(/"/g, '&quot;')}\">Set as Commander</button>`;
+                            }
                             if (cardData) {
                                 li.innerHTML = `
-                                    <div class="card-pool-item">
+                                    <div class=\"card-pool-item\">
                                         ${cardImageHtml}
-                                        <div class="card-pool-name">${name} x${count}</div>
+                                        <div class=\"card-pool-name\">${name} x${count}</div>
+                                        ${commanderBtn}
                                     </div>
                                 `;
                             } else {
                                 li.textContent = `${name} x${count}`;
                             }
                             ul.appendChild(li);
+                        });
+                    });
+                    // Add event listeners for commander buttons
+                    document.querySelectorAll('.set-commander-btn').forEach(btn => {
+                        btn.addEventListener('click', function(e) {
+                            const cardName = this.getAttribute('data-card-name');
+                            // Find the card data
+                            let found = null;
+                            for (const rarity in cardPool) {
+                                if (cardPool[rarity][cardName]) {
+                                    found = cardDataMap[cardName];
+                                    break;
+                                }
+                            }
+                            if (found) {
+                                commanderDeck.commander = found;
+                                renderCommanderDeck();
+                            }
                         });
                     });
                 }
@@ -498,6 +569,9 @@
                     };
                     boosterDisplay.prepend(toggleAllBtn);
                 }
+
+                // After renderCardPool is called, also render the commander deck
+                renderCommanderDeck();
             });
         });
     </script>
