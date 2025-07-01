@@ -388,13 +388,23 @@
                                 }
                             }
                         }
-                        slotResults += `<div><strong>Slot ${slot.slot} (${slot.name}):</strong> ${cardName}</div>`;
-                        if (card && card.typeLine) {
-                            slotResults += `<div class="card-details"><small>${card.manaCost} | ${card.typeLine}</small></div>`;
+                        let cardImageHtml = '';
+                        if (card && card.imageUris) {
+                            if (card.imageUris.normal) {
+                                cardImageHtml = `<div class="card-image-container"><img src="${card.imageUris.normal}" alt="${card.name}" class="card-thumbnail" loading="lazy"></div>`;
+                            } else if (card.imageUris.small) {
+                                cardImageHtml = `<div class="card-image-container"><img src="${card.imageUris.small}" alt="${card.name}" class="card-thumbnail" loading="lazy"></div>`;
+                            }
                         }
-                        if (card && card.imageUris && card.imageUris.small) {
-                            slotResults += `<div class="card-image-container"><img src="${card.imageUris.small}" alt="${card.name}" class="card-thumbnail" loading="lazy"></div>`;
+                        if (!cardImageHtml && card) {
+                            cardImageHtml = `<div class='card-fallback-text'><strong>${card.name}</strong><br><span>${card.typeLine||''}</span></div>`;
                         }
+                        slotResults += `
+                            <details class="booster-panel">
+                                <summary>Slot ${slotIdx + 1}: ${slot.name}</summary>
+                                <div>${cardImageHtml}</div>
+                            </details>
+                        `;
                     });
                     output += `
                         <details class="booster-panel">
@@ -423,11 +433,22 @@
 
                             // Get card data from our map
                             const cardData = cardDataMap[name];
-                            if (cardData && cardData.typeLine) {
+                            let cardImageHtml = '';
+                            if (cardData && cardData.imageUris) {
+                                if (cardData.imageUris.normal) {
+                                    cardImageHtml = `<div class=\"card-image-container\"><img src=\"${cardData.imageUris.normal}\" alt=\"${cardData.name}\" class=\"card-thumbnail\" loading=\"lazy\"></div>`;
+                                } else if (cardData.imageUris.small) {
+                                    cardImageHtml = `<div class=\"card-image-container\"><img src=\"${cardData.imageUris.small}\" alt=\"${cardData.name}\" class=\"card-thumbnail\" loading=\"lazy\"></div>`;
+                                }
+                            }
+                            if (!cardImageHtml && cardData) {
+                                cardImageHtml = `<div class='card-fallback-text'><strong>${cardData.name}</strong><br><span>${cardData.typeLine||''}</span></div>`;
+                            }
+                            if (cardData) {
                                 li.innerHTML = `
                                     <div class="card-pool-item">
+                                        ${cardImageHtml}
                                         <div class="card-pool-name">${name} x${count}</div>
-                                        <div class="card-pool-details">${cardData.manaCost} | ${cardData.typeLine}</div>
                                     </div>
                                 `;
                             } else {
