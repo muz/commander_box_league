@@ -120,6 +120,14 @@
             commander: null, // { name, ... }
             cards: [] // for future deck-building
         };
+        // Add at the top-level script scope:
+        let cardPool = {
+            mythic: {},
+            rare: {},
+            uncommon: {},
+            common: {}
+        };
+        let cardDataMap = {};
 
         // Helper: check if a card is a Legendary Creature
         function isLegendaryCreature(card) {
@@ -150,13 +158,17 @@
                 if (!cardImageHtml) {
                     cardImageHtml = `<div class='card-fallback-text'><strong>${card.name}</strong><br><span>${card.typeLine||''}</span></div>`;
                 }
+                let countBadge = '';
+                if (count >= 2) {
+                    countBadge = `<span class=\"card-count-badge\">${count}</span>`;
+                }
                 li.innerHTML = `
                     <div class=\"card-pool-item\">
                         <div class=\"card-image-action-container\">
                             ${cardImageHtml}
+                            ${countBadge}
                             <div class=\"card-action-icons\"><button class=\"icon-btn remove-from-deck-btn\" data-card-name=\"${card.name.replace(/\"/g, '&quot;')}\" aria-label=\"Remove from Deck\"><span class=\"icon minus\"></span></button></div>
                         </div>
-                        <div class=\"card-pool-name\">${name} x${count}</div>
                     </div>
                 `;
                 deckList.appendChild(li);
@@ -364,6 +376,111 @@
             }
         }
 
+        // Move renderCardPool to top-level scope
+        function renderCardPool() {
+            const rarityMap = {
+                mythic: 'card-pool-list-mythic',
+                rare: 'card-pool-list-rare',
+                uncommon: 'card-pool-list-uncommon',
+                common: 'card-pool-list-common'
+            };
+            // Count cards in deck by name
+            const deckCounts = {};
+            commanderDeck.cards.forEach(card => {
+                deckCounts[card.name] = (deckCounts[card.name] || 0) + 1;
+            });
+            // Exclude commander from add-to-deck
+            const commanderName = commanderDeck.commander ? commanderDeck.commander.name : null;
+            Object.keys(rarityMap).forEach(rarity => {
+                const ul = document.getElementById(rarityMap[rarity]);
+                ul.innerHTML = '';
+                const cards = cardPool[rarity];
+                const sortedNames = Object.keys(cards).sort();
+                sortedNames.forEach(name => {
+                    const count = cards[name];
+                    const li = document.createElement('li');
+
+                    // Get card data from our map
+                    const cardData = cardDataMap[name];
+                    let cardImageHtml = '';
+                    if (cardData && cardData.imageUris) {
+                        if (cardData.imageUris.normal) {
+                            cardImageHtml = `<div class=\"card-image-container\"><img src=\"${cardData.imageUris.normal}\" alt=\"${cardData.name}\" class=\"card-thumbnail\" loading=\"lazy\"></div>`;
+                        } else if (cardData.imageUris.small) {
+                            cardImageHtml = `<div class=\"card-image-container\"><img src=\"${cardData.imageUris.small}\" alt=\"${cardData.name}\" class=\"card-thumbnail\" loading=\"lazy\"></div>`;
+                        }
+                    }
+                    if (!cardImageHtml && cardData) {
+                        cardImageHtml = `<div class='card-fallback-text'><strong>${cardData.name}</strong><br><span>${cardData.typeLine||''}</span></div>`;
+                    }
+                    let actionIcons = '';
+                    if (isLegendaryCreature(cardData)) {
+                        actionIcons += `<button class=\"icon-btn set-commander-btn\" data-card-name=\"${cardData.name.replace(/\"/g, '&quot;')}\" aria-label=\"Set as Commander\"><span class=\"icon crown\"></span></button>`;
+                    }
+                    if (!isLegendaryCreature(cardData) || cardData.name !== commanderName) {
+                        const inDeck = deckCounts[cardData.name] || 0;
+                        if (count > inDeck) {
+                            actionIcons += `<button class=\"icon-btn add-to-deck-btn\" data-card-name=\"${cardData.name.replace(/\"/g, '&quot;')}\" aria-label=\"Add to Deck\"><span class=\"icon plus\"></span></button>`;
+                        }
+                    }
+                    const available = count - (deckCounts[cardData.name] || 0);
+                    let countBadge = '';
+                    if (available >= 2) {
+                        countBadge = `<span class=\"card-count-badge\">${available}</span>`;
+                    }
+                    li.innerHTML = `
+                        <div class=\"card-pool-item\">
+                            <div class=\"card-image-action-container\">
+                                ${cardImageHtml}
+                                ${countBadge}
+                                <div class=\"card-action-icons\">${actionIcons}</div>
+                            </div>
+                        </div>
+                    `;
+                    ul.appendChild(li);
+                });
+            });
+            // Add event listeners for commander buttons
+            document.querySelectorAll('.set-commander-btn').forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    const cardName = this.getAttribute('data-card-name');
+                    // Find the card data
+                    let found = null;
+                    for (const rarity in cardPool) {
+                        if (cardPool[rarity][cardName]) {
+                            found = cardDataMap[cardName];
+                            break;
+                        }
+                    }
+                    if (found) {
+                        commanderDeck.commander = found;
+                        renderCommanderDeck();
+                        renderCardPool();
+                    }
+                });
+            });
+            // Add event listeners for add-to-deck buttons
+            document.querySelectorAll('.add-to-deck-btn').forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    const cardName = this.getAttribute('data-card-name');
+                    // Find the card data
+                    let found = null;
+                    for (const rarity in cardPool) {
+                        if (cardPool[rarity][cardName]) {
+                            found = cardDataMap[cardName];
+                            break;
+                        }
+                    }
+                    if (found) {
+                        commanderDeck.cards.push(found);
+                        renderCommanderDeck();
+                        renderDeckCards();
+                        renderCardPool();
+                    }
+                });
+            });
+        }
+
         // Event listeners
         document.addEventListener('DOMContentLoaded', function() {
             fetchCardSets();
@@ -423,15 +540,14 @@
                 let output = '';
 
                 // Card pool aggregation
-                const cardPool = {
+                cardPool = {
                     mythic: {},
                     rare: {},
                     uncommon: {},
                     common: {}
                 };
-
                 // Store full card data for reference
-                const cardDataMap = {};
+                cardDataMap = {};
 
                 // Helper: pick an item based on probability weights
                 function pickWeighted(items) {
@@ -561,104 +677,6 @@
                 }
 
                 // Render card pool
-                function renderCardPool() {
-                    const rarityMap = {
-                        mythic: 'card-pool-list-mythic',
-                        rare: 'card-pool-list-rare',
-                        uncommon: 'card-pool-list-uncommon',
-                        common: 'card-pool-list-common'
-                    };
-                    // Count cards in deck by name
-                    const deckCounts = {};
-                    commanderDeck.cards.forEach(card => {
-                        deckCounts[card.name] = (deckCounts[card.name] || 0) + 1;
-                    });
-                    // Exclude commander from add-to-deck
-                    const commanderName = commanderDeck.commander ? commanderDeck.commander.name : null;
-                    Object.keys(rarityMap).forEach(rarity => {
-                        const ul = document.getElementById(rarityMap[rarity]);
-                        ul.innerHTML = '';
-                        const cards = cardPool[rarity];
-                        const sortedNames = Object.keys(cards).sort();
-                        sortedNames.forEach(name => {
-                            const count = cards[name];
-                            const li = document.createElement('li');
-
-                            // Get card data from our map
-                            const cardData = cardDataMap[name];
-                            let cardImageHtml = '';
-                            if (cardData && cardData.imageUris) {
-                                if (cardData.imageUris.normal) {
-                                    cardImageHtml = `<div class=\"card-image-container\"><img src=\"${cardData.imageUris.normal}\" alt=\"${cardData.name}\" class=\"card-thumbnail\" loading=\"lazy\"></div>`;
-                                } else if (cardData.imageUris.small) {
-                                    cardImageHtml = `<div class=\"card-image-container\"><img src=\"${cardData.imageUris.small}\" alt=\"${cardData.name}\" class=\"card-thumbnail\" loading=\"lazy\"></div>`;
-                                }
-                            }
-                            if (!cardImageHtml && cardData) {
-                                cardImageHtml = `<div class='card-fallback-text'><strong>${cardData.name}</strong><br><span>${cardData.typeLine||''}</span></div>`;
-                            }
-                            let actionIcons = '';
-                            if (isLegendaryCreature(cardData)) {
-                                actionIcons += `<button class=\"icon-btn set-commander-btn\" data-card-name=\"${cardData.name.replace(/\"/g, '&quot;')}\" aria-label=\"Set as Commander\"><span class=\"icon crown\"></span></button>`;
-                            }
-                            if (!isLegendaryCreature(cardData) || cardData.name !== commanderName) {
-                                const inDeck = deckCounts[cardData.name] || 0;
-                                if (count > inDeck) {
-                                    actionIcons += `<button class=\"icon-btn add-to-deck-btn\" data-card-name=\"${cardData.name.replace(/\"/g, '&quot;')}\" aria-label=\"Add to Deck\"><span class=\"icon plus\"></span></button>`;
-                                }
-                            }
-                            li.innerHTML = `
-                                <div class=\"card-pool-item\">
-                                    <div class=\"card-image-action-container\">
-                                        ${cardImageHtml}
-                                        <div class=\"card-action-icons\">${actionIcons}</div>
-                                    </div>
-                                    <div class=\"card-pool-name\">${name} x${count - (deckCounts[cardData.name] || 0)}</div>
-                                </div>
-                            `;
-                            ul.appendChild(li);
-                        });
-                    });
-                    // Add event listeners for commander buttons
-                    document.querySelectorAll('.set-commander-btn').forEach(btn => {
-                        btn.addEventListener('click', function(e) {
-                            const cardName = this.getAttribute('data-card-name');
-                            // Find the card data
-                            let found = null;
-                            for (const rarity in cardPool) {
-                                if (cardPool[rarity][cardName]) {
-                                    found = cardDataMap[cardName];
-                                    break;
-                                }
-                            }
-                            if (found) {
-                                commanderDeck.commander = found;
-                                renderCommanderDeck();
-                                renderCardPool();
-                            }
-                        });
-                    });
-                    // Add event listeners for add-to-deck buttons
-                    document.querySelectorAll('.add-to-deck-btn').forEach(btn => {
-                        btn.addEventListener('click', function(e) {
-                            const cardName = this.getAttribute('data-card-name');
-                            // Find the card data
-                            let found = null;
-                            for (const rarity in cardPool) {
-                                if (cardPool[rarity][cardName]) {
-                                    found = cardDataMap[cardName];
-                                    break;
-                                }
-                            }
-                            if (found) {
-                                commanderDeck.cards.push(found);
-                                renderCommanderDeck();
-                                renderDeckCards();
-                                renderCardPool();
-                            }
-                        });
-                    });
-                }
                 renderCardPool();
 
                 boosterDisplay.innerHTML = output;
