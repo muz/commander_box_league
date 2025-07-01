@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scryfall API Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .success { background-color: #d4edda; border-color: #c3e6cb; }
+        .error { background-color: #f8d7da; border-color: #f5c6cb; }
+        .loading { background-color: #fff3cd; border-color: #ffeaa7; }
+        button {
+            padding: 10px 20px;
+            margin: 5px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            background-color: #007bff;
+            color: white;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        pre {
+            background-color: #f8f9fa;
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>Scryfall API Integration Test</h1>
+
+    <div class="test-section">
+        <h2>Test Scryfall API Integration</h2>
+        <p>This test verifies that the Scryfall API integration works correctly.</p>
+        <button onclick="testAPI()">Test API</button>
+        <button onclick="testCache()">Test Cache</button>
+        <button onclick="clearResults()">Clear Results</button>
+    </div>
+
+    <div id="results"></div>
+
+    <script src="js/scryfall-api.js"></script>
+    <script>
+        const scryfallAPI = new ScryfallAPI();
+        const resultsDiv = document.getElementById('results');
+
+        function addResult(message, type = 'info') {
+            const div = document.createElement('div');
+            div.className = `test-section ${type}`;
+            div.innerHTML = `
+                <h3>${type.toUpperCase()}</h3>
+                <p>${message}</p>
+                <small>${new Date().toLocaleTimeString()}</small>
+            `;
+            resultsDiv.appendChild(div);
+        }
+
+        async function testAPI() {
+            addResult('Starting API test...', 'loading');
+
+            try {
+                // Test with a small set (FCA - Final Fantasy Commander Anthology)
+                addResult('Fetching data for set FCA...', 'loading');
+                const data = await scryfallAPI.fetchSetData('FCA');
+
+                addResult(`Successfully fetched ${data.cards.length} cards for set ${data.setCode} (${data.setName})`, 'success');
+
+                // Show some sample data
+                const sampleCards = data.cards.filter(card => card.name).slice(0, 5);
+                const sampleData = {
+                    setCode: data.setCode,
+                    setName: data.setName,
+                    totalCards: data.cards.length,
+                    cardsWithData: data.cards.filter(card => card.name).length,
+                    sampleCards: sampleCards.map(card => ({
+                        name: card.name,
+                        manaCost: card.manaCost,
+                        typeLine: card.typeLine,
+                        rarity: card.rarity,
+                        artist: card.artist,
+                        imageUris: card.imageUris ? 'Available' : 'None'
+                    }))
+                };
+
+                addResult(`Sample data: <pre>${JSON.stringify(sampleData, null, 2)}</pre>`, 'success');
+
+                // Test cache
+                addResult('Testing cache...', 'loading');
+                const cachedData = await scryfallAPI.fetchSetData('FCA');
+                addResult('Cache test completed - data should be retrieved from cache', 'success');
+
+            } catch (error) {
+                addResult(`Error: ${error.message}`, 'error');
+            }
+        }
+
+        async function testCache() {
+            addResult('Testing cache functionality...', 'loading');
+
+            const stats = scryfallAPI.getCacheStats();
+            addResult(`Cache stats: ${JSON.stringify(stats, null, 2)}`, 'info');
+
+            scryfallAPI.clearCache();
+            addResult('Cache cleared', 'success');
+
+            const newStats = scryfallAPI.getCacheStats();
+            addResult(`Cache stats after clearing: ${JSON.stringify(newStats, null, 2)}`, 'info');
+        }
+
+        function clearResults() {
+            resultsDiv.innerHTML = '';
+        }
+    </script>
+</body>
+</html>

@@ -150,6 +150,71 @@ input[type="number"]:focus {
     transform: translateY(0);
 }
 
+/* Loading indicator styles */
+.loading-indicator {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 10px;
+    padding: 10px;
+    background: #f8f9fa;
+    border-radius: 6px;
+    border-left: 4px solid #667eea;
+    font-size: 14px;
+    color: #666;
+}
+
+.loading-spinner {
+    width: 16px;
+    height: 16px;
+    border: 2px solid #f3f3f3;
+    border-top: 2px solid #667eea;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Cache status styles */
+.cache-status {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 10px;
+    padding: 10px;
+    background: #f8f9fa;
+    border-radius: 6px;
+    font-size: 14px;
+    color: #666;
+}
+
+.cache-status small {
+    color: #888;
+}
+
+.api-note {
+    margin-left: auto;
+    font-size: 12px;
+}
+
+.api-note a {
+    color: #667eea;
+    text-decoration: none;
+}
+
+.api-note a:hover {
+    text-decoration: underline;
+}
+
+.secondary-button.small {
+    padding: 6px 12px;
+    font-size: 12px;
+    min-width: auto;
+}
+
 /* Results section */
 #results {
     display: block;
@@ -228,33 +293,61 @@ input[type="number"]:focus {
     font-size: 12px;
 }
 
+.card-fallback-text {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-width: 120px;
+    min-height: 180px;
+    background: #f3f3f3;
+    border-radius: 8px;
+    color: #444;
+    font-size: 1em;
+    font-weight: 500;
+    padding: 1em 0.5em;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+    border: 1px solid #e0e0e0;
+    margin: 0.5em 0;
+}
+
+.card-fallback-text strong {
+    font-size: 1.1em;
+    margin-bottom: 0.2em;
+}
+
+.card-fallback-text span {
+    font-size: 0.95em;
+    color: #666;
+}
+
 /* Responsive design */
 @media (max-width: 768px) {
     #app {
         padding: 10px;
     }
-    
+
     header h1 {
         font-size: 2rem;
     }
-    
+
     header h2 {
         font-size: 1.2rem;
     }
-    
+
     main {
         padding: 20px;
     }
-    
+
     #controls {
         flex-direction: column;
         align-items: stretch;
     }
-    
+
     #results {
         grid-template-columns: 1fr;
     }
-    
+
     .card {
         width: 150px;
         height: 210px;
@@ -291,6 +384,31 @@ input[type="number"]:focus {
 .booster-panel > div {
     padding: 15px 20px;
     color: #333;
+}
+
+.card-details {
+    margin-left: 1em;
+    margin-bottom: 0.5em;
+    color: #666;
+    font-style: italic;
+}
+
+.card-image-container {
+    margin-left: 1em;
+    margin-top: 0.5em;
+}
+
+.card-thumbnail {
+    width: 146px;
+    height: 204px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    transition: transform 0.2s ease;
+}
+
+.card-thumbnail:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.2);
 }
 
 .secondary-button {
@@ -350,4 +468,20 @@ input[type="number"]:focus {
 }
 .card-pool-list li:last-child {
     margin-bottom: 0;
-} 
+}
+
+.card-pool-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2em;
+}
+
+.card-pool-name {
+    font-weight: 500;
+}
+
+.card-pool-details {
+    font-size: 0.85em;
+    color: #666;
+    font-style: italic;
+}

@@ -26,6 +26,10 @@
                     <select id="set-select">
                         <option value="">Choose a set...</option>
                     </select>
+                    <div id="loading-indicator" class="loading-indicator" style="display: none;">
+                        <span class="loading-spinner"></span>
+                        <span>Fetching card data from Scryfall...</span>
+                    </div>
                 </div>
 
                 <div class="booster-type">
@@ -41,6 +45,12 @@
                 </div>
 
                 <button id="open-booster" class="primary-button">Open Box!</button>
+
+                <div id="cache-status" class="cache-status">
+                    <small>Cache: <span id="cache-info">0 sets cached</span></small>
+                    <button id="clear-cache" class="secondary-button small">Clear Cache</button>
+                    <small class="api-note">Data fetched from <a href="https://scryfall.com" target="_blank" rel="noopener noreferrer">Scryfall.com</a></small>
+                </div>
             </section>
 
             <section id="results">
@@ -75,12 +85,14 @@
         </main>
     </div>
 
+    <script src="js/scryfall-api.js"></script>
     <script>
         // Global variables
         let cardSets = [];
         let selectedSet = null;
         let setData = null;
         let bonusSheetData = null;
+        let scryfallAPI = new ScryfallAPI();
 
         // Fetch card sets data
         async function fetchCardSets() {
@@ -112,28 +124,57 @@
             });
         }
 
-        // Fetch set data and bonus sheet data
+                // Fetch set data and bonus sheet data
         async function fetchSetData(setCode) {
             try {
-                // Fetch main set data
-                const setResponse = await fetch(`js/cards/${setCode}.json`);
-                setData = await setResponse.json();
+                // Show loading indicator
+                const loadingIndicator = document.getElementById('loading-indicator');
+                const setSelect = document.getElementById('set-select');
+                const originalText = setSelect.options[setSelect.selectedIndex].text;
+                setSelect.options[setSelect.selectedIndex].text = `${originalText} (Loading...)`;
+                loadingIndicator.style.display = 'flex';
+
+                // Fetch main set data from Scryfall API
+                setData = await scryfallAPI.fetchSetData(setCode);
                 console.log(`Fetched set data for ${setCode}:`, setData);
 
                 // Fetch bonus sheet data if it exists
                 if (selectedSet.bonusSheet) {
-                    const bonusResponse = await fetch(`js/cards/${selectedSet.bonusSheet.code}.json`);
-                    bonusSheetData = await bonusResponse.json();
+                    bonusSheetData = await scryfallAPI.fetchSetData(selectedSet.bonusSheet.code);
                     console.log(`Fetched bonus sheet data for ${selectedSet.bonusSheet.code}:`, bonusSheetData);
                 } else {
                     bonusSheetData = null;
                     console.log('No bonus sheet for this set');
                 }
+
+                // Hide loading indicator and restore original text
+                loadingIndicator.style.display = 'none';
+                setSelect.options[setSelect.selectedIndex].text = originalText;
+
+                // Update cache status
+                updateCacheStatus();
+
             } catch (error) {
                 console.error('Error fetching set data:', error);
                 setData = null;
                 bonusSheetData = null;
+
+                // Hide loading indicator and restore original text
+                const loadingIndicator = document.getElementById('loading-indicator');
+                const setSelect = document.getElementById('set-select');
+                const originalText = setSelect.options[setSelect.selectedIndex].text.replace(' (Loading...)', '');
+                setSelect.options[setSelect.selectedIndex].text = originalText;
+                loadingIndicator.style.display = 'none';
+
+                alert(`Error fetching data for set ${setCode}: ${error.message}`);
             }
+        }
+
+        // Update cache status display
+        function updateCacheStatus() {
+            const cacheStats = scryfallAPI.getCacheStats();
+            const cacheInfo = document.getElementById('cache-info');
+            cacheInfo.textContent = `${cacheStats.size} sets cached`;
         }
 
         // Update booster types based on selected set
@@ -191,12 +232,20 @@
         // Event listeners
         document.addEventListener('DOMContentLoaded', function() {
             fetchCardSets();
+            updateCacheStatus(); // Initialize cache status
 
             // Set selection change
             document.getElementById('set-select').addEventListener('change', updateBoosterTypes);
 
             // Booster type selection change
             document.getElementById('booster-type').addEventListener('change', updateBoxSize);
+
+            // Clear cache button
+            document.getElementById('clear-cache').addEventListener('click', function() {
+                scryfallAPI.clearCache();
+                updateCacheStatus();
+                alert('Cache cleared!');
+            });
 
             // Open booster button
             document.getElementById('open-booster').addEventListener('click', function() {
@@ -235,6 +284,9 @@
                     common: {}
                 };
 
+                // Store full card data for reference
+                const cardDataMap = {};
+
                 // Helper: pick an item based on probability weights
                 function pickWeighted(items) {
                     const total = items.reduce((sum, item) => sum + item.probability, 0);
@@ -256,6 +308,9 @@
 
                     // Filter by rarity
                     cardPool = cardData.filter(card => {
+                        // Skip empty card objects (from the array structure)
+                        if (!card || !card.name) return false;
+
                         if (Array.isArray(rarity)) {
                             if (!rarity.includes(card.rarity)) return false;
                         } else if (rarity && card.rarity !== rarity) {
@@ -326,12 +381,30 @@
                             if (cardPool[rarityKey]) {
                                 if (!cardPool[rarityKey][card.name]) {
                                     cardPool[rarityKey][card.name] = 1;
+                                    // Store full card data for reference
+                                    cardDataMap[card.name] = card;
                                 } else {
                                     cardPool[rarityKey][card.name]++;
                                 }
                             }
                         }
-                        slotResults += `<div><strong>Slot ${slot.slot} (${slot.name}):</strong> ${cardName}</div>`;
+                        let cardImageHtml = '';
+                        if (card && card.imageUris) {
+                            if (card.imageUris.normal) {
+                                cardImageHtml = `<div class="card-image-container"><img src="${card.imageUris.normal}" alt="${card.name}" class="card-thumbnail" loading="lazy"></div>`;
+                            } else if (card.imageUris.small) {
+                                cardImageHtml = `<div class="card-image-container"><img src="${card.imageUris.small}" alt="${card.name}" class="card-thumbnail" loading="lazy"></div>`;
+                            }
+                        }
+                        if (!cardImageHtml && card) {
+                            cardImageHtml = `<div class='card-fallback-text'><strong>${card.name}</strong><br><span>${card.typeLine||''}</span></div>`;
+                        }
+                        slotResults += `
+                            <details class="booster-panel">
+                                <summary>Slot ${slotIdx + 1}: ${slot.name}</summary>
+                                <div>${cardImageHtml}</div>
+                            </details>
+                        `;
                     });
                     output += `
                         <details class="booster-panel">
@@ -354,10 +427,33 @@
                         ul.innerHTML = '';
                         const cards = cardPool[rarity];
                         const sortedNames = Object.keys(cards).sort();
-                        sortedNames.forEach(name => {
+                                                sortedNames.forEach(name => {
                             const count = cards[name];
                             const li = document.createElement('li');
-                            li.textContent = `${name} x${count}`;
+
+                            // Get card data from our map
+                            const cardData = cardDataMap[name];
+                            let cardImageHtml = '';
+                            if (cardData && cardData.imageUris) {
+                                if (cardData.imageUris.normal) {
+                                    cardImageHtml = `<div class=\"card-image-container\"><img src=\"${cardData.imageUris.normal}\" alt=\"${cardData.name}\" class=\"card-thumbnail\" loading=\"lazy\"></div>`;
+                                } else if (cardData.imageUris.small) {
+                                    cardImageHtml = `<div class=\"card-image-container\"><img src=\"${cardData.imageUris.small}\" alt=\"${cardData.name}\" class=\"card-thumbnail\" loading=\"lazy\"></div>`;
+                                }
+                            }
+                            if (!cardImageHtml && cardData) {
+                                cardImageHtml = `<div class='card-fallback-text'><strong>${cardData.name}</strong><br><span>${cardData.typeLine||''}</span></div>`;
+                            }
+                            if (cardData) {
+                                li.innerHTML = `
+                                    <div class="card-pool-item">
+                                        ${cardImageHtml}
+                                        <div class="card-pool-name">${name} x${count}</div>
+                                    </div>
+                                `;
+                            } else {
+                                li.textContent = `${name} x${count}`;
+                            }
                             ul.appendChild(li);
                         });
                     });
