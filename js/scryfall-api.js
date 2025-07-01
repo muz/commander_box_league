@@ -138,6 +138,13 @@ class ScryfallAPI {
         // Fill in the cards at their proper positions (collector number = array index)
         validCards.forEach(card => {
             const collectorNumber = parseInt(card.collector_number);
+            // Use card_faces[0].image_uris if present, else card.image_uris
+            let imageUris = null;
+            if (Array.isArray(card.card_faces) && card.card_faces.length > 0 && card.card_faces[0].image_uris) {
+                imageUris = card.card_faces[0].image_uris;
+            } else if (card.image_uris) {
+                imageUris = card.image_uris;
+            }
             extractedCards[collectorNumber - 1] = {
                 name: card.name,
                 rarity: card.rarity,
@@ -145,7 +152,7 @@ class ScryfallAPI {
                 typeLine: card.type_line || '',
                 manaCost: card.mana_cost || '',
                 cmc: card.cmc || 0,
-                imageUris: card.image_uris || null,
+                imageUris: imageUris,
                 oracleText: card.oracle_text || '',
                 flavorText: card.flavor_text || '',
                 artist: card.artist || '',
