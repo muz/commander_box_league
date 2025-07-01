@@ -11,7 +11,6 @@ A single-page web application that simulates opening random boosters from Magic 
 - **Set Selection**: Choose from different Magic the Gathering sets and formats
 - **Real-time Data**: Fetches card data directly from Scryfall.com API
 - **Browser Caching**: Caches fetched data to improve performance
-- **Responsive Design**: Works on desktop and mobile devices
 
 ## Technology Stack
 

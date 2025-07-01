@@ -149,6 +149,7 @@ class ScryfallAPI {
                 name: card.name,
                 rarity: card.rarity,
                 collectorNumber: collectorNumber,
+                setCode: card.set || setCode,
                 typeLine: card.type_line || '',
                 manaCost: card.mana_cost || '',
                 cmc: card.cmc || 0,

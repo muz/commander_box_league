@@ -26,10 +26,6 @@
                     <select id="set-select">
                         <option value="">Choose a set...</option>
                     </select>
-                    <div id="loading-indicator" class="loading-indicator" style="display: none;">
-                        <span class="loading-spinner"></span>
-                        <span>Fetching card data from Scryfall...</span>
-                    </div>
                 </div>
 
                 <div class="booster-type">
@@ -47,6 +43,7 @@
                 <button id="open-booster" class="primary-button">Open Box!</button>
 
                 <div id="cache-status" class="cache-status">
+                    <small>Status: <span id="status-info">Ready</span></small>
                     <small>Cache: <span id="cache-info">0 sets cached</span></small>
                     <button id="clear-cache" class="secondary-button small">Clear Cache</button>
                     <small class="api-note">Data fetched from <a href="https://scryfall.com" target="_blank" rel="noopener noreferrer">Scryfall.com</a></small>
@@ -54,24 +51,52 @@
             </section>
 
             <section id="results">
-                <div id="card-pool-section">
-                    <h3>Card Pool</h3>
-                    <div id="card-pool">
-                        <div class="card-pool-group" id="card-pool-mythic">
-                            <h4>Mythic Rare</h4>
-                            <ul class="card-pool-list" id="card-pool-list-mythic"></ul>
+                <div id="card-pool-and-deck-wrapper" style="display: flex; gap: 2em; flex-wrap: wrap; align-items: flex-start;">
+                    <div id="card-pool-section">
+                        <h3>Card Pool</h3>
+                        <div id="card-pool-scroll" class="scroll-section">
+                            <div id="card-pool">
+                                <div class="card-pool-group" id="card-pool-mythic">
+                                    <h4>Mythic Rare</h4>
+                                    <ul class="card-pool-list" id="card-pool-list-mythic"></ul>
+                                </div>
+                                <div class="card-pool-group" id="card-pool-rare">
+                                    <h4>Rare</h4>
+                                    <ul class="card-pool-list" id="card-pool-list-rare"></ul>
+                                </div>
+                                <div class="card-pool-group" id="card-pool-uncommon">
+                                    <h4>Uncommon</h4>
+                                    <ul class="card-pool-list" id="card-pool-list-uncommon"></ul>
+                                </div>
+                                <div class="card-pool-group" id="card-pool-common">
+                                    <h4>Common</h4>
+                                    <ul class="card-pool-list" id="card-pool-list-common"></ul>
+                                </div>
+                            </div>
                         </div>
-                        <div class="card-pool-group" id="card-pool-rare">
-                            <h4>Rare</h4>
-                            <ul class="card-pool-list" id="card-pool-list-rare"></ul>
+                    </div>
+                    <div id="commander-deck-section">
+                        <div style="display: flex; align-items: center; gap: 1em; margin-bottom: 0.5em;">
+                            <h3 style="margin: 0;">Commander Deck</h3>
+                            <div id="commander-deck-stats" class="deck-stats-pane">0 / 60 cards</div>
+                            <button id="clear-deck-btn" class="secondary-button small">Clear Deck</button>
+                            <button id="export-deck-btn" class="secondary-button small">Export to Moxfield</button>
                         </div>
-                        <div class="card-pool-group" id="card-pool-uncommon">
-                            <h4>Uncommon</h4>
-                            <ul class="card-pool-list" id="card-pool-list-uncommon"></ul>
-                        </div>
-                        <div class="card-pool-group" id="card-pool-common">
-                            <h4>Common</h4>
-                            <ul class="card-pool-list" id="card-pool-list-common"></ul>
+                        <div id="commander-deck-scroll" class="scroll-section">
+                            <div id="commander-deck" class="card-pool-group">
+                                <div class="card-pool-group">
+                                    <h4>Commander</h4>
+                                    <ul class="card-pool-list" id="commander-deck-commander"></ul>
+                                </div>
+                                <div class="card-pool-group">
+                                    <h4>Deck Cards</h4>
+                                    <ul class="card-pool-list" id="commander-deck-cards"></ul>
+                                </div>
+                                <div class="card-pool-group">
+                                    <h4>Basic Lands</h4>
+                                    <ul class="card-pool-list" id="commander-deck-basic-lands"></ul>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -85,6 +110,24 @@
         </main>
     </div>
 
+    <!-- Export Overlay -->
+    <div id="export-overlay" class="overlay" style="display: none;">
+        <div class="overlay-content">
+            <div class="overlay-header">
+                <h3>Export Deck to Moxfield</h3>
+                <button id="close-export-overlay" class="close-btn">&times;</button>
+            </div>
+            <div class="overlay-body">
+                <p>Copy the deck list below and paste it into Moxfield's import function:</p>
+                <textarea id="deck-export-text" readonly></textarea>
+            </div>
+            <div class="overlay-footer">
+                <button id="copy-deck-btn" class="primary-button">Copy to Clipboard</button>
+                <button id="cancel-export-btn" class="secondary-button">Close</button>
+            </div>
+        </div>
+    </div>
+
     <script src="js/scryfall-api.js"></script>
     <script>
         // Global variables
@@ -93,6 +136,253 @@
         let setData = null;
         let bonusSheetData = null;
         let scryfallAPI = new ScryfallAPI();
+        // Commander deck state
+        let commanderDeck = {
+            commander: null, // { name, ... }
+            cards: [], // for future deck-building
+            basicLands: {
+                Plains: 0,
+                Island: 0,
+                Swamp: 0,
+                Mountain: 0,
+                Forest: 0,
+                Wastes: 0
+            }
+        };
+        // Add at the top-level script scope:
+        let cardPool = {
+            mythic: {},
+            rare: {},
+            uncommon: {},
+            common: {}
+        };
+        let cardDataMap = {};
+
+        // Helper: check if a card is a Legendary Creature
+        function isLegendaryCreature(card) {
+            return card && card.typeLine && card.typeLine.includes('Legendary Creature');
+        }
+
+        // Render the deck cards in the deck UI
+        function renderDeckCards() {
+            const deckList = document.getElementById('commander-deck-cards');
+            deckList.innerHTML = '';
+            // Count cards in deck by name
+            const deckCounts = {};
+            commanderDeck.cards.forEach(card => {
+                deckCounts[card.name] = (deckCounts[card.name] || 0) + 1;
+            });
+            Object.keys(deckCounts).sort().forEach(name => {
+                const count = deckCounts[name];
+                const card = commanderDeck.cards.find(c => c.name === name);
+                const li = document.createElement('li');
+                let cardImageHtml = '';
+                if (card.imageUris) {
+                    if (card.imageUris.normal) {
+                        cardImageHtml = `<div class=\"card-image-container\"><img src=\"${card.imageUris.normal}\" alt=\"${card.name}\" class=\"card-thumbnail\" loading=\"lazy\"></div>`;
+                    } else if (card.imageUris.small) {
+                        cardImageHtml = `<div class=\"card-image-container\"><img src=\"${card.imageUris.small}\" alt=\"${card.name}\" class=\"card-thumbnail\" loading=\"lazy\"></div>`;
+                    }
+                }
+                if (!cardImageHtml) {
+                    cardImageHtml = `<div class='card-fallback-text'><strong>${card.name}</strong><br><span>${card.typeLine||''}</span></div>`;
+                }
+                let countBadge = '';
+                if (count >= 2) {
+                    countBadge = `<span class=\"card-count-badge\">${count}</span>`;
+                }
+                li.innerHTML = `
+                    <div class=\"card-pool-item\">
+                        <div class=\"card-image-action-container\">
+                            ${cardImageHtml}
+                            ${countBadge}
+                            <div class=\"card-action-icons\"><button class=\"icon-btn remove-from-deck-btn\" data-card-name=\"${card.name.replace(/\"/g, '&quot;')}\" aria-label=\"Remove from Deck\"><span class=\"icon minus\"></span></button></div>
+                        </div>
+                    </div>
+                `;
+                deckList.appendChild(li);
+            });
+            // Remove event listeners
+            document.querySelectorAll('.remove-from-deck-btn').forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    const cardName = this.getAttribute('data-card-name');
+                    // Remove one copy from deck
+                    const idx = commanderDeck.cards.findIndex(c => c.name === cardName);
+                    if (idx !== -1) {
+                        commanderDeck.cards.splice(idx, 1);
+                        renderCommanderDeck();
+                        renderDeckCards();
+                        renderCardPool();
+                    }
+                });
+            });
+        }
+
+        // Update renderCommanderDeck to also render deck cards
+        function renderCommanderDeck() {
+            // Commander
+            const commanderList = document.getElementById('commander-deck-commander');
+            commanderList.innerHTML = '';
+            if (commanderDeck.commander) {
+                const card = commanderDeck.commander;
+                const li = document.createElement('li');
+                let cardImageHtml = '';
+                if (card.imageUris) {
+                    if (card.imageUris.normal) {
+                        cardImageHtml = `<div class=\"card-image-container\"><img src=\"${card.imageUris.normal}\" alt=\"${card.name}\" class=\"card-thumbnail\" loading=\"lazy\"></div>`;
+                    } else if (card.imageUris.small) {
+                        cardImageHtml = `<div class=\"card-image-container\"><img src=\"${card.imageUris.small}\" alt=\"${card.name}\" class=\"card-thumbnail\" loading=\"lazy\"></div>`;
+                    }
+                }
+                if (!cardImageHtml) {
+                    cardImageHtml = `<div class='card-fallback-text'><strong>${card.name}</strong><br><span>${card.typeLine||''}</span></div>`;
+                }
+                li.innerHTML = `
+                    <div class=\"card-pool-item\">
+                        <div class=\"card-image-action-container\">
+                            ${cardImageHtml}
+                            <div class=\"card-action-icons\"><button class=\"icon-btn unset-commander-btn\" aria-label=\"Remove as Commander\"><span class=\"icon minus\"></span></button></div>
+                        </div>
+                        <div class=\"card-pool-name\">${card.name}</div>
+                    </div>
+                `;
+                commanderList.appendChild(li);
+            }
+            // Deck cards
+            renderDeckCards();
+            // Basic lands
+            renderBasicLands();
+            // Stats
+            updateCommanderDeckStats();
+            // Unset commander event
+            const unsetBtn = document.querySelector('.unset-commander-btn');
+            if (unsetBtn) {
+                unsetBtn.addEventListener('click', function() {
+                    commanderDeck.commander = null;
+                    renderCommanderDeck();
+                    renderCardPool();
+                });
+            }
+        }
+
+        // Update the stats pane
+        function updateCommanderDeckStats() {
+            const statsPane = document.getElementById('commander-deck-stats');
+            const commanderCount = commanderDeck.commander ? 1 : 0;
+            const deckCount = commanderDeck.cards.length;
+            const basicLandsCount = Object.values(commanderDeck.basicLands).reduce((sum, count) => sum + count, 0);
+            const totalCount = commanderCount + deckCount + basicLandsCount;
+            statsPane.textContent = `${totalCount} / 60 cards`;
+        }
+
+                // Clear the entire deck and return all cards to the pool
+        function clearDeck() {
+            if (commanderDeck.cards.length === 0 && !commanderDeck.commander &&
+                Object.values(commanderDeck.basicLands).every(count => count === 0)) {
+                return; // Nothing to clear
+            }
+
+            // Clear commander
+            commanderDeck.commander = null;
+
+            // Clear deck cards (they're already in the pool, so no need to add them back)
+            commanderDeck.cards = [];
+
+            // Clear basic lands
+            commanderDeck.basicLands = {
+                Plains: 0,
+                Island: 0,
+                Swamp: 0,
+                Mountain: 0,
+                Forest: 0,
+                Wastes: 0
+            };
+
+            // Re-render everything
+            renderCommanderDeck();
+            renderCardPool();
+        }
+
+                // Generate deck list in Moxfield format
+        function generateMoxfieldDeckList() {
+            let deckList = '';
+
+            // Add commander first (if exists)
+            if (commanderDeck.commander) {
+                const setCode = commanderDeck.commander.setCode || '';
+                const collectorNumber = commanderDeck.commander.collectorNumber || '';
+                deckList += `1 ${commanderDeck.commander.name}${setCode ? ` (${setCode}) ${collectorNumber}` : ''}\n`;
+            }
+
+            // Add deck cards
+            const deckCounts = {};
+            const cardDetails = {};
+            commanderDeck.cards.forEach(card => {
+                if (!deckCounts[card.name]) {
+                    deckCounts[card.name] = 0;
+                    cardDetails[card.name] = card;
+                }
+                deckCounts[card.name]++;
+            });
+
+            // Sort cards alphabetically
+            Object.keys(deckCounts).sort().forEach(cardName => {
+                const count = deckCounts[cardName];
+                const card = cardDetails[cardName];
+                const setCode = card.setCode || '';
+                const collectorNumber = card.collectorNumber || '';
+                deckList += `${count} ${cardName}${setCode ? ` (${setCode}) ${collectorNumber}` : ''}\n`;
+            });
+
+            // Add basic lands (no set code needed for basic lands)
+            Object.keys(commanderDeck.basicLands).forEach(landType => {
+                const count = commanderDeck.basicLands[landType];
+                if (count > 0) {
+                    deckList += `${count} ${landType}\n`;
+                }
+            });
+
+            return deckList.trim();
+        }
+
+        // Show export overlay
+        function showExportOverlay() {
+            const deckList = generateMoxfieldDeckList();
+            if (!deckList) {
+                alert('Your deck is empty. Add some cards before exporting.');
+                return;
+            }
+
+            document.getElementById('deck-export-text').value = deckList;
+            document.getElementById('export-overlay').style.display = 'flex';
+        }
+
+        // Hide export overlay
+        function hideExportOverlay() {
+            document.getElementById('export-overlay').style.display = 'none';
+        }
+
+        // Copy deck list to clipboard
+        async function copyDeckToClipboard() {
+            try {
+                const deckText = document.getElementById('deck-export-text').value;
+                await navigator.clipboard.writeText(deckText);
+
+                // Show success feedback
+                const copyBtn = document.getElementById('copy-deck-btn');
+                const originalText = copyBtn.textContent;
+                copyBtn.textContent = 'Copied!';
+                copyBtn.style.background = '#22c55e';
+
+                setTimeout(() => {
+                    copyBtn.textContent = originalText;
+                    copyBtn.style.background = '';
+                }, 2000);
+            } catch (err) {
+                console.error('Failed to copy to clipboard:', err);
+                alert('Failed to copy to clipboard. Please select and copy the text manually.');
+            }
+        }
 
         // Fetch card sets data
         async function fetchCardSets() {
@@ -124,15 +414,14 @@
             });
         }
 
-                // Fetch set data and bonus sheet data
+        // Fetch set data and bonus sheet data
         async function fetchSetData(setCode) {
             try {
-                // Show loading indicator
-                const loadingIndicator = document.getElementById('loading-indicator');
+                // Update status to loading
+                updateStatus(`Fetching ${setCode} data...`);
                 const setSelect = document.getElementById('set-select');
                 const originalText = setSelect.options[setSelect.selectedIndex].text;
                 setSelect.options[setSelect.selectedIndex].text = `${originalText} (Loading...)`;
-                loadingIndicator.style.display = 'flex';
 
                 // Fetch main set data from Scryfall API
                 setData = await scryfallAPI.fetchSetData(setCode);
@@ -140,6 +429,7 @@
 
                 // Fetch bonus sheet data if it exists
                 if (selectedSet.bonusSheet) {
+                    updateStatus(`Fetching ${selectedSet.bonusSheet.code} bonus sheet...`);
                     bonusSheetData = await scryfallAPI.fetchSetData(selectedSet.bonusSheet.code);
                     console.log(`Fetched bonus sheet data for ${selectedSet.bonusSheet.code}:`, bonusSheetData);
                 } else {
@@ -147,9 +437,9 @@
                     console.log('No bonus sheet for this set');
                 }
 
-                // Hide loading indicator and restore original text
-                loadingIndicator.style.display = 'none';
+                // Restore original text and update status
                 setSelect.options[setSelect.selectedIndex].text = originalText;
+                updateStatus('Ready');
 
                 // Update cache status
                 updateCacheStatus();
@@ -159,12 +449,11 @@
                 setData = null;
                 bonusSheetData = null;
 
-                // Hide loading indicator and restore original text
-                const loadingIndicator = document.getElementById('loading-indicator');
+                // Restore original text and update status
                 const setSelect = document.getElementById('set-select');
                 const originalText = setSelect.options[setSelect.selectedIndex].text.replace(' (Loading...)', '');
                 setSelect.options[setSelect.selectedIndex].text = originalText;
-                loadingIndicator.style.display = 'none';
+                updateStatus('Error loading data');
 
                 alert(`Error fetching data for set ${setCode}: ${error.message}`);
             }
@@ -175,6 +464,12 @@
             const cacheStats = scryfallAPI.getCacheStats();
             const cacheInfo = document.getElementById('cache-info');
             cacheInfo.textContent = `${cacheStats.size} sets cached`;
+        }
+
+        // Update status display
+        function updateStatus(status) {
+            const statusInfo = document.getElementById('status-info');
+            statusInfo.textContent = status;
         }
 
         // Update booster types based on selected set
@@ -229,10 +524,219 @@
             }
         }
 
+        // Move renderCardPool to top-level scope
+        function renderCardPool() {
+            const rarityMap = {
+                mythic: 'card-pool-list-mythic',
+                rare: 'card-pool-list-rare',
+                uncommon: 'card-pool-list-uncommon',
+                common: 'card-pool-list-common'
+            };
+            // Count cards in deck by name
+            const deckCounts = {};
+            commanderDeck.cards.forEach(card => {
+                deckCounts[card.name] = (deckCounts[card.name] || 0) + 1;
+            });
+            // Exclude commander from add-to-deck
+            const commanderName = commanderDeck.commander ? commanderDeck.commander.name : null;
+            Object.keys(rarityMap).forEach(rarity => {
+                const ul = document.getElementById(rarityMap[rarity]);
+                ul.innerHTML = '';
+                const cards = cardPool[rarity];
+                const sortedNames = Object.keys(cards).sort();
+
+                // Filter out cards that shouldn't be shown
+                const visibleCards = [];
+                sortedNames.forEach(name => {
+                    const count = cards[name];
+                    const cardData = cardDataMap[name];
+                    if (!cardData) return;
+
+                    const available = count - (deckCounts[cardData.name] || 0);
+                    if (available <= 0) return; // Skip rendering this card if none are available
+                    // Skip rendering if this card is the commander
+                    if (commanderName && cardData.name === commanderName) return;
+
+                    visibleCards.push({ name, count, cardData, available });
+                });
+
+                // Only show rarity section if there are visible cards
+                if (visibleCards.length === 0) {
+                    const rarityGroup = ul.closest('.card-pool-group');
+                    if (rarityGroup) {
+                        rarityGroup.style.display = 'none';
+                    }
+                    return;
+                } else {
+                    const rarityGroup = ul.closest('.card-pool-group');
+                    if (rarityGroup) {
+                        rarityGroup.style.display = 'block';
+                    }
+                }
+
+                visibleCards.forEach(({ name, count, cardData, available }) => {
+                    const li = document.createElement('li');
+                    let cardImageHtml = '';
+                    if (cardData.imageUris) {
+                        if (cardData.imageUris.normal) {
+                            cardImageHtml = `<div class=\"card-image-container\"><img src=\"${cardData.imageUris.normal}\" alt=\"${cardData.name}\" class=\"card-thumbnail\" loading=\"lazy\"></div>`;
+                        } else if (cardData.imageUris.small) {
+                            cardImageHtml = `<div class=\"card-image-container\"><img src=\"${cardData.imageUris.small}\" alt=\"${cardData.name}\" class=\"card-thumbnail\" loading=\"lazy\"></div>`;
+                        }
+                    }
+                    if (!cardImageHtml) {
+                        cardImageHtml = `<div class='card-fallback-text'><strong>${cardData.name}</strong><br><span>${cardData.typeLine||''}</span></div>`;
+                    }
+                    let actionIcons = '';
+                    // Always include commander button position (top)
+                    if (isLegendaryCreature(cardData)) {
+                        actionIcons += `<button class=\"icon-btn set-commander-btn\" data-card-name=\"${cardData.name.replace(/\"/g, '&quot;')}\" aria-label=\"Set as Commander\"><span class=\"icon crown\"></span></button>`;
+                    } else {
+                        actionIcons += `<div class=\"icon-btn-placeholder\"></div>`;
+                    }
+                    // Always include add to deck button position (bottom)
+                    if (!isLegendaryCreature(cardData) || cardData.name !== commanderName) {
+                        const inDeck = deckCounts[cardData.name] || 0;
+                        if (count > inDeck) {
+                            actionIcons += `<button class=\"icon-btn add-to-deck-btn\" data-card-name=\"${cardData.name.replace(/\"/g, '&quot;')}\" aria-label=\"Add to Deck\"><span class=\"icon plus\"></span></button>`;
+                        } else {
+                            actionIcons += `<div class=\"icon-btn-placeholder\"></div>`;
+                        }
+                    } else {
+                        actionIcons += `<div class=\"icon-btn-placeholder\"></div>`;
+                    }
+                    let countBadge = '';
+                    if (available >= 2) {
+                        countBadge = `<span class=\"card-count-badge\">${available}</span>`;
+                    }
+                    li.innerHTML = `
+                        <div class=\"card-pool-item\">
+                            <div class=\"card-image-action-container\">
+                                ${cardImageHtml}
+                                ${countBadge}
+                                <div class=\"card-action-icons\">${actionIcons}</div>
+                            </div>
+                        </div>
+                    `;
+                    ul.appendChild(li);
+                });
+            });
+            // Add event listeners for commander buttons
+            document.querySelectorAll('.set-commander-btn').forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    const cardName = this.getAttribute('data-card-name');
+                    // Find the card data
+                    let found = null;
+                    for (const rarity in cardPool) {
+                        if (cardPool[rarity][cardName]) {
+                            found = cardDataMap[cardName];
+                            break;
+                        }
+                    }
+                    if (found) {
+                        commanderDeck.commander = found;
+                        renderCommanderDeck();
+                        renderCardPool();
+                    }
+                });
+            });
+            // Add event listeners for add-to-deck buttons
+            document.querySelectorAll('.add-to-deck-btn').forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    const cardName = this.getAttribute('data-card-name');
+                    // Find the card data
+                    let found = null;
+                    for (const rarity in cardPool) {
+                        if (cardPool[rarity][cardName]) {
+                            found = cardDataMap[cardName];
+                            break;
+                        }
+                    }
+                    if (found) {
+                        commanderDeck.cards.push(found);
+                        renderCommanderDeck();
+                        renderDeckCards();
+                        renderCardPool();
+                    }
+                });
+            });
+        }
+
+        // Update renderBasicLands to include a quick-add panel:
+        function renderBasicLands() {
+            const basicLandsList = document.getElementById('commander-deck-basic-lands');
+            basicLandsList.innerHTML = '';
+
+            // Add quick-add panel
+            const quickAddPanel = document.createElement('div');
+            quickAddPanel.className = 'basic-lands-quick-add';
+            quickAddPanel.innerHTML = `
+                <div class="quick-add-label">Quick Add:</div>
+                <div class="quick-add-buttons">
+                    <button class="quick-add-btn" data-land="Plains">Plains</button>
+                    <button class="quick-add-btn" data-land="Island">Island</button>
+                    <button class="quick-add-btn" data-land="Swamp">Swamp</button>
+                    <button class="quick-add-btn" data-land="Mountain">Mountain</button>
+                    <button class="quick-add-btn" data-land="Forest">Forest</button>
+                    <button class="quick-add-btn" data-land="Wastes">Wastes</button>
+                </div>
+            `;
+            basicLandsList.appendChild(quickAddPanel);
+
+            // Add event listeners for quick-add buttons
+            document.querySelectorAll('.quick-add-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const landType = this.getAttribute('data-land');
+                    commanderDeck.basicLands[landType]++;
+                    renderBasicLands();
+                    updateCommanderDeckStats();
+                });
+            });
+
+            // Add individual land controls
+            Object.keys(commanderDeck.basicLands).forEach(landType => {
+                const count = commanderDeck.basicLands[landType];
+                const li = document.createElement('li');
+                li.innerHTML = `
+                    <div class="basic-land-item">
+                        <span class="land-name">${landType}</span>
+                        <div class="land-controls">
+                            <button class="land-btn minus-btn" data-land="${landType}">-</button>
+                            <span class="land-count">${count}</span>
+                            <button class="land-btn plus-btn" data-land="${landType}">+</button>
+                        </div>
+                    </div>
+                `;
+                basicLandsList.appendChild(li);
+            });
+
+            // Add event listeners for land buttons
+            document.querySelectorAll('.land-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const landType = this.getAttribute('data-land');
+                    const isPlus = this.classList.contains('plus-btn');
+                    if (isPlus) {
+                        commanderDeck.basicLands[landType]++;
+                    } else if (commanderDeck.basicLands[landType] > 0) {
+                        commanderDeck.basicLands[landType]--;
+                    }
+                    renderBasicLands();
+                    updateCommanderDeckStats();
+                });
+            });
+        }
+
         // Event listeners
         document.addEventListener('DOMContentLoaded', function() {
+            // Hide card pool sections initially
+            const rarityGroups = document.querySelectorAll('#card-pool .card-pool-group');
+            rarityGroups.forEach(group => {
+                group.style.display = 'none';
+            });
+
             fetchCardSets();
             updateCacheStatus(); // Initialize cache status
+            updateStatus('Ready'); // Initialize status
 
             // Set selection change
             document.getElementById('set-select').addEventListener('change', updateBoosterTypes);
@@ -247,8 +751,62 @@
                 alert('Cache cleared!');
             });
 
+                        // Clear deck button
+            document.getElementById('clear-deck-btn').addEventListener('click', function() {
+                if (commanderDeck.cards.length === 0 && !commanderDeck.commander &&
+                    Object.values(commanderDeck.basicLands).every(count => count === 0)) {
+                    alert('The deck is already empty.');
+                    return;
+                }
+
+                if (confirm('Are you sure you want to clear the entire deck? This will remove all cards, the commander, and reset basic lands to zero.')) {
+                    clearDeck();
+                }
+            });
+
+            // Export deck button
+            document.getElementById('export-deck-btn').addEventListener('click', showExportOverlay);
+
+            // Export overlay event listeners
+            document.getElementById('close-export-overlay').addEventListener('click', hideExportOverlay);
+            document.getElementById('cancel-export-btn').addEventListener('click', hideExportOverlay);
+            document.getElementById('copy-deck-btn').addEventListener('click', copyDeckToClipboard);
+
+            // Close overlay when clicking outside
+            document.getElementById('export-overlay').addEventListener('click', function(e) {
+                if (e.target === this) {
+                    hideExportOverlay();
+                }
+            });
+
+            // Close overlay with Escape key
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && document.getElementById('export-overlay').style.display === 'flex') {
+                    hideExportOverlay();
+                }
+            });
+
             // Open booster button
             document.getElementById('open-booster').addEventListener('click', function() {
+                // If deck is not empty, prompt for confirmation
+                if (commanderDeck.commander || (commanderDeck.cards && commanderDeck.cards.length > 0)) {
+                    if (!confirm('You have a Commander Deck in progress. Are you sure you want to open a new box and reset your deck?')) {
+                        return;
+                    }
+                }
+                // Reset commander deck
+                commanderDeck.commander = null;
+                commanderDeck.cards = [];
+                commanderDeck.basicLands = {
+                    Plains: 0,
+                    Island: 0,
+                    Swamp: 0,
+                    Mountain: 0,
+                    Forest: 0,
+                    Wastes: 0
+                };
+                renderCommanderDeck();
+
                 const setSelect = document.getElementById('set-select');
                 const boosterTypeSelect = document.getElementById('booster-type');
                 const boxSizeInput = document.getElementById('box-size');
@@ -277,15 +835,14 @@
                 let output = '';
 
                 // Card pool aggregation
-                const cardPool = {
+                cardPool = {
                     mythic: {},
                     rare: {},
                     uncommon: {},
                     common: {}
                 };
-
                 // Store full card data for reference
-                const cardDataMap = {};
+                cardDataMap = {};
 
                 // Helper: pick an item based on probability weights
                 function pickWeighted(items) {
@@ -415,49 +972,6 @@
                 }
 
                 // Render card pool
-                function renderCardPool() {
-                    const rarityMap = {
-                        mythic: 'card-pool-list-mythic',
-                        rare: 'card-pool-list-rare',
-                        uncommon: 'card-pool-list-uncommon',
-                        common: 'card-pool-list-common'
-                    };
-                    Object.keys(rarityMap).forEach(rarity => {
-                        const ul = document.getElementById(rarityMap[rarity]);
-                        ul.innerHTML = '';
-                        const cards = cardPool[rarity];
-                        const sortedNames = Object.keys(cards).sort();
-                                                sortedNames.forEach(name => {
-                            const count = cards[name];
-                            const li = document.createElement('li');
-
-                            // Get card data from our map
-                            const cardData = cardDataMap[name];
-                            let cardImageHtml = '';
-                            if (cardData && cardData.imageUris) {
-                                if (cardData.imageUris.normal) {
-                                    cardImageHtml = `<div class=\"card-image-container\"><img src=\"${cardData.imageUris.normal}\" alt=\"${cardData.name}\" class=\"card-thumbnail\" loading=\"lazy\"></div>`;
-                                } else if (cardData.imageUris.small) {
-                                    cardImageHtml = `<div class=\"card-image-container\"><img src=\"${cardData.imageUris.small}\" alt=\"${cardData.name}\" class=\"card-thumbnail\" loading=\"lazy\"></div>`;
-                                }
-                            }
-                            if (!cardImageHtml && cardData) {
-                                cardImageHtml = `<div class='card-fallback-text'><strong>${cardData.name}</strong><br><span>${cardData.typeLine||''}</span></div>`;
-                            }
-                            if (cardData) {
-                                li.innerHTML = `
-                                    <div class="card-pool-item">
-                                        ${cardImageHtml}
-                                        <div class="card-pool-name">${name} x${count}</div>
-                                    </div>
-                                `;
-                            } else {
-                                li.textContent = `${name} x${count}`;
-                            }
-                            ul.appendChild(li);
-                        });
-                    });
-                }
                 renderCardPool();
 
                 boosterDisplay.innerHTML = output;
@@ -480,6 +994,9 @@
                     };
                     boosterDisplay.prepend(toggleAllBtn);
                 }
+
+                // After renderCardPool is called, also render the commander deck
+                renderCommanderDeck();
             });
         });
     </script>
