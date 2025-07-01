@@ -899,7 +899,22 @@
                 // Main simulation
                 const boosterType = boosterTypeSelect.value;
                 const boosterConfig = selectedSet.boosterTypes[boosterType.charAt(0).toUpperCase() + boosterType.slice(1)];
-                const slots = boosterConfig.slots;
+                const slotsRaw = boosterConfig.slots;
+                // Expand slots with 'slots' array into individual slot objects
+                let slots = [];
+                slotsRaw.forEach(slot => {
+                    if (Array.isArray(slot.slots)) {
+                        slot.slots.forEach(slotNum => {
+                            // Create a shallow copy for each slot number
+                            let slotCopy = Object.assign({}, slot);
+                            delete slotCopy.slots;
+                            slotCopy.slot = slotNum;
+                            slots.push(slotCopy);
+                        });
+                    } else {
+                        slots.push(slot);
+                    }
+                });
 
                 for (let i = 0; i < boxSize; i++) {
                     let slotResults = '';
