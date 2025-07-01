@@ -23,7 +23,7 @@ body {
 header {
     text-align: center;
     margin-bottom: 30px;
-    color: white;
+    color: #fff;
 }
 
 header h1 {
@@ -45,7 +45,7 @@ header h2 {
     align-items: center;
     gap: 8px;
     background: rgba(255, 255, 255, 0.1);
-    color: white;
+    color: #fff;
     text-decoration: none;
     padding: 10px 20px;
     border-radius: 25px;
@@ -68,8 +68,11 @@ header h2 {
 }
 
 /* Main content */
+main, .card-info, .overlay-content, .booster-panel, #booster-display, #card-pool-section, #commander-deck-section {
+    background: #fff;
+}
+
 main {
-    background: white;
     border-radius: 15px;
     padding: 30px;
     box-shadow: 0 10px 30px rgba(0,0,0,0.2);
@@ -91,46 +94,31 @@ main {
     min-width: 200px;
 }
 
-label {
+label, .quick-add-label {
     display: block;
     margin-bottom: 8px;
     font-weight: 600;
     color: #555;
 }
 
-select {
+select, input[type="number"] {
     width: 100%;
     padding: 12px;
     border: 2px solid #ddd;
     border-radius: 8px;
     font-size: 16px;
-    background: white;
+    background: #fff;
     transition: border-color 0.3s ease;
 }
 
-select:focus {
+select:focus, input[type="number"]:focus, #deck-export-text:focus {
     outline: none;
     border-color: #667eea;
 }
 
-input[type="number"] {
-    width: 100%;
-    padding: 12px;
-    border: 2px solid #ddd;
-    border-radius: 8px;
-    font-size: 16px;
-    background: white;
-    transition: border-color 0.3s ease;
-}
-
-input[type="number"]:focus {
-    outline: none;
-    border-color: #667eea;
-}
-
-.primary-button {
+.primary-button, .quick-add-btn {
     background: linear-gradient(45deg, #667eea, #764ba2);
-    color: white;
+    color: #fff;
     border: none;
     padding: 15px 30px;
     font-size: 18px;
@@ -141,16 +129,14 @@ input[type="number"]:focus {
     min-width: 150px;
 }
 
-.primary-button:hover {
+.primary-button:hover, .quick-add-btn:hover {
     transform: translateY(-2px);
     box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
 }
 
-.primary-button:active {
+.primary-button:active, .quick-add-btn:active {
     transform: translateY(0);
 }
-
-
 
 /* Cache status styles */
 .cache-status {
@@ -183,13 +169,27 @@ input[type="number"]:focus {
     text-decoration: underline;
 }
 
+.secondary-button, .quick-add-btn {
+    background: linear-gradient(90deg, #6a82fb 0%, #fc5c7d 100%);
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    padding: 0.6em 1.4em;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background 0.2s, box-shadow 0.2s;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    margin-bottom: 1em;
+}
+.secondary-button:hover {
+    background: linear-gradient(90deg, #fc5c7d 0%, #6a82fb 100%);
+}
 .secondary-button.small {
     padding: 6px 12px;
     font-size: 12px;
     min-width: auto;
 }
 
-/* Results section */
 #results {
     display: flex;
     flex-direction: column;
@@ -206,11 +206,10 @@ input[type="number"]:focus {
     width: 100%;
 }
 
-#card-pool-section, #commander-deck-section {
+#card-pool-section, #commander-deck-section, #booster-display {
     flex: 1 1 0;
     min-width: 0;
     min-height: 400px;
-    background: #fff;
     border-radius: 8px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.08);
     padding: 1.5em;
@@ -219,14 +218,6 @@ input[type="number"]:focus {
 #boosters-section {
     flex: 1 1 100%;
     margin-top: 2em;
-}
-
-#booster-display {
-    background: #fff;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-    padding: 1.5em;
-    margin-bottom: 2em;
 }
 
 #card-pool {
@@ -251,7 +242,7 @@ input[type="number"]:focus {
     height: 280px;
     border: 2px solid #ddd;
     border-radius: 10px;
-    background: white;
+    background: #fff;
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
     display: flex;
     flex-direction: column;
@@ -274,20 +265,18 @@ input[type="number"]:focus {
     font-size: 12px;
 }
 
-.card-info {
-    padding: 10px;
-    background: white;
-}
-
-.card-name {
+.card-name, .card-pool-name, .land-name {
     font-weight: 600;
-    margin-bottom: 5px;
     font-size: 14px;
+    color: #666;
+    text-align: center;
+    margin-top: 0.3em;
 }
 
-.card-type {
+.card-type, .card-fallback-text span, .card-details, .card-pool-details {
     color: #666;
     font-size: 12px;
+    font-style: italic;
 }
 
 .card-fallback-text {
@@ -313,51 +302,37 @@ input[type="number"]:focus {
     margin-bottom: 0.2em;
 }
 
-.card-fallback-text span {
-    font-size: 0.95em;
-    color: #666;
-}
-
 /* Responsive design */
 @media (max-width: 600px) {
     #app {
         padding: 10px;
     }
-
     header h1 {
         font-size: 2rem;
     }
-
     header h2 {
         font-size: 1.2rem;
     }
-
     main {
         padding: 20px;
     }
-
     #controls {
         flex-direction: column;
         align-items: stretch;
     }
-
     #card-pool-and-deck-wrapper {
         flex-direction: column;
         gap: 1.5em;
     }
-
     #card-pool-section, #commander-deck-section {
         min-width: 0;
         max-width: none;
     }
-
     .card {
         width: 150px;
         height: 210px;
     }
 }
-
-
 
 .booster-panel {
     width: 100%;
@@ -416,22 +391,6 @@ input[type="number"]:focus {
     box-shadow: 0 4px 16px rgba(0,0,0,0.2);
 }
 
-.secondary-button {
-    background: linear-gradient(90deg, #6a82fb 0%, #fc5c7d 100%);
-    color: #fff;
-    border: none;
-    border-radius: 6px;
-    padding: 0.6em 1.4em;
-    font-size: 1em;
-    cursor: pointer;
-    transition: background 0.2s, box-shadow 0.2s;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-    margin-bottom: 1em;
-}
-.secondary-button:hover {
-    background: linear-gradient(90deg, #fc5c7d 0%, #6a82fb 100%);
-}
-
 .card-pool-group {
     flex: 1 1 200px;
     min-width: 220px;
@@ -480,20 +439,6 @@ input[type="number"]:focus {
     display: flex;
     flex-direction: column;
     gap: 0.2em;
-}
-
-.card-pool-name {
-    font-weight: 500;
-    text-align: center;
-    font-size: 0.9em;
-    color: #666;
-    margin-top: 0.3em;
-}
-
-.card-pool-details {
-    font-size: 0.85em;
-    color: #666;
-    font-style: italic;
 }
 
 #commander-deck .card-pool-group {
@@ -703,33 +648,10 @@ input[type="number"]:focus {
     margin-bottom: 1em;
     border: 1px solid #e9ecef;
 }
-.quick-add-label {
-    font-size: 0.9em;
-    font-weight: 600;
-    color: #6c757d;
-    margin-bottom: 0.5em;
-}
 .quick-add-buttons {
     display: flex;
     flex-wrap: wrap;
     gap: 0.4em;
-}
-.quick-add-btn {
-    background: #667eea;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    padding: 0.3em 0.6em;
-    font-size: 0.85em;
-    font-weight: 500;
-    cursor: pointer;
-    transition: background 0.2s;
-}
-.quick-add-btn:hover {
-    background: #5a67d8;
-}
-.quick-add-btn:active {
-    transform: scale(0.95);
 }
 
 /* Overlay styles */
@@ -816,18 +738,4 @@ input[type="number"]:focus {
     resize: vertical;
     background: #f9fafb;
     color: #374151;
-}
-
-#deck-export-text:focus {
-    outline: none;
-    border-color: #667eea;
-    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-}
-
-.overlay-footer {
-    display: flex;
-    gap: 1em;
-    padding: 1em 1.5em 1.5em 1.5em;
-    border-top: 1px solid #e5e7eb;
-    justify-content: flex-end;
 }
