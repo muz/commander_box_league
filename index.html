@@ -194,6 +194,7 @@
                     <div class=\"card-pool-item\">
                         ${cardImageHtml}
                         <div class=\"card-pool-name\">${card.name}</div>
+                        <button class=\"unset-commander-btn\">Remove as Commander</button>
                     </div>
                 `;
                 commanderList.appendChild(li);
@@ -202,6 +203,15 @@
             renderDeckCards();
             // Stats
             updateCommanderDeckStats();
+            // Unset commander event
+            const unsetBtn = document.querySelector('.unset-commander-btn');
+            if (unsetBtn) {
+                unsetBtn.addEventListener('click', function() {
+                    commanderDeck.commander = null;
+                    renderCommanderDeck();
+                    renderCardPool();
+                });
+            }
         }
 
         // Update the stats pane
