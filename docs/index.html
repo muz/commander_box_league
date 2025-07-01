@@ -170,6 +170,7 @@
         let selectedSet = null;
         let setData = null;
         let bonusSheetData = null;
+        let setMetadata = null; // Global variable to store set metadata
         let scryfallAPI = new ScryfallAPI();
         let symbologyData = null; // Global variable to store symbology data
         // Commander deck state
@@ -210,6 +211,30 @@
         // Helper: check if a card is a Legendary Creature
         function isLegendaryCreature(card) {
             return card && card.typeLine && card.typeLine.includes('Legendary Creature');
+        }
+
+        // Update card pool title with set name and image
+        function updateCardPoolTitle() {
+            const cardPoolSection = document.getElementById('card-pool-section');
+            const titleElement = cardPoolSection.querySelector('h3');
+
+            if (setMetadata && selectedSet) {
+                // Create the new title with set image and name
+                let titleHtml = '';
+
+                // Add set icon if available
+                if (setMetadata.icon_svg_uri) {
+                    titleHtml += `<img src="${setMetadata.icon_svg_uri}" alt="${setMetadata.name}" style="width: 24px; height: 24px; margin-right: 8px; vertical-align: middle;">`;
+                }
+
+                // Add set name
+                titleHtml += `${setMetadata.name} Card Pool`;
+
+                titleElement.innerHTML = titleHtml;
+            } else {
+                // Fallback to default title
+                titleElement.textContent = 'Card Pool';
+            }
         }
 
         // Render the deck cards in the deck UI
@@ -351,6 +376,7 @@
             // Re-render everything
             renderCommanderDeck();
             renderCardPool();
+            updateCardPoolTitle(); // Update title to reflect current set
         }
 
                 // Generate deck list in Moxfield format
@@ -586,6 +612,21 @@
 
             if (setSelect.value) {
                 selectedSet = cardSets.find(set => set.code === setSelect.value);
+
+                // Fetch set metadata from Scryfall API
+                try {
+                    updateStatus(`Fetching metadata for ${selectedSet.code}...`);
+                    setMetadata = await scryfallAPI.fetchSetMetadata(selectedSet.code);
+                    console.log('Set metadata:', setMetadata);
+
+                    // Update the card pool title with set information
+                    updateCardPoolTitle();
+
+                } catch (error) {
+                    console.warn('Failed to fetch set metadata:', error);
+                    setMetadata = null;
+                    // Continue with the rest of the function even if metadata fetch fails
+                }
 
                 if (selectedSet && selectedSet.boosterTypes) {
                     let firstType = null;
@@ -1135,6 +1176,9 @@
                         </details>
                     `;
                 }
+
+                // Update card pool title with set information
+                updateCardPoolTitle();
 
                 // Render card pool
                 renderCardPool();

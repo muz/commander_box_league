@@ -215,6 +215,40 @@ class ScryfallAPI {
     }
 
     /**
+     * Fetch set metadata from Scryfall API
+     * @param {string} setCode - The set code (e.g., 'FIN', 'FCA')
+     * @returns {Promise<Object>} - Promise that resolves to the set metadata
+     */
+    async fetchSetMetadata(setCode) {
+        const url = `${this.baseUrl}/sets/${setCode}`;
+        
+        try {
+            console.log(`Fetching set metadata for ${setCode} from Scryfall API...`);
+            
+            const response = await fetch(url);
+            
+            if (!response.ok) {
+                if (response.status === 404) {
+                    throw new Error(`Set not found. Please check the set code.`);
+                } else if (response.status === 429) {
+                    throw new Error(`Rate limit exceeded. Please wait a moment and try again.`);
+                } else {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+            }
+            
+            const metadata = await response.json();
+            
+            console.log(`Successfully fetched metadata for set ${setCode}:`, metadata);
+            return metadata;
+            
+        } catch (error) {
+            console.error(`Error fetching set metadata for ${setCode}:`, error);
+            throw error;
+        }
+    }
+
+    /**
      * Fetch all Magic: The Gathering symbols from Scryfall API
      * @returns {Promise<Object>} - Promise that resolves to the symbology data
      */
