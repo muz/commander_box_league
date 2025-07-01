@@ -22,14 +22,12 @@
                 <div class="set-selection">
                     <label for="set-select">Select Set:</label>
                     <select id="set-select">
-                        <option value="">Choose a set...</option>
                     </select>
                 </div>
 
                 <div class="booster-type">
                     <label for="booster-type">Booster Type:</label>
                     <select id="booster-type">
-                        <option value="">Choose a booster type...</option>
                     </select>
                 </div>
 
@@ -391,22 +389,35 @@
 
         // Fetch card sets data
         async function fetchCardSets() {
+            const setSelect = document.getElementById('set-select');
+            const openBoxBtn = document.getElementById('open-booster');
+            setSelect.disabled = true;
+            openBoxBtn.disabled = true;
+            updateStatus('Loading sets...');
             try {
                 const response = await fetch('js/cardSets.json');
                 const data = await response.json();
                 cardSets = data.sets;
                 populateSetDropdown();
+                // Select the first available set by default
+                const firstEnabledSet = cardSets.find(set => set.enabled !== false);
+                if (firstEnabledSet) {
+                    setSelect.value = firstEnabledSet.code;
+                    setSelect.dispatchEvent(new Event('change'));
+                }
+                setSelect.disabled = false;
+                // openBoxBtn will be enabled after set data is loaded
             } catch (error) {
                 console.error('Error fetching card sets:', error);
+                updateStatus('Error loading sets');
+                setSelect.disabled = false;
+                openBoxBtn.disabled = false;
             }
         }
 
         // Populate set dropdown
         function populateSetDropdown() {
             const setSelect = document.getElementById('set-select');
-
-            // Clear existing options except the first one
-            setSelect.innerHTML = '<option value="">Choose a set...</option>';
 
             // Add sets from JSON
             cardSets.forEach(set => {
@@ -421,12 +432,11 @@
 
         // Fetch set data and bonus sheet data
         async function fetchSetData(setCode) {
+            const openBoxBtn = document.getElementById('open-booster');
             try {
                 // Update status to loading
                 updateStatus(`Fetching ${setCode} data...`);
-                const setSelect = document.getElementById('set-select');
-                const originalText = setSelect.options[setSelect.selectedIndex].text;
-                setSelect.options[setSelect.selectedIndex].text = `${originalText} (Loading...)`;
+                openBoxBtn.disabled = true;
 
                 // Fetch main set data from Scryfall API
                 setData = await scryfallAPI.fetchSetData(setCode);
@@ -442,24 +452,16 @@
                     console.log('No bonus sheet for this set');
                 }
 
-                // Restore original text and update status
-                setSelect.options[setSelect.selectedIndex].text = originalText;
                 updateStatus('Ready');
-
-                // Update cache status
+                openBoxBtn.disabled = false;
                 updateCacheStatus();
 
             } catch (error) {
                 console.error('Error fetching set data:', error);
                 setData = null;
                 bonusSheetData = null;
-
-                // Restore original text and update status
-                const setSelect = document.getElementById('set-select');
-                const originalText = setSelect.options[setSelect.selectedIndex].text.replace(' (Loading...)', '');
-                setSelect.options[setSelect.selectedIndex].text = originalText;
                 updateStatus('Error loading data');
-
+                openBoxBtn.disabled = false;
                 alert(`Error fetching data for set ${setCode}: ${error.message}`);
             }
         }
@@ -484,21 +486,27 @@
             const setSelect = document.getElementById('set-select');
 
             // Clear existing options
-            boosterTypeSelect.innerHTML = '<option value="">Choose a booster type...</option>';
-            boxSizeInput.value = '';
+            boosterTypeSelect.disabled = true;
 
             if (setSelect.value) {
                 selectedSet = cardSets.find(set => set.code === setSelect.value);
 
                 if (selectedSet && selectedSet.boosterTypes) {
-                    Object.keys(selectedSet.boosterTypes).forEach(boosterType => {
+                    let firstType = null;
+                    Object.keys(selectedSet.boosterTypes).forEach((boosterType, idx) => {
                         const boosterConfig = selectedSet.boosterTypes[boosterType];
                         const option = document.createElement('option');
                         option.value = boosterType.toLowerCase();
                         option.textContent = boosterType;
                         option.dataset.boxSize = boosterConfig.boxSize;
                         boosterTypeSelect.appendChild(option);
+                        if (firstType === null) firstType = boosterType.toLowerCase();
                     });
+                    if (firstType) {
+                        boosterTypeSelect.value = firstType;
+                        boosterTypeSelect.disabled = false;
+                        boosterTypeSelect.dispatchEvent(new Event('change'));
+                    }
                 }
 
                 // Fetch set data and bonus sheet data
@@ -790,6 +798,7 @@
             document.getElementById('set-select').addEventListener('change', updateBoosterTypes);
 
             // Booster type selection change
+            document.getElementById('booster-type').disabled = true;
             document.getElementById('booster-type').addEventListener('change', updateBoxSize);
 
             // Clear cache button
