@@ -26,6 +26,10 @@
                     <select id="set-select">
                         <option value="">Choose a set...</option>
                     </select>
+                    <div id="loading-indicator" class="loading-indicator" style="display: none;">
+                        <span class="loading-spinner"></span>
+                        <span>Fetching card data from Scryfall...</span>
+                    </div>
                 </div>
 
                 <div class="booster-type">
@@ -41,6 +45,12 @@
                 </div>
 
                 <button id="open-booster" class="primary-button">Open Box!</button>
+
+                <div id="cache-status" class="cache-status">
+                    <small>Cache: <span id="cache-info">0 sets cached</span></small>
+                    <button id="clear-cache" class="secondary-button small">Clear Cache</button>
+                    <small class="api-note">Data fetched from <a href="https://scryfall.com" target="_blank" rel="noopener noreferrer">Scryfall.com</a></small>
+                </div>
             </section>
 
             <section id="results">
@@ -75,12 +85,14 @@
         </main>
     </div>
 
+    <script src="js/scryfall-api.js"></script>
     <script>
         // Global variables
         let cardSets = [];
         let selectedSet = null;
         let setData = null;
         let bonusSheetData = null;
+        let scryfallAPI = new ScryfallAPI();
 
         // Fetch card sets data
         async function fetchCardSets() {
@@ -112,28 +124,57 @@
             });
         }
 
-        // Fetch set data and bonus sheet data
+                // Fetch set data and bonus sheet data
         async function fetchSetData(setCode) {
             try {
-                // Fetch main set data
-                const setResponse = await fetch(`js/cards/${setCode}.json`);
-                setData = await setResponse.json();
+                // Show loading indicator
+                const loadingIndicator = document.getElementById('loading-indicator');
+                const setSelect = document.getElementById('set-select');
+                const originalText = setSelect.options[setSelect.selectedIndex].text;
+                setSelect.options[setSelect.selectedIndex].text = `${originalText} (Loading...)`;
+                loadingIndicator.style.display = 'flex';
+
+                // Fetch main set data from Scryfall API
+                setData = await scryfallAPI.fetchSetData(setCode);
                 console.log(`Fetched set data for ${setCode}:`, setData);
 
                 // Fetch bonus sheet data if it exists
                 if (selectedSet.bonusSheet) {
-                    const bonusResponse = await fetch(`js/cards/${selectedSet.bonusSheet.code}.json`);
-                    bonusSheetData = await bonusResponse.json();
+                    bonusSheetData = await scryfallAPI.fetchSetData(selectedSet.bonusSheet.code);
                     console.log(`Fetched bonus sheet data for ${selectedSet.bonusSheet.code}:`, bonusSheetData);
                 } else {
                     bonusSheetData = null;
                     console.log('No bonus sheet for this set');
                 }
+
+                // Hide loading indicator and restore original text
+                loadingIndicator.style.display = 'none';
+                setSelect.options[setSelect.selectedIndex].text = originalText;
+
+                // Update cache status
+                updateCacheStatus();
+
             } catch (error) {
                 console.error('Error fetching set data:', error);
                 setData = null;
                 bonusSheetData = null;
+
+                // Hide loading indicator and restore original text
+                const loadingIndicator = document.getElementById('loading-indicator');
+                const setSelect = document.getElementById('set-select');
+                const originalText = setSelect.options[setSelect.selectedIndex].text.replace(' (Loading...)', '');
+                setSelect.options[setSelect.selectedIndex].text = originalText;
+                loadingIndicator.style.display = 'none';
+
+                alert(`Error fetching data for set ${setCode}: ${error.message}`);
             }
+        }
+
+        // Update cache status display
+        function updateCacheStatus() {
+            const cacheStats = scryfallAPI.getCacheStats();
+            const cacheInfo = document.getElementById('cache-info');
+            cacheInfo.textContent = `${cacheStats.size} sets cached`;
         }
 
         // Update booster types based on selected set
@@ -191,12 +232,20 @@
         // Event listeners
         document.addEventListener('DOMContentLoaded', function() {
             fetchCardSets();
+            updateCacheStatus(); // Initialize cache status
 
             // Set selection change
             document.getElementById('set-select').addEventListener('change', updateBoosterTypes);
 
             // Booster type selection change
             document.getElementById('booster-type').addEventListener('change', updateBoxSize);
+
+            // Clear cache button
+            document.getElementById('clear-cache').addEventListener('click', function() {
+                scryfallAPI.clearCache();
+                updateCacheStatus();
+                alert('Cache cleared!');
+            });
 
             // Open booster button
             document.getElementById('open-booster').addEventListener('click', function() {
@@ -256,6 +305,9 @@
 
                     // Filter by rarity
                     cardPool = cardData.filter(card => {
+                        // Skip empty card objects (from the array structure)
+                        if (!card || !card.name) return false;
+
                         if (Array.isArray(rarity)) {
                             if (!rarity.includes(card.rarity)) return false;
                         } else if (rarity && card.rarity !== rarity) {

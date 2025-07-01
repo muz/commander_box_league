@@ -9,13 +9,15 @@ A single-page web application that simulates opening random boosters from Magic 
 - **Booster Simulation**: Open random boosters from various Magic the Gathering sets
 - **Card Display**: View cards pulled from boosters with relevant information
 - **Set Selection**: Choose from different Magic the Gathering sets and formats
-- **Statistics Tracking**: Keep track of cards opened and pull rates
+- **Real-time Data**: Fetches card data directly from Scryfall.com API
+- **Browser Caching**: Caches fetched data to improve performance
 - **Responsive Design**: Works on desktop and mobile devices
 
 ## Technology Stack
 
 - **Frontend**: HTML5, CSS3, JavaScript (ES6+)
-- **No Backend Required**: Pure client-side application
+- **API Integration**: Scryfall.com API for real-time card data
+- **No Backend Required**: Pure client-side application with browser-based caching
 
 ## Project Structure
 
@@ -25,9 +27,8 @@ commander_box_league/
 ├── css/               # Stylesheets
 │   └── styles.css
 ├── js/                # JavaScript files
-│   ├── app.js         # Main application logic
-│   ├── cardData.js    # Card database/API integration
-│   └── simulator.js   # Booster simulation logic    
+│   ├── scryfall-api.js # Scryfall API integration
+│   └── cardSets.json   # Set configuration data
 ├── assets/            # Images and other assets
 │   └── images/
 └── README.md          # This file
@@ -38,6 +39,12 @@ commander_box_league/
 1. Clone or download this repository
 2. Open `index.html` in your web browser
 3. Start simulating booster openings!
+
+**Note**: This application fetches card data from the Scryfall.com API. The API has rate limits, so the application includes built-in delays between requests and browser-based caching to minimize API calls.
+
+## Testing
+
+To test the Scryfall API integration, open `test-api.html` in your browser. This will allow you to verify that the API calls are working correctly and test the caching functionality.
 
 ## Development
 
@@ -58,4 +65,4 @@ Feel free to contribute by:
 
 ---
 
-*Note: This simulator is for entertainment purposes only and does not involve real trading cards or monetary value.* 
+*Note: This simulator is for entertainment purposes only and does not involve real trading cards or monetary value.*

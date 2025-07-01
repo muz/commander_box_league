@@ -150,6 +150,71 @@ input[type="number"]:focus {
     transform: translateY(0);
 }
 
+/* Loading indicator styles */
+.loading-indicator {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 10px;
+    padding: 10px;
+    background: #f8f9fa;
+    border-radius: 6px;
+    border-left: 4px solid #667eea;
+    font-size: 14px;
+    color: #666;
+}
+
+.loading-spinner {
+    width: 16px;
+    height: 16px;
+    border: 2px solid #f3f3f3;
+    border-top: 2px solid #667eea;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Cache status styles */
+.cache-status {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 10px;
+    padding: 10px;
+    background: #f8f9fa;
+    border-radius: 6px;
+    font-size: 14px;
+    color: #666;
+}
+
+.cache-status small {
+    color: #888;
+}
+
+.api-note {
+    margin-left: auto;
+    font-size: 12px;
+}
+
+.api-note a {
+    color: #667eea;
+    text-decoration: none;
+}
+
+.api-note a:hover {
+    text-decoration: underline;
+}
+
+.secondary-button.small {
+    padding: 6px 12px;
+    font-size: 12px;
+    min-width: auto;
+}
+
 /* Results section */
 #results {
     display: block;
@@ -233,28 +298,28 @@ input[type="number"]:focus {
     #app {
         padding: 10px;
     }
-    
+
     header h1 {
         font-size: 2rem;
     }
-    
+
     header h2 {
         font-size: 1.2rem;
     }
-    
+
     main {
         padding: 20px;
     }
-    
+
     #controls {
         flex-direction: column;
         align-items: stretch;
     }
-    
+
     #results {
         grid-template-columns: 1fr;
     }
-    
+
     .card {
         width: 150px;
         height: 210px;
@@ -350,4 +415,4 @@ input[type="number"]:focus {
 }
 .card-pool-list li:last-child {
     margin-bottom: 0;
-} 
+}
