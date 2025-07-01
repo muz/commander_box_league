@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-    <div id="app" style="padding-bottom: 80px;">
+    <div id="app">
         <header>
             <h1>Commander Box League</h1>
             <div class="cbl-description" style="margin-bottom: 1em; font-size: 1em;">
@@ -40,7 +40,7 @@
             </section>
 
             <section id="results">
-                <div id="card-pool-and-deck-wrapper" style="display: flex; gap: 2em; flex-wrap: wrap; align-items: flex-start;">
+                <div id="card-pool-and-deck-wrapper">
                     <div id="card-pool-section">
                         <h3>Card Pool</h3>
                         <div id="card-pool-scroll" class="scroll-section">
@@ -124,18 +124,38 @@
         </div>
     </div>
 
-    <!-- Footer panel with status, GitHub link and Scryfall reference -->
-    <footer style="position: fixed; bottom: 0; left: 0; right: 0; padding: 1em; background: #f8f9fa; border-top: 1px solid #e9ecef; z-index: 1000;">
-        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1em; width: 100%; margin: 0;">
-            <div style="display: flex; align-items: center; gap: 0.5em; font-size: 0.8em; color: #6c757d;">
-                <span>Data provided by</span>
-                <a href="https://scryfall.com" target="_blank" rel="noopener noreferrer" style="color: #007bff; text-decoration: none; font-weight: 500;">Scryfall</a>
+    <!-- Card View Overlay -->
+    <div id="card-view-overlay" class="overlay" style="display: none;">
+        <div class="overlay-content card-view-content">
+            <div class="overlay-header">
+                <h3 id="card-view-title">Card Details</h3>
+                <button id="close-card-view-overlay" class="close-btn">&times;</button>
             </div>
-            <div style="display: flex; align-items: center; font-size: 0.8em; color: #6c757d;">
+            <div class="overlay-body">
+                <div id="card-view-image-container" style="text-align: center; margin: 1em 0;">
+                    <img id="card-view-image" src="" alt="" style="max-width: 100%; max-height: 400px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.15);">
+                </div>
+                <div id="card-view-details" style="margin-top: 1em;">
+                    <p id="card-view-name" style="font-weight: 600; font-size: 1.1em; margin-bottom: 0.5em;"></p>
+                    <p id="card-view-type" style="color: #666; margin-bottom: 0.5em;"></p>
+                    <p id="card-view-text" style="white-space: pre-wrap; line-height: 1.5; color: #333;"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer panel with status, GitHub link and Scryfall reference -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-left">
+                <span>Data provided by</span>
+                <a href="https://scryfall.com" target="_blank" rel="noopener noreferrer">Scryfall</a>
+            </div>
+            <div class="footer-center">
                 <span>Status: <span id="status-info">Ready</span></span>
             </div>
-            <a href="https://github.com/muz/commander_box_league" class="github-link" target="_blank" rel="noopener noreferrer" style="display: inline-flex; align-items: center; gap: 0.5em; font-size: 0.8em; color: #333; text-decoration: none; font-weight: 500;">
-                <svg class="github-icon" viewBox="0 0 24 24" fill="currentColor" style="width: 1.2em; height: 1.2em; vertical-align: middle;">
+            <a href="https://github.com/muz/commander_box_league" class="footer-github-link" target="_blank" rel="noopener noreferrer">
+                <svg class="github-icon" viewBox="0 0 24 24" fill="currentColor">
                     <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
                 </svg>
                 View on GitHub
@@ -222,7 +242,7 @@
                 }
                 li.innerHTML = `
                     <div class=\"card-pool-item\">
-                        <div class=\"card-image-action-container\">
+                        <div class=\"card-image-action-container\" data-card-name=\"${card.name.replace(/\"/g, '&quot;')}\">
                             ${cardImageHtml}
                             ${countBadge}
                             <div class=\"card-action-icons\"><button class=\"icon-btn remove-from-deck-btn\" data-card-name=\"${card.name.replace(/\"/g, '&quot;')}\" aria-label=\"Remove from Deck\"><span class=\"icon minus\"></span></button></div>
@@ -268,9 +288,11 @@
                 }
                 li.innerHTML = `
                     <div class=\"card-pool-item\">
-                        <div class=\"card-image-action-container\">
+                        <div class=\"card-image-action-container\" data-card-name=\"${card.name}\">
                             ${cardImageHtml}
-                            <div class=\"card-action-icons\"><button class=\"icon-btn unset-commander-btn\" aria-label=\"Remove as Commander\"><span class=\"icon minus\"></span></button></div>
+                            <div class=\"card-action-icons\">
+                                <button class=\"icon-btn unset-commander-btn\" aria-label=\"Remove as Commander\"><span class=\"icon minus\"></span></button>
+                            </div>
                         </div>
                         <div class=\"card-pool-name\">${card.name}</div>
                     </div>
@@ -410,6 +432,61 @@
                 console.error('Failed to copy to clipboard:', err);
                 alert('Failed to copy to clipboard. Please select and copy the text manually.');
             }
+        }
+
+        // Show card view overlay
+        function showCardViewOverlay(cardName) {
+            // Find the card data
+            let found = null;
+            for (const rarity in cardPool) {
+                if (cardPool[rarity][cardName]) {
+                    found = cardDataMap[cardName];
+                    break;
+                }
+            }
+
+            // Also check in deck cards
+            if (!found) {
+                found = commanderDeck.cards.find(card => card.name === cardName);
+            }
+
+            // Also check commander
+            if (!found && commanderDeck.commander && commanderDeck.commander.name === cardName) {
+                found = commanderDeck.commander;
+            }
+
+            if (!found) {
+                console.error('Card not found:', cardName);
+                return;
+            }
+
+            // Update overlay content
+            document.getElementById('card-view-title').textContent = found.name;
+            document.getElementById('card-view-name').textContent = found.name;
+            document.getElementById('card-view-type').textContent = found.typeLine || '';
+            document.getElementById('card-view-text').textContent = found.oracleText || '';
+
+            // Set card image
+            const cardImage = document.getElementById('card-view-image');
+            if (found.imageUris && found.imageUris.normal) {
+                cardImage.src = found.imageUris.normal;
+                cardImage.alt = found.name;
+                cardImage.style.display = 'block';
+            } else if (found.imageUris && found.imageUris.small) {
+                cardImage.src = found.imageUris.small;
+                cardImage.alt = found.name;
+                cardImage.style.display = 'block';
+            } else {
+                cardImage.style.display = 'none';
+            }
+
+            // Show overlay
+            document.getElementById('card-view-overlay').style.display = 'flex';
+        }
+
+        // Hide card view overlay
+        function hideCardViewOverlay() {
+            document.getElementById('card-view-overlay').style.display = 'none';
         }
 
         // Fetch card sets data
@@ -643,7 +720,7 @@
                     }
                     li.innerHTML = `
                         <div class=\"card-pool-item\">
-                            <div class=\"card-image-action-container\">
+                            <div class=\"card-image-action-container\" data-card-name=\"${cardData.name.replace(/\"/g, '&quot;')}\">
                                 ${cardImageHtml}
                                 ${countBadge}
                                 <div class=\"card-action-icons\">${actionIcons}</div>
@@ -689,6 +766,20 @@
                         renderCommanderDeck();
                         renderDeckCards();
                         renderCardPool();
+                    }
+                });
+            });
+
+            // Add event listeners for card container clicks
+            document.querySelectorAll('.card-image-action-container').forEach(container => {
+                container.addEventListener('click', function(e) {
+                    // Don't trigger if clicking on action buttons
+                    if (e.target.closest('.card-action-icons')) {
+                        return;
+                    }
+                    const cardName = this.getAttribute('data-card-name');
+                    if (cardName) {
+                        showCardViewOverlay(cardName);
                     }
                 });
             });
@@ -820,6 +911,9 @@
             document.getElementById('cancel-export-btn').addEventListener('click', hideExportOverlay);
             document.getElementById('copy-deck-btn').addEventListener('click', copyDeckToClipboard);
 
+            // Card view overlay event listeners
+            document.getElementById('close-card-view-overlay').addEventListener('click', hideCardViewOverlay);
+
             // Close overlay when clicking outside
             document.getElementById('export-overlay').addEventListener('click', function(e) {
                 if (e.target === this) {
@@ -827,10 +921,21 @@
                 }
             });
 
+            document.getElementById('card-view-overlay').addEventListener('click', function(e) {
+                if (e.target === this) {
+                    hideCardViewOverlay();
+                }
+            });
+
             // Close overlay with Escape key
             document.addEventListener('keydown', function(e) {
-                if (e.key === 'Escape' && document.getElementById('export-overlay').style.display === 'flex') {
-                    hideExportOverlay();
+                if (e.key === 'Escape') {
+                    if (document.getElementById('export-overlay').style.display === 'flex') {
+                        hideExportOverlay();
+                    }
+                    if (document.getElementById('card-view-overlay').style.display === 'flex') {
+                        hideCardViewOverlay();
+                    }
                 }
             });
 

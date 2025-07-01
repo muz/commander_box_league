@@ -16,7 +16,7 @@ body {
 #app {
     max-width: none;
     margin: 0;
-    padding: 20px;
+    padding: 20px 20px 100px 20px;
     width: 100%;
 }
 
@@ -40,32 +40,63 @@ header h2 {
     margin-bottom: 20px;
 }
 
-/* GitHub link styles */
-.github-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    background: rgba(255, 255, 255, 0.1);
-    color: #fff;
-    text-decoration: none;
-    padding: 10px 20px;
-    border-radius: 25px;
-    font-size: 14px;
-    font-weight: 500;
-    transition: all 0.3s ease;
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-}
 
-.github-link:hover {
-    background: rgba(255, 255, 255, 0.2);
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-}
 
 .github-icon {
     width: 20px;
     height: 20px;
+}
+
+/* Footer styles */
+footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 1em;
+    background: #f8f9fa;
+    border-top: 1px solid #e9ecef;
+    z-index: 1000;
+}
+
+.footer-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1em;
+    width: 100%;
+    margin: 0;
+}
+
+.footer-left, .footer-center {
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+    font-size: 0.8em;
+    color: #6c757d;
+}
+
+.footer-left a {
+    color: #007bff;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.footer-github-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5em;
+    font-size: 0.8em;
+    color: #333;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.footer-github-link .github-icon {
+    width: 1.2em;
+    height: 1.2em;
+    vertical-align: middle;
 }
 
 /* Main content */
@@ -192,7 +223,6 @@ select:focus, input[type="number"]:focus, #deck-export-text:focus {
     width: 100%;
     flex: 1;
     min-height: 0;
-    max-width: 100%;
 }
 
 #card-pool-section, #commander-deck-section, #booster-display {
@@ -341,7 +371,7 @@ select:focus, input[type="number"]:focus, #deck-export-text:focus {
 }
 
 #commander-deck .card-pool-group h4 {
-    margin: 0 0 0.4em 0;
+    margin-bottom: 0.4em;
     font-size: 0.95em;
     font-weight: 600;
     color: #333;
@@ -490,6 +520,12 @@ select:focus, input[type="number"]:focus, #deck-export-text:focus {
     display: flex;
     align-items: center;
     justify-content: center;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.card-image-action-container:hover {
+    transform: translateY(-2px);
 }
 
 .card-action-icons {
@@ -745,6 +781,20 @@ select:focus, input[type="number"]:focus, #deck-export-text:focus {
     resize: vertical;
     background: #f9fafb;
     color: #374151;
+}
+
+/* Card view overlay specific styles */
+.card-view-content {
+    max-width: 800px;
+    width: 95%;
+}
+
+#card-view-image {
+    transition: transform 0.2s ease;
+}
+
+#card-view-image:hover {
+    transform: scale(1.05);
 }
 
 /* Responsive design */
