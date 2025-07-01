@@ -76,6 +76,9 @@ main {
     border-radius: 15px;
     padding: 30px;
     box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    display: flex;
+    flex-direction: column;
+    min-height: calc(100vh - 200px); /* Account for header and footer */
 }
 
 /* Controls section */
@@ -118,7 +121,7 @@ select:focus, input[type="number"]:focus, #deck-export-text:focus {
 
 /* Button styles */
 .primary-button {
-    background: linear-gradient(45deg, #667eea, #764ba2);
+    background: #667eea;
     color: #fff;
     border: none;
     padding: 15px 30px;
@@ -126,34 +129,40 @@ select:focus, input[type="number"]:focus, #deck-export-text:focus {
     font-weight: 600;
     border-radius: 8px;
     cursor: pointer;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
     min-width: 150px;
 }
 
 .primary-button:hover {
+    background: #5a6fd8;
     transform: translateY(-2px);
     box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
 }
 
 .primary-button:active {
+    background: #4f63c7;
     transform: translateY(0);
 }
 
 .secondary-button {
-    background: linear-gradient(90deg, #6a82fb 0%, #fc5c7d 100%);
+    background: #6c757d;
     color: #fff;
     border: none;
     border-radius: 6px;
     padding: 0.6em 1.4em;
     font-size: 1em;
     cursor: pointer;
-    transition: background 0.2s, box-shadow 0.2s;
+    transition: background-color 0.2s, box-shadow 0.2s;
     box-shadow: 0 2px 8px rgba(0,0,0,0.08);
     margin-bottom: 1em;
 }
 
 .secondary-button:hover {
-    background: linear-gradient(90deg, #fc5c7d 0%, #6a82fb 100%);
+    background: #5a6268;
+}
+
+.secondary-button:active {
+    background: #495057;
 }
 
 .secondary-button.small {
@@ -169,15 +178,19 @@ select:focus, input[type="number"]:focus, #deck-export-text:focus {
     flex-direction: column;
     gap: 2em;
     align-items: stretch;
+    flex: 1;
+    min-height: 0;
 }
 
 #card-pool-and-deck-wrapper {
     display: flex;
     flex-direction: row;
     gap: 2em;
-    align-items: flex-start;
+    align-items: stretch;
     flex-wrap: nowrap;
     width: 100%;
+    flex: 1;
+    min-height: 0;
 }
 
 #card-pool-section, #commander-deck-section, #booster-display {
@@ -189,8 +202,16 @@ select:focus, input[type="number"]:focus, #deck-export-text:focus {
     padding: 1.5em;
 }
 
+/* Ensure Card Pool and Deck panels have equal height */
+#card-pool-section, #commander-deck-section {
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh - 300px); /* Fill available viewport height minus header/controls space */
+    min-height: 400px; /* Minimum height fallback */
+}
+
 #boosters-section {
-    flex: 1 1 100%;
+    flex: 0 0 auto;
     margin-top: 2em;
 }
 
@@ -263,7 +284,6 @@ select:focus, input[type="number"]:focus, #deck-export-text:focus {
     border-radius: 10px;
     box-shadow: 0 1px 4px rgba(80,80,120,0.07);
     padding: 1em 1.2em 1.2em 1.2em;
-    margin-bottom: 0;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -311,16 +331,15 @@ select:focus, input[type="number"]:focus, #deck-export-text:focus {
     background: none;
     box-shadow: none;
     padding: 0;
-    margin-bottom: 1.2em;
+    margin-bottom: 0.8em;
     border-radius: 0;
 }
 
 #commander-deck .card-pool-group h4 {
-    margin-top: 0.5em;
-    margin-bottom: 0.7em;
-    font-size: 1.05em;
+    margin: 0 0 0.4em 0;
+    font-size: 0.95em;
     font-weight: 600;
-    color: #4a4a6a;
+    color: #333;
     letter-spacing: 0.01em;
 }
 
@@ -330,16 +349,67 @@ select:focus, input[type="number"]:focus, #deck-export-text:focus {
     padding: 0;
 }
 
+/* Deck panel styles */
+.deck-panel {
+    width: 100%;
+    margin-bottom: 12px;
+    border: 1px solid #e0e7ff;
+    border-radius: 6px;
+    background: #fafbff;
+    box-shadow: 0 1px 3px rgba(102, 126, 234, 0.05);
+    transition: box-shadow 0.2s;
+}
+
+.deck-panel[open] {
+    box-shadow: 0 2px 6px rgba(102, 126, 234, 0.1);
+}
+
+.deck-panel summary {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #333;
+    padding: 8px 12px;
+    cursor: pointer;
+    border-bottom: 1px solid #f0f4ff;
+    outline: none;
+    border-radius: 6px 6px 0 0;
+    background: linear-gradient(90deg, #f0f4ff 0%, #fafbff 100%);
+    user-select: none;
+}
+
+.deck-panel summary:hover {
+    background: linear-gradient(90deg, #e8f0ff 0%, #f5f7ff 100%);
+}
+
+.deck-panel > div {
+    padding: 8px 12px;
+    color: #333;
+}
+
+/* Deck controls bar */
+.deck-controls-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.8em;
+    padding: 0.4em 0;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.deck-controls-buttons {
+    display: flex;
+    gap: 0.5em;
+}
+
 .deck-stats-pane {
     background: #f8f9fa;
     color: #444;
     border-radius: 6px;
-    padding: 0.5em 1em;
-    margin-bottom: 1em;
-    font-size: 1em;
+    padding: 0.4em 0.8em;
+    font-size: 0.9em;
     font-weight: 500;
     text-align: center;
-    box-shadow: 0 1px 4px rgba(80,80,120,0.07);
+    box-shadow: 0 1px 3px rgba(80,80,120,0.05);
     display: inline-block;
 }
 
@@ -348,6 +418,12 @@ select:focus, input[type="number"]:focus, #deck-export-text:focus {
     max-height: 70vh;
     overflow-y: auto;
     padding-right: 4px;
+}
+
+/* Scroll sections within equal-height panels */
+#card-pool-scroll, #commander-deck-scroll {
+    flex: 1;
+    min-height: 0; /* Allow flex item to shrink */
 }
 
 .scroll-section::-webkit-scrollbar {
@@ -684,6 +760,7 @@ select:focus, input[type="number"]:focus, #deck-export-text:focus {
     
     main {
         padding: 20px;
+        min-height: auto; /* Allow natural height on mobile */
     }
     
     #controls {
@@ -694,10 +771,13 @@ select:focus, input[type="number"]:focus, #deck-export-text:focus {
     #card-pool-and-deck-wrapper {
         flex-direction: column;
         gap: 1.5em;
+        flex: none; /* Don't expand on mobile */
     }
     
     #card-pool-section, #commander-deck-section {
         min-width: 0;
         max-width: none;
+        height: auto; /* Allow natural height on mobile */
+        min-height: 400px; /* Keep minimum height */
     }
 }

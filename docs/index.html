@@ -65,26 +65,34 @@
                         </div>
                     </div>
                     <div id="commander-deck-section">
-                        <div style="display: flex; align-items: center; gap: 1em; margin-bottom: 0.5em;">
-                            <h3 style="margin: 0;">Deck</h3>
+                        <h3 style="margin: 0 0 0.5em 0;">Deck</h3>
+                        <div class="deck-controls-bar">
                             <div id="commander-deck-stats" class="deck-stats-pane">0 / 60</div>
-                            <button id="clear-deck-btn" class="secondary-button small">Clear Deck</button>
-                            <button id="export-deck-btn" class="secondary-button small">Export to Moxfield</button>
+                            <div class="deck-controls-buttons">
+                                <button id="clear-deck-btn" class="secondary-button small">Clear Deck</button>
+                                <button id="export-deck-btn" class="secondary-button small">Export to Moxfield</button>
+                            </div>
                         </div>
                         <div id="commander-deck-scroll" class="scroll-section">
                             <div id="commander-deck" class="card-pool-group">
-                                <div class="card-pool-group">
-                                    <h4>Commander</h4>
-                                    <ul class="card-pool-list" id="commander-deck-commander"></ul>
-                                </div>
-                                <div class="card-pool-group">
-                                    <h4>Deck</h4>
-                                    <ul class="card-pool-list" id="commander-deck-cards"></ul>
-                                </div>
-                                <div class="card-pool-group">
-                                    <h4>Basic Lands</h4>
-                                    <ul class="card-pool-list" id="commander-deck-basic-lands"></ul>
-                                </div>
+                                <details class="deck-panel" open>
+                                    <summary>Commander</summary>
+                                    <div class="card-pool-group">
+                                        <ul class="card-pool-list" id="commander-deck-commander"></ul>
+                                    </div>
+                                </details>
+                                <details class="deck-panel" open>
+                                    <summary>Deck</summary>
+                                    <div class="card-pool-group">
+                                        <ul class="card-pool-list" id="commander-deck-cards"></ul>
+                                    </div>
+                                </details>
+                                <details class="deck-panel" open>
+                                    <summary>Basic Lands</summary>
+                                    <div class="card-pool-group">
+                                        <ul class="card-pool-list" id="commander-deck-basic-lands"></ul>
+                                    </div>
+                                </details>
                             </div>
                         </div>
                     </div>
@@ -765,8 +773,12 @@
             scryfallAPI.fetchSymbology().then((data) => {
                 symbologyData = data;
                 console.log('Symbology data loaded and cached');
+                // Render commander deck after symbology data is loaded
+                renderCommanderDeck();
             }).catch(error => {
                 console.warn('Failed to load symbology data:', error);
+                // Render commander deck even if symbology fails
+                renderCommanderDeck();
             });
 
             fetchCardSets();
