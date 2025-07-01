@@ -54,24 +54,42 @@
             </section>
 
             <section id="results">
-                <div id="card-pool-section">
-                    <h3>Card Pool</h3>
-                    <div id="card-pool">
-                        <div class="card-pool-group" id="card-pool-mythic">
-                            <h4>Mythic Rare</h4>
-                            <ul class="card-pool-list" id="card-pool-list-mythic"></ul>
+                <div id="card-pool-and-deck-wrapper" style="display: flex; gap: 2em; flex-wrap: wrap; align-items: flex-start;">
+                    <div id="card-pool-section">
+                        <h3>Card Pool</h3>
+                        <div id="card-pool">
+                            <div class="card-pool-group" id="card-pool-mythic">
+                                <h4>Mythic Rare</h4>
+                                <ul class="card-pool-list" id="card-pool-list-mythic"></ul>
+                            </div>
+                            <div class="card-pool-group" id="card-pool-rare">
+                                <h4>Rare</h4>
+                                <ul class="card-pool-list" id="card-pool-list-rare"></ul>
+                            </div>
+                            <div class="card-pool-group" id="card-pool-uncommon">
+                                <h4>Uncommon</h4>
+                                <ul class="card-pool-list" id="card-pool-list-uncommon"></ul>
+                            </div>
+                            <div class="card-pool-group" id="card-pool-common">
+                                <h4>Common</h4>
+                                <ul class="card-pool-list" id="card-pool-list-common"></ul>
+                            </div>
                         </div>
-                        <div class="card-pool-group" id="card-pool-rare">
-                            <h4>Rare</h4>
-                            <ul class="card-pool-list" id="card-pool-list-rare"></ul>
+                    </div>
+                    <div id="commander-deck-section">
+                        <div style="display: flex; align-items: center; gap: 1em; margin-bottom: 0.5em;">
+                            <h3 style="margin: 0;">Commander Deck</h3>
+                            <div id="commander-deck-stats" class="deck-stats-pane">0 / 60 cards</div>
                         </div>
-                        <div class="card-pool-group" id="card-pool-uncommon">
-                            <h4>Uncommon</h4>
-                            <ul class="card-pool-list" id="card-pool-list-uncommon"></ul>
-                        </div>
-                        <div class="card-pool-group" id="card-pool-common">
-                            <h4>Common</h4>
-                            <ul class="card-pool-list" id="card-pool-list-common"></ul>
+                        <div id="commander-deck" class="card-pool-group">
+                            <div class="card-pool-group">
+                                <h4>Commander</h4>
+                                <ul class="card-pool-list" id="commander-deck-commander"></ul>
+                            </div>
+                            <div class="card-pool-group">
+                                <h4>Deck Cards</h4>
+                                <ul class="card-pool-list" id="commander-deck-cards"></ul>
+                            </div>
                         </div>
                     </div>
                 </div>
