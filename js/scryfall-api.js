@@ -141,7 +141,20 @@ class ScryfallAPI {
             extractedCards[collectorNumber - 1] = {
                 name: card.name,
                 rarity: card.rarity,
-                collectorNumber: collectorNumber
+                collectorNumber: collectorNumber,
+                typeLine: card.type_line || '',
+                manaCost: card.mana_cost || '',
+                cmc: card.cmc || 0,
+                imageUris: card.image_uris || null,
+                oracleText: card.oracle_text || '',
+                flavorText: card.flavor_text || '',
+                artist: card.artist || '',
+                power: card.power || null,
+                toughness: card.toughness || null,
+                colors: card.colors || [],
+                colorIdentity: card.color_identity || [],
+                keywords: card.keywords || [],
+                legalities: card.legalities || {}
             };
         });
 

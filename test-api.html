@@ -86,7 +86,14 @@
                     setName: data.setName,
                     totalCards: data.cards.length,
                     cardsWithData: data.cards.filter(card => card.name).length,
-                    sampleCards: sampleCards
+                    sampleCards: sampleCards.map(card => ({
+                        name: card.name,
+                        manaCost: card.manaCost,
+                        typeLine: card.typeLine,
+                        rarity: card.rarity,
+                        artist: card.artist,
+                        imageUris: card.imageUris ? 'Available' : 'None'
+                    }))
                 };
 
                 addResult(`Sample data: <pre>${JSON.stringify(sampleData, null, 2)}</pre>`, 'success');
