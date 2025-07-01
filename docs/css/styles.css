@@ -68,7 +68,7 @@ header h2 {
 }
 
 /* Main content */
-main, .card-info, .overlay-content, .booster-panel, #booster-display, #card-pool-section, #commander-deck-section {
+main, .overlay-content, .booster-panel, #booster-display, #card-pool-section, #commander-deck-section {
     background: #fff;
 }
 
@@ -94,7 +94,7 @@ main {
     min-width: 200px;
 }
 
-label, .quick-add-label {
+label {
     display: block;
     margin-bottom: 8px;
     font-weight: 600;
@@ -116,7 +116,8 @@ select:focus, input[type="number"]:focus, #deck-export-text:focus {
     border-color: #667eea;
 }
 
-.primary-button, .quick-add-btn {
+/* Button styles */
+.primary-button {
     background: linear-gradient(45deg, #667eea, #764ba2);
     color: #fff;
     border: none;
@@ -129,63 +130,16 @@ select:focus, input[type="number"]:focus, #deck-export-text:focus {
     min-width: 150px;
 }
 
-.primary-button:hover, .quick-add-btn:hover {
+.primary-button:hover {
     transform: translateY(-2px);
     box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
 }
 
-.primary-button:active, .quick-add-btn:active {
+.primary-button:active {
     transform: translateY(0);
 }
 
-/* Cache status styles */
-.cache-status {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    gap: 18px;
-    margin: 2em 0 2em 0;
-    padding: 1.2em 2em;
-    background: linear-gradient(90deg, #e0e7ff 0%, #f8fafc 100%);
-    border-radius: 8px;
-    font-size: 1.08em;
-    color: #444;
-    box-shadow: 0 2px 12px rgba(102,126,234,0.07);
-    border: 1.5px solid #c7d2fe;
-}
-
-.cache-status small {
-    color: #666;
-    font-size: 1em;
-}
-
-.cache-status .api-note {
-    margin-left: auto;
-    font-size: 0.98em;
-    color: #667eea;
-}
-
-.cache-status button.secondary-button.small {
-    margin: 0 0.5em;
-    padding: 0.4em 1em;
-    font-size: 0.98em;
-}
-
-.api-note {
-    margin-left: auto;
-    font-size: 12px;
-}
-
-.api-note a {
-    color: #667eea;
-    text-decoration: none;
-}
-
-.api-note a:hover {
-    text-decoration: underline;
-}
-
-.secondary-button, .quick-add-btn {
+.secondary-button {
     background: linear-gradient(90deg, #6a82fb 0%, #fc5c7d 100%);
     color: #fff;
     border: none;
@@ -197,15 +151,19 @@ select:focus, input[type="number"]:focus, #deck-export-text:focus {
     box-shadow: 0 2px 8px rgba(0,0,0,0.08);
     margin-bottom: 1em;
 }
+
 .secondary-button:hover {
     background: linear-gradient(90deg, #fc5c7d 0%, #6a82fb 100%);
 }
+
 .secondary-button.small {
     padding: 6px 12px;
     font-size: 12px;
     min-width: auto;
+    margin-bottom: 0;
 }
 
+/* Results section */
 #results {
     display: flex;
     flex-direction: column;
@@ -236,11 +194,16 @@ select:focus, input[type="number"]:focus, #deck-export-text:focus {
     margin-top: 2em;
 }
 
-#card-pool {
+/* Booster display */
+#booster-display:empty {
+    min-height: 60px;
     display: flex;
-    flex-wrap: wrap;
-    gap: 1.5em;
-    margin-bottom: 2em;
+    align-items: center;
+    justify-content: center;
+    background: #f8f9fa;
+    border: 2px dashed #dee2e6;
+    border-radius: 8px;
+    margin: 1em 0;
 }
 
 #booster-display:empty::before {
@@ -249,107 +212,10 @@ select:focus, input[type="number"]:focus, #deck-export-text:focus {
     font-style: italic;
     text-align: center;
     width: 100%;
-    margin-top: 50px;
+    padding: 1em;
 }
 
-/* Card display styles */
-.card {
-    width: 200px;
-    height: 280px;
-    border: 2px solid #ddd;
-    border-radius: 10px;
-    background: #fff;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    transition: transform 0.2s ease;
-}
-
-.card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
-}
-
-.card-image {
-    flex: 1;
-    background: #f0f0f0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #999;
-    font-size: 12px;
-}
-
-.card-name, .card-pool-name, .land-name {
-    font-weight: 600;
-    font-size: 14px;
-    color: #666;
-    text-align: center;
-    margin-top: 0.3em;
-}
-
-.card-type, .card-fallback-text span, .card-details, .card-pool-details {
-    color: #666;
-    font-size: 12px;
-    font-style: italic;
-}
-
-.card-fallback-text {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-width: 120px;
-    min-height: 180px;
-    background: #f3f3f3;
-    border-radius: 8px;
-    color: #444;
-    font-size: 1em;
-    font-weight: 500;
-    padding: 1em 0.5em;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.07);
-    border: 1px solid #e0e0e0;
-    margin: 0.5em 0;
-}
-
-.card-fallback-text strong {
-    font-size: 1.1em;
-    margin-bottom: 0.2em;
-}
-
-/* Responsive design */
-@media (max-width: 600px) {
-    #app {
-        padding: 10px;
-    }
-    header h1 {
-        font-size: 2rem;
-    }
-    header h2 {
-        font-size: 1.2rem;
-    }
-    main {
-        padding: 20px;
-    }
-    #controls {
-        flex-direction: column;
-        align-items: stretch;
-    }
-    #card-pool-and-deck-wrapper {
-        flex-direction: column;
-        gap: 1.5em;
-    }
-    #card-pool-section, #commander-deck-section {
-        min-width: 0;
-        max-width: none;
-    }
-    .card {
-        width: 150px;
-        height: 210px;
-    }
-}
-
+/* Booster panel styles */
 .booster-panel {
     width: 100%;
     margin-bottom: 20px;
@@ -382,29 +248,12 @@ select:focus, input[type="number"]:focus, #deck-export-text:focus {
     color: #333;
 }
 
-.card-details {
-    margin-left: 1em;
-    margin-bottom: 0.5em;
-    color: #666;
-    font-style: italic;
-}
-
-.card-image-container {
-    margin-left: 1em;
-    margin-top: 0.5em;
-}
-
-.card-thumbnail {
-    width: 146px;
-    height: 204px;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    transition: transform 0.2s ease;
-}
-
-.card-thumbnail:hover {
-    transform: scale(1.05);
-    box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+/* Card pool styles */
+#card-pool {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5em;
+    margin-bottom: 2em;
 }
 
 .card-pool-group {
@@ -457,6 +306,7 @@ select:focus, input[type="number"]:focus, #deck-export-text:focus {
     gap: 0.2em;
 }
 
+/* Commander deck specific styles */
 #commander-deck .card-pool-group {
     background: none;
     box-shadow: none;
@@ -464,6 +314,7 @@ select:focus, input[type="number"]:focus, #deck-export-text:focus {
     margin-bottom: 1.2em;
     border-radius: 0;
 }
+
 #commander-deck .card-pool-group h4 {
     margin-top: 0.5em;
     margin-bottom: 0.7em;
@@ -472,6 +323,7 @@ select:focus, input[type="number"]:focus, #deck-export-text:focus {
     color: #4a4a6a;
     letter-spacing: 0.01em;
 }
+
 #commander-deck .card-pool-list {
     background: none;
     box-shadow: none;
@@ -491,32 +343,74 @@ select:focus, input[type="number"]:focus, #deck-export-text:focus {
     display: inline-block;
 }
 
+/* Scroll sections */
 .scroll-section {
     max-height: 70vh;
     overflow-y: auto;
     padding-right: 4px;
 }
+
 .scroll-section::-webkit-scrollbar {
     width: 8px;
     background: #f0f0f0;
     border-radius: 4px;
 }
+
 .scroll-section::-webkit-scrollbar-thumb {
     background: #d1d5db;
     border-radius: 4px;
 }
-@media (max-width: 1000px) {
-    .scroll-section {
-        max-height: 40vh;
-    }
+
+/* Card display styles */
+.card-image-container {
+    margin-left: 1em;
+    margin-top: 0.5em;
 }
 
+.card-thumbnail {
+    width: 146px;
+    height: 204px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    transition: transform 0.2s ease;
+}
+
+.card-thumbnail:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+}
+
+.card-fallback-text {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-width: 120px;
+    min-height: 180px;
+    background: #f3f3f3;
+    border-radius: 8px;
+    color: #444;
+    font-size: 1em;
+    font-weight: 500;
+    padding: 1em 0.5em;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+    border: 1px solid #e0e0e0;
+    margin: 0.5em 0;
+}
+
+.card-fallback-text strong {
+    font-size: 1.1em;
+    margin-bottom: 0.2em;
+}
+
+/* Card action styles */
 .card-image-action-container {
     position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
 }
+
 .card-action-icons {
     position: absolute;
     top: 8px;
@@ -529,11 +423,13 @@ select:focus, input[type="number"]:focus, #deck-export-text:focus {
     transition: opacity 0.2s;
     z-index: 2;
 }
+
 .card-image-action-container:hover .card-action-icons,
 .card-image-action-container:focus-within .card-action-icons {
     opacity: 1;
     pointer-events: auto;
 }
+
 .icon-btn {
     background: rgba(255,255,255,0.95);
     border: none;
@@ -549,9 +445,11 @@ select:focus, input[type="number"]:focus, #deck-export-text:focus {
     outline: none;
     font-size: 1.2em;
 }
+
 .icon-btn:active {
     transform: scale(0.95);
 }
+
 .icon-btn:focus {
     box-shadow: 0 0 0 2px #667eea;
 }
@@ -561,21 +459,25 @@ select:focus, input[type="number"]:focus, #deck-export-text:focus {
     height: 36px;
     visibility: hidden;
 }
+
 .icon {
     display: inline-block;
     width: 22px;
     height: 22px;
 }
+
 .icon.crown {
     background: none;
     mask: url('data:image/svg+xml;utf8,<svg fill="gold" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M2 7l5.5 7 4.5-9 4.5 9L22 7l-2 12H4L2 7zm3.24 10h13.52l1.1-6.6-3.6 2.7-3.26-6.52-3.26 6.52-3.6-2.7 1.1 6.6z"/></svg>') center/contain no-repeat;
     background-color: gold;
 }
+
 .icon.plus {
     background: none;
     mask: url('data:image/svg+xml;utf8,<svg fill="green" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 13H13V19H11V13H5V11H11V5H13V11H19V13Z"/></svg>') center/contain no-repeat;
     background-color: #22c55e;
 }
+
 .icon.minus {
     background: none;
     mask: url('data:image/svg+xml;utf8,<svg fill="red" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 13H5V11H19V13Z"/></svg>') center/contain no-repeat;
@@ -598,6 +500,7 @@ select:focus, input[type="number"]:focus, #deck-export-text:focus {
     user-select: none;
 }
 
+/* Basic land styles */
 .basic-land-item {
     display: flex;
     justify-content: space-between;
@@ -611,8 +514,70 @@ select:focus, input[type="number"]:focus, #deck-export-text:focus {
     color: #333;
     transition: background 0.2s;
 }
+
 .basic-land-item:last-child {
     margin-bottom: 0;
+}
+
+/* Quick add button styles */
+.quick-add-btn {
+    min-width: 48px;
+    min-height: 48px;
+    padding: 0.2em 0.2em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2em;
+    font-weight: bold;
+    border-radius: 50%;
+    margin: 0 0.2em 0.2em 0;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    transition: transform 0.15s, box-shadow 0.15s;
+    border: 1.5px solid;
+}
+
+.quick-add-btn:hover {
+    transform: scale(1.08);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+}
+
+.quick-add-btn-plains {
+    background: linear-gradient(135deg, #fffbe6 0%, #e7e2c7 100%);
+    border-color: #d8cfa3;
+    color: #bfae6a;
+}
+
+.quick-add-btn-island {
+    background: linear-gradient(135deg, #e6f4ff 0%, #b4d6ef 100%);
+    border-color: #3a8fd8;
+    color: #3a8fd8;
+}
+
+.quick-add-btn-swamp {
+    background: linear-gradient(135deg, #222 0%, #444 100%);
+    border-color: #888;
+    color: #888;
+}
+
+.quick-add-btn-mountain {
+    background: linear-gradient(135deg, #fff0e6 0%, #f7b7a3 100%);
+    border-color: #e4572e;
+    color: #e4572e;
+}
+
+.quick-add-btn-forest {
+    background: linear-gradient(135deg, #e6ffe6 0%, #b7e3b7 100%);
+    border-color: #3ca370;
+    color: #3ca370;
+}
+
+.mana-symbol {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    margin: 0 auto;
 }
 
 /* Overlay styles */
@@ -701,54 +666,38 @@ select:focus, input[type="number"]:focus, #deck-export-text:focus {
     color: #374151;
 }
 
-.quick-add-btn-plains {
-    background: linear-gradient(135deg, #fffbe6 0%, #e7e2c7 100%);
-    border: 1.5px solid #d8cfa3;
-    color: #bfae6a;
+/* Responsive design */
+@media (max-width: 1000px) {
+    .scroll-section {
+        max-height: 40vh;
+    }
 }
-.quick-add-btn-island {
-    background: linear-gradient(135deg, #e6f4ff 0%, #b4d6ef 100%);
-    border: 1.5px solid #3a8fd8;
-    color: #3a8fd8;
-}
-.quick-add-btn-swamp {
-    background: linear-gradient(135deg, #222 0%, #444 100%);
-    border: 1.5px solid #888;
-    color: #888;
-}
-.quick-add-btn-mountain {
-    background: linear-gradient(135deg, #fff0e6 0%, #f7b7a3 100%);
-    border: 1.5px solid #e4572e;
-    color: #e4572e;
-}
-.quick-add-btn-forest {
-    background: linear-gradient(135deg, #e6ffe6 0%, #b7e3b7 100%);
-    border: 1.5px solid #3ca370;
-    color: #3ca370;
-}
-.quick-add-btn {
-    min-width: 48px;
-    min-height: 48px;
-    padding: 0.2em 0.2em;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.2em;
-    font-weight: bold;
-    border-radius: 50%;
-    margin: 0 0.2em 0.2em 0;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-    transition: transform 0.15s, box-shadow 0.15s;
-}
-.quick-add-btn:hover {
-    transform: scale(1.08);
-    box-shadow: 0 4px 16px rgba(0,0,0,0.15);
-}
-.mana-symbol {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 28px;
-    height: 28px;
-    margin: 0 auto;
+
+@media (max-width: 600px) {
+    #app {
+        padding: 10px;
+    }
+    
+    header h1 {
+        font-size: 2rem;
+    }
+    
+    main {
+        padding: 20px;
+    }
+    
+    #controls {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    #card-pool-and-deck-wrapper {
+        flex-direction: column;
+        gap: 1.5em;
+    }
+    
+    #card-pool-section, #commander-deck-section {
+        min-width: 0;
+        max-width: none;
+    }
 }

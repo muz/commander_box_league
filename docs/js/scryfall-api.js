@@ -7,6 +7,7 @@ class ScryfallAPI {
     constructor() {
         this.baseUrl = 'https://api.scryfall.com';
         this.cache = new Map(); // Cache fetched data to avoid repeated API calls
+        this.symbologyCache = null; // Cache for symbology data
     }
 
     /**
@@ -211,6 +212,62 @@ class ScryfallAPI {
             size: this.cache.size,
             keys: Array.from(this.cache.keys())
         };
+    }
+
+    /**
+     * Fetch all Magic: The Gathering symbols from Scryfall API
+     * @returns {Promise<Object>} - Promise that resolves to the symbology data
+     */
+    async fetchSymbology() {
+        // Check cache first
+        if (this.symbologyCache) {
+            console.log('Using cached symbology data');
+            return this.symbologyCache;
+        }
+
+        console.log('Fetching symbology data from Scryfall API...');
+
+        const url = `${this.baseUrl}/symbology`;
+
+        try {
+            const response = await fetch(url);
+
+            if (!response.ok) {
+                if (response.status === 429) {
+                    throw new Error(`Rate limit exceeded. Please wait a moment and try again.`);
+                } else {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+            }
+
+            const data = await response.json();
+
+            // Cache the result
+            this.symbologyCache = data;
+
+            console.log(`Successfully fetched ${data.data.length} symbols from Scryfall API`);
+            return data;
+
+        } catch (error) {
+            console.error('Error fetching symbology data:', error);
+            throw error;
+        }
+    }
+
+    /**
+     * Get cached symbology data
+     * @returns {Object|null} - Cached symbology data or null if not cached
+     */
+    getSymbology() {
+        return this.symbologyCache;
+    }
+
+    /**
+     * Clear the symbology cache
+     */
+    clearSymbologyCache() {
+        this.symbologyCache = null;
+        console.log('Cleared symbology cache');
     }
 }
 
