@@ -43,24 +43,63 @@
                 <div id="card-pool-and-deck-wrapper">
                     <div id="card-pool-section">
                         <h3>Card Pool</h3>
+                        <div class="card-pool-controls">
+                            <div class="control-row">
+                                <div class="control-group">
+                                    <label for="sort-select">Sort by:</label>
+                                    <select id="sort-select">
+                                        <option value="name">Name (A-Z)</option>
+                                        <option value="name-desc">Name (Z-A)</option>
+                                        <option value="rarity">Rarity</option>
+                                        <option value="type">Type</option>
+                                        <option value="cmc">Mana Cost</option>
+                                    </select>
+                                </div>
+                                <div class="control-group">
+                                    <label for="filter-rarity">Rarity:</label>
+                                    <select id="filter-rarity">
+                                        <option value="all">All Rarities</option>
+                                        <option value="mythic">Mythic Rare</option>
+                                        <option value="rare">Rare</option>
+                                        <option value="uncommon">Uncommon</option>
+                                        <option value="common">Common</option>
+                                    </select>
+                                </div>
+                                <div class="control-group">
+                                    <label for="filter-type">Type:</label>
+                                    <select id="filter-type">
+                                        <option value="all">All Types</option>
+                                        <option value="creature">Creature</option>
+                                        <option value="instant">Instant</option>
+                                        <option value="sorcery">Sorcery</option>
+                                        <option value="enchantment">Enchantment</option>
+                                        <option value="artifact">Artifact</option>
+                                        <option value="planeswalker">Planeswalker</option>
+                                        <option value="land">Land</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="control-row">
+                                <div class="control-group search-group">
+                                    <label for="search-input">Search:</label>
+                                    <input type="text" id="search-input" placeholder="Search cards by name...">
+                                </div>
+                                <div class="control-group">
+                                    <label for="show-commander-only">Show:</label>
+                                    <select id="show-commander-only">
+                                        <option value="all">All Cards</option>
+                                        <option value="commander">Legendary Creatures Only</option>
+                                        <option value="non-commander">Non-Legendary Only</option>
+                                    </select>
+                                </div>
+                                <div class="control-group">
+                                    <button id="clear-filters-btn" class="secondary-button small">Clear Filters</button>
+                                </div>
+                            </div>
+                        </div>
                         <div id="card-pool-scroll" class="scroll-section">
                             <div id="card-pool">
-                                <div class="card-pool-group" id="card-pool-mythic">
-                                    <h4>Mythic Rare</h4>
-                                    <ul class="card-pool-list" id="card-pool-list-mythic"></ul>
-                                </div>
-                                <div class="card-pool-group" id="card-pool-rare">
-                                    <h4>Rare</h4>
-                                    <ul class="card-pool-list" id="card-pool-list-rare"></ul>
-                                </div>
-                                <div class="card-pool-group" id="card-pool-uncommon">
-                                    <h4>Uncommon</h4>
-                                    <ul class="card-pool-list" id="card-pool-list-uncommon"></ul>
-                                </div>
-                                <div class="card-pool-group" id="card-pool-common">
-                                    <h4>Common</h4>
-                                    <ul class="card-pool-list" id="card-pool-list-common"></ul>
-                                </div>
+                                <ul class="card-pool-list" id="card-pool-list-all"></ul>
                             </div>
                         </div>
                     </div>
@@ -199,6 +238,15 @@
             common: {}
         };
         let cardDataMap = {};
+
+        // Filter and sort state
+        let filterState = {
+            sortBy: 'name',
+            rarityFilter: 'all',
+            typeFilter: 'all',
+            searchQuery: '',
+            showCommanderOnly: 'all'
+        };
 
         // Helper: get symbology data
         function getSymbologyData() {
@@ -699,12 +747,6 @@
 
         // Move renderCardPool to top-level scope
         function renderCardPool() {
-            const rarityMap = {
-                mythic: 'card-pool-list-mythic',
-                rare: 'card-pool-list-rare',
-                uncommon: 'card-pool-list-uncommon',
-                common: 'card-pool-list-common'
-            };
             // Count cards in deck by name
             const deckCounts = {};
             commanderDeck.cards.forEach(card => {
@@ -712,14 +754,17 @@
             });
             // Exclude commander from add-to-deck
             const commanderName = commanderDeck.commander ? commanderDeck.commander.name : null;
-            Object.keys(rarityMap).forEach(rarity => {
-                const ul = document.getElementById(rarityMap[rarity]);
-                ul.innerHTML = '';
+
+            // Get the single card pool list
+            const ul = document.getElementById('card-pool-list-all');
+            ul.innerHTML = '';
+
+            // Collect all cards from all rarities into a single array
+            const allCards = [];
+            Object.keys(cardPool).forEach(rarity => {
                 const cards = cardPool[rarity];
                 const sortedNames = Object.keys(cards).sort();
 
-                // Filter out cards that shouldn't be shown
-                const visibleCards = [];
                 sortedNames.forEach(name => {
                     const count = cards[name];
                     const cardData = cardDataMap[name];
@@ -730,69 +775,117 @@
                     // Skip rendering if this card is the commander
                     if (commanderName && cardData.name === commanderName) return;
 
-                    visibleCards.push({ name, count, cardData, available });
+                    allCards.push({ name, count, cardData, available, rarity });
                 });
+            });
 
-                // Only show rarity section if there are visible cards
-                if (visibleCards.length === 0) {
-                    const rarityGroup = ul.closest('.card-pool-group');
-                    if (rarityGroup) {
-                        rarityGroup.style.display = 'none';
-                    }
-                    return;
-                } else {
-                    const rarityGroup = ul.closest('.card-pool-group');
-                    if (rarityGroup) {
-                        rarityGroup.style.display = 'block';
-                    }
+            // Apply filters
+            let filteredCards = allCards.filter(card => {
+                // Rarity filter
+                if (filterState.rarityFilter !== 'all' && card.rarity !== filterState.rarityFilter) {
+                    return false;
                 }
 
-                visibleCards.forEach(({ name, count, cardData, available }) => {
-                    const li = document.createElement('li');
-                    let cardImageHtml = '';
-                    if (cardData.imageUris) {
-                        if (cardData.imageUris.normal) {
-                            cardImageHtml = `<div class=\"card-image-container\"><img src=\"${cardData.imageUris.normal}\" alt=\"${cardData.name}\" class=\"card-thumbnail\" loading=\"lazy\"></div>`;
-                        } else if (cardData.imageUris.small) {
-                            cardImageHtml = `<div class=\"card-image-container\"><img src=\"${cardData.imageUris.small}\" alt=\"${cardData.name}\" class=\"card-thumbnail\" loading=\"lazy\"></div>`;
-                        }
+                // Type filter
+                if (filterState.typeFilter !== 'all') {
+                    const typeLine = card.cardData.typeLine || '';
+                    if (filterState.typeFilter === 'creature' && !typeLine.includes('Creature')) return false;
+                    if (filterState.typeFilter === 'instant' && !typeLine.includes('Instant')) return false;
+                    if (filterState.typeFilter === 'sorcery' && !typeLine.includes('Sorcery')) return false;
+                    if (filterState.typeFilter === 'enchantment' && !typeLine.includes('Enchantment')) return false;
+                    if (filterState.typeFilter === 'artifact' && !typeLine.includes('Artifact')) return false;
+                    if (filterState.typeFilter === 'planeswalker' && !typeLine.includes('Planeswalker')) return false;
+                    if (filterState.typeFilter === 'land' && !typeLine.includes('Land')) return false;
+                }
+
+                // Search filter
+                if (filterState.searchQuery && !card.name.toLowerCase().includes(filterState.searchQuery.toLowerCase())) {
+                    return false;
+                }
+
+                // Commander filter
+                if (filterState.showCommanderOnly === 'commander' && !isLegendaryCreature(card.cardData)) {
+                    return false;
+                }
+                if (filterState.showCommanderOnly === 'non-commander' && isLegendaryCreature(card.cardData)) {
+                    return false;
+                }
+
+                return true;
+            });
+
+            // Apply sorting
+            filteredCards.sort((a, b) => {
+                switch (filterState.sortBy) {
+                    case 'name':
+                        return a.name.localeCompare(b.name);
+                    case 'name-desc':
+                        return b.name.localeCompare(a.name);
+                    case 'rarity':
+                        const rarityOrder = { mythic: 0, rare: 1, uncommon: 2, common: 3 };
+                        const rarityDiff = rarityOrder[a.rarity] - rarityOrder[b.rarity];
+                        return rarityDiff !== 0 ? rarityDiff : a.name.localeCompare(b.name);
+                    case 'type':
+                        const aType = a.cardData.typeLine || '';
+                        const bType = b.cardData.typeLine || '';
+                        const typeDiff = aType.localeCompare(bType);
+                        return typeDiff !== 0 ? typeDiff : a.name.localeCompare(b.name);
+                    case 'cmc':
+                        const aCmc = a.cardData.cmc || 0;
+                        const bCmc = b.cardData.cmc || 0;
+                        const cmcDiff = aCmc - bCmc;
+                        return cmcDiff !== 0 ? cmcDiff : a.name.localeCompare(b.name);
+                    default:
+                        return a.name.localeCompare(b.name);
+                }
+            });
+
+            // Render all cards in the single list
+            filteredCards.forEach(({ name, count, cardData, available, rarity }) => {
+                const li = document.createElement('li');
+                let cardImageHtml = '';
+                if (cardData.imageUris) {
+                    if (cardData.imageUris.normal) {
+                        cardImageHtml = `<div class=\"card-image-container\"><img src=\"${cardData.imageUris.normal}\" alt=\"${cardData.name}\" class=\"card-thumbnail\" loading=\"lazy\"></div>`;
+                    } else if (cardData.imageUris.small) {
+                        cardImageHtml = `<div class=\"card-image-container\"><img src=\"${cardData.imageUris.small}\" alt=\"${cardData.name}\" class=\"card-thumbnail\" loading=\"lazy\"></div>`;
                     }
-                    if (!cardImageHtml) {
-                        cardImageHtml = `<div class='card-fallback-text'><strong>${cardData.name}</strong><br><span>${cardData.typeLine||''}</span></div>`;
-                    }
-                    let actionIcons = '';
-                    // Always include commander button position (top)
-                    if (isLegendaryCreature(cardData)) {
-                        actionIcons += `<button class=\"icon-btn set-commander-btn\" data-card-name=\"${cardData.name.replace(/\"/g, '&quot;')}\" aria-label=\"Set as Commander\"><span class=\"icon crown\"></span></button>`;
+                }
+                if (!cardImageHtml) {
+                    cardImageHtml = `<div class='card-fallback-text'><strong>${cardData.name}</strong><br><span>${cardData.typeLine||''}</span></div>`;
+                }
+                let actionIcons = '';
+                // Always include commander button position (top)
+                if (isLegendaryCreature(cardData)) {
+                    actionIcons += `<button class=\"icon-btn set-commander-btn\" data-card-name=\"${cardData.name.replace(/\"/g, '&quot;')}\" aria-label=\"Set as Commander\"><span class=\"icon crown\"></span></button>`;
+                } else {
+                    actionIcons += `<div class=\"icon-btn-placeholder\"></div>`;
+                }
+                // Always include add to deck button position (bottom)
+                if (!isLegendaryCreature(cardData) || cardData.name !== commanderName) {
+                    const inDeck = deckCounts[cardData.name] || 0;
+                    if (count > inDeck) {
+                        actionIcons += `<button class=\"icon-btn add-to-deck-btn\" data-card-name=\"${cardData.name.replace(/\"/g, '&quot;')}\" aria-label=\"Add to Deck\"><span class=\"icon plus\"></span></button>`;
                     } else {
                         actionIcons += `<div class=\"icon-btn-placeholder\"></div>`;
                     }
-                    // Always include add to deck button position (bottom)
-                    if (!isLegendaryCreature(cardData) || cardData.name !== commanderName) {
-                        const inDeck = deckCounts[cardData.name] || 0;
-                        if (count > inDeck) {
-                            actionIcons += `<button class=\"icon-btn add-to-deck-btn\" data-card-name=\"${cardData.name.replace(/\"/g, '&quot;')}\" aria-label=\"Add to Deck\"><span class=\"icon plus\"></span></button>`;
-                        } else {
-                            actionIcons += `<div class=\"icon-btn-placeholder\"></div>`;
-                        }
-                    } else {
-                        actionIcons += `<div class=\"icon-btn-placeholder\"></div>`;
-                    }
-                    let countBadge = '';
-                    if (available >= 2) {
-                        countBadge = `<span class=\"card-count-badge\">${available}</span>`;
-                    }
-                    li.innerHTML = `
-                        <div class=\"card-pool-item\">
-                            <div class=\"card-image-action-container\" data-card-name=\"${cardData.name.replace(/\"/g, '&quot;')}\">
-                                ${cardImageHtml}
-                                ${countBadge}
-                                <div class=\"card-action-icons\">${actionIcons}</div>
-                            </div>
+                } else {
+                    actionIcons += `<div class=\"icon-btn-placeholder\"></div>`;
+                }
+                let countBadge = '';
+                if (available >= 2) {
+                    countBadge = `<span class=\"card-count-badge\">${available}</span>`;
+                }
+                li.innerHTML = `
+                    <div class=\"card-pool-item\">
+                        <div class=\"card-image-action-container\" data-card-name=\"${cardData.name.replace(/\"/g, '&quot;')}\">
+                            ${cardImageHtml}
+                            ${countBadge}
+                            <div class=\"card-action-icons\">${actionIcons}</div>
                         </div>
-                    `;
-                    ul.appendChild(li);
-                });
+                    </div>
+                `;
+                ul.appendChild(li);
             });
             // Add event listeners for commander buttons
             document.querySelectorAll('.set-commander-btn').forEach(btn => {
@@ -918,11 +1011,6 @@
 
         // Event listeners
         document.addEventListener('DOMContentLoaded', function() {
-            // Hide card pool sections initially
-            const rarityGroups = document.querySelectorAll('#card-pool .card-pool-group');
-            rarityGroups.forEach(group => {
-                group.style.display = 'none';
-            });
 
             // Fetch symbology data on page load
             scryfallAPI.fetchSymbology().then((data) => {
@@ -945,6 +1033,52 @@
             // Booster type selection change
             document.getElementById('booster-type').disabled = true;
             document.getElementById('booster-type').addEventListener('change', updateBoxSize);
+
+            // Card pool control event listeners
+            document.getElementById('sort-select').addEventListener('change', function() {
+                filterState.sortBy = this.value;
+                renderCardPool();
+            });
+
+            document.getElementById('filter-rarity').addEventListener('change', function() {
+                filterState.rarityFilter = this.value;
+                renderCardPool();
+            });
+
+            document.getElementById('filter-type').addEventListener('change', function() {
+                filterState.typeFilter = this.value;
+                renderCardPool();
+            });
+
+            document.getElementById('search-input').addEventListener('input', function() {
+                filterState.searchQuery = this.value;
+                renderCardPool();
+            });
+
+            document.getElementById('show-commander-only').addEventListener('change', function() {
+                filterState.showCommanderOnly = this.value;
+                renderCardPool();
+            });
+
+            document.getElementById('clear-filters-btn').addEventListener('click', function() {
+                // Reset all filters
+                filterState = {
+                    sortBy: 'name',
+                    rarityFilter: 'all',
+                    typeFilter: 'all',
+                    searchQuery: '',
+                    showCommanderOnly: 'all'
+                };
+
+                // Reset UI elements
+                document.getElementById('sort-select').value = 'name';
+                document.getElementById('filter-rarity').value = 'all';
+                document.getElementById('filter-type').value = 'all';
+                document.getElementById('search-input').value = '';
+                document.getElementById('show-commander-only').value = 'all';
+
+                renderCardPool();
+            });
 
             // Clear cache function (available for development purposes)
             // To clear cache programmatically, call: clearAllCache();

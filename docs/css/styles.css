@@ -40,8 +40,6 @@ header h2 {
     margin-bottom: 20px;
 }
 
-
-
 .github-icon {
     width: 20px;
     height: 20px;
@@ -129,6 +127,7 @@ main {
     min-width: 200px;
 }
 
+/* Form elements */
 label {
     display: block;
     margin-bottom: 8px;
@@ -136,7 +135,7 @@ label {
     color: #555;
 }
 
-select, input[type="number"] {
+select, input[type="number"], input[type="text"] {
     width: 100%;
     padding: 12px;
     border: 2px solid #ddd;
@@ -146,7 +145,7 @@ select, input[type="number"] {
     transition: border-color 0.3s ease;
 }
 
-select:focus, input[type="number"]:focus, #deck-export-text:focus {
+select:focus, input[type="number"]:focus, input[type="text"]:focus, #deck-export-text:focus {
     outline: none;
     border-color: #667eea;
 }
@@ -303,11 +302,60 @@ select:focus, input[type="number"]:focus, #deck-export-text:focus {
 }
 
 /* Card pool styles */
-#card-pool {
+/* Card Pool Controls */
+.card-pool-controls {
+    background: #f8f9fa;
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 20px;
+}
+
+.control-row {
     display: flex;
     flex-wrap: wrap;
-    gap: 1.5em;
-    margin-bottom: 2em;
+    gap: 15px;
+    align-items: end;
+    margin-bottom: 10px;
+}
+
+.control-row:last-child {
+    margin-bottom: 0;
+}
+
+.control-group {
+    display: flex;
+    flex-direction: column;
+    min-width: 120px;
+    flex: 1;
+}
+
+.control-group.search-group {
+    flex: 2;
+    min-width: 200px;
+}
+
+/* Control group specific overrides */
+.control-group label {
+    font-size: 0.9em;
+    color: #495057;
+    margin-bottom: 5px;
+}
+
+.control-group select,
+.control-group input[type="text"] {
+    padding: 8px 12px;
+    border: 1px solid #ced4da;
+    border-radius: 6px;
+    font-size: 14px;
+}
+
+.control-group select:focus,
+.control-group input[type="text"]:focus {
+    box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.1);
+}
+
+#card-pool {
     width: 100%;
 }
 
@@ -361,7 +409,7 @@ select:focus, input[type="number"]:focus, #deck-export-text:focus {
     gap: 0.2em;
 }
 
-/* Commander deck specific styles */
+/* Commander deck specific overrides */
 #commander-deck .card-pool-group {
     background: none;
     box-shadow: none;
@@ -373,15 +421,8 @@ select:focus, input[type="number"]:focus, #deck-export-text:focus {
 #commander-deck .card-pool-group h4 {
     margin-bottom: 0.4em;
     font-size: 0.95em;
-    font-weight: 600;
     color: #333;
     letter-spacing: 0.01em;
-}
-
-#commander-deck .card-pool-list {
-    background: none;
-    box-shadow: none;
-    padding: 0;
 }
 
 /* Deck panel styles */
@@ -880,20 +921,8 @@ select:focus, input[type="number"]:focus, #deck-export-text:focus {
         gap: 3em;
     }
 
-    .card-pool-group {
-        flex: 1 1 400px;
-        min-width: 350px;
-    }
-
     #card-pool-section, #commander-deck-section, #booster-display {
         padding: 2em;
-    }
-}
-
-@media (min-width: 1800px) {
-    .card-pool-group {
-        flex: 1 1 500px;
-        min-width: 450px;
     }
 }
 
@@ -914,6 +943,19 @@ select:focus, input[type="number"]:focus, #deck-export-text:focus {
     #controls {
         flex-direction: column;
         align-items: stretch;
+    }
+
+    .card-pool-controls {
+        padding: 10px;
+    }
+
+    .control-row {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .control-group {
+        min-width: 0;
     }
 
     #card-pool-and-deck-wrapper {
