@@ -306,29 +306,76 @@ select:disabled, input[type="number"]:disabled, input[type="text"]:disabled {
 
 #boosters-section {
     flex: 0 0 auto;
-    margin-top: 2em;
+    margin-top: 1em;
+    background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+    border: 1px solid #e9ecef;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
 }
 
-/* Booster display */
-#booster-display:empty {
-    min-height: 60px;
+.boosters-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 20px;
+    background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+    color: white;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.boosters-header h4 {
+    margin: 0;
+    font-size: 1.1em;
+    font-weight: 600;
+    color: white;
+}
+
+.toggle-boosters-btn {
     display: flex;
     align-items: center;
     justify-content: center;
-    background: #f8f9fa;
-    border: 2px dashed #dee2e6;
-    border-radius: 8px;
-    margin: 1em 0;
+    background: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: white;
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    padding: 0;
 }
 
-#booster-display:empty::before {
-    content: "Select a set and click 'Open Booster' to start!";
-    color: #999;
-    font-style: italic;
-    text-align: center;
-    width: 100%;
-    padding: 1em;
+.toggle-boosters-btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+    border-color: rgba(255, 255, 255, 0.4);
+    transform: scale(1.05);
 }
+
+.toggle-boosters-icon {
+    font-size: 1.1em;
+    font-weight: bold;
+    transition: transform 0.2s ease;
+}
+
+.boosters-content {
+    transition: all 0.3s ease;
+    overflow: hidden;
+}
+
+.boosters-content.collapsed {
+    max-height: 0;
+    padding: 0 20px;
+    display: none;
+}
+
+.boosters-content:not(.collapsed) {
+    padding: 20px;
+}
+
+
+
+
 
 /* Booster panel styles */
 .booster-panel {

@@ -210,8 +210,13 @@
                 </div>
 
                 <div id="boosters-section">
-                    <h3>Boosters</h3>
-                    <div id="booster-display"></div>
+                    <div class="boosters-header">
+                        <h4>Boosters</h4>
+                        <button id="toggle-boosters-btn" class="toggle-boosters-btn" title="Expand boosters">
+                            <span class="toggle-boosters-icon">▶</span>
+                        </button>
+                    </div>
+                    <div id="booster-display" class="boosters-content collapsed"></div>
                 </div>
             </section>
         </main>
@@ -1306,6 +1311,26 @@
             // Set initial compact state
             document.querySelector('.filter-section-header').classList.add('compact');
 
+            // Toggle boosters panel
+            document.getElementById('toggle-boosters-btn').addEventListener('click', function() {
+                const boostersContent = document.getElementById('booster-display');
+                const toggleIcon = this.querySelector('.toggle-boosters-icon');
+                const isCollapsed = boostersContent.classList.contains('collapsed');
+
+                if (isCollapsed) {
+                    boostersContent.classList.remove('collapsed');
+                    toggleIcon.textContent = '▼';
+                    this.setAttribute('title', 'Collapse boosters');
+                } else {
+                    boostersContent.classList.add('collapsed');
+                    toggleIcon.textContent = '▶';
+                    this.setAttribute('title', 'Expand boosters');
+                }
+            });
+
+            // Set initial tooltip for collapsed state
+            document.getElementById('toggle-boosters-btn').setAttribute('title', 'Expand boosters');
+
             // Helper function to update active filters indicator
             function updateActiveFiltersIndicator() {
                 const indicator = document.getElementById('active-filters-indicator');
@@ -1577,13 +1602,13 @@
                         let cardImageHtml = '';
                         if (card && card.imageUris) {
                             if (card.imageUris.normal) {
-                                cardImageHtml = `<div class="card-image-container"><img src="${card.imageUris.normal}" alt="${card.name}" class="card-thumbnail" loading="lazy"></div>`;
+                                cardImageHtml = `<div class="card-image-container"><img src="${card.imageUris.normal}" alt="${card.name}" class="card-thumbnail" loading="lazy" onclick="showCardViewOverlay('${card.name.replace(/'/g, "\\'")}')" style="cursor: pointer;"></div>`;
                             } else if (card.imageUris.small) {
-                                cardImageHtml = `<div class="card-image-container"><img src="${card.imageUris.small}" alt="${card.name}" class="card-thumbnail" loading="lazy"></div>`;
+                                cardImageHtml = `<div class="card-image-container"><img src="${card.imageUris.small}" alt="${card.name}" class="card-thumbnail" loading="lazy" onclick="showCardViewOverlay('${card.name.replace(/'/g, "\\'")}')" style="cursor: pointer;"></div>`;
                             }
                         }
                         if (!cardImageHtml && card) {
-                            cardImageHtml = `<div class='card-fallback-text'><strong>${card.name}</strong><br><span>${card.typeLine||''}</span></div>`;
+                            cardImageHtml = `<div class='card-fallback-text' onclick="showCardViewOverlay('${card.name.replace(/'/g, "\\'")}')" style="cursor: pointer;"><strong>${card.name}</strong><br><span>${card.typeLine||''}</span></div>`;
                         }
                         slotResults += `
                             <details class="booster-panel">
