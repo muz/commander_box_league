@@ -44,56 +44,118 @@
                     <div id="card-pool-section">
                         <h3>Card Pool</h3>
                         <div class="card-pool-controls">
-                            <div class="control-row">
-                                <div class="control-group">
-                                    <label for="sort-select">Sort by:</label>
-                                    <select id="sort-select">
-                                        <option value="name">Name (A-Z)</option>
-                                        <option value="name-desc">Name (Z-A)</option>
-                                        <option value="rarity">Rarity</option>
-                                        <option value="type">Type</option>
-                                        <option value="cmc">Mana Cost</option>
-                                    </select>
+                            <div class="filter-section">
+                                <div class="filter-section-header">
+                                    <div class="filter-header-left">
+                                        <button id="toggle-filters-btn" class="toggle-filters-btn">
+                                            <span class="toggle-icon">▶</span>
+                                        </button>
+                                        <h4>Filters</h4>
+                                        <span id="active-filters-indicator" class="active-filters-indicator" style="display: none;">
+                                            <span class="indicator-dot"></span>
+                                            Active
+                                        </span>
+                                    </div>
+                                    <button id="clear-filters-btn" class="clear-filters-btn">
+                                        <span class="clear-icon">×</span>
+                                        Clear All
+                                    </button>
                                 </div>
-                                <div class="control-group">
-                                    <label for="filter-rarity">Rarity:</label>
-                                    <select id="filter-rarity">
-                                        <option value="all">All Rarities</option>
-                                        <option value="mythic">Mythic Rare</option>
-                                        <option value="rare">Rare</option>
-                                        <option value="uncommon">Uncommon</option>
-                                        <option value="common">Common</option>
-                                    </select>
-                                </div>
-                                <div class="control-group">
-                                    <label for="filter-type">Type:</label>
-                                    <select id="filter-type">
-                                        <option value="all">All Types</option>
-                                        <option value="creature">Creature</option>
-                                        <option value="instant">Instant</option>
-                                        <option value="sorcery">Sorcery</option>
-                                        <option value="enchantment">Enchantment</option>
-                                        <option value="artifact">Artifact</option>
-                                        <option value="planeswalker">Planeswalker</option>
-                                        <option value="land">Land</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="control-row">
-                                <div class="control-group search-group">
-                                    <label for="search-input">Search:</label>
-                                    <input type="text" id="search-input" placeholder="Search cards by name...">
-                                </div>
-                                <div class="control-group">
-                                    <label for="show-commander-only">Show:</label>
-                                    <select id="show-commander-only">
-                                        <option value="all">All Cards</option>
-                                        <option value="commander">Legendary Creatures Only</option>
-                                        <option value="non-commander">Non-Legendary Only</option>
-                                    </select>
-                                </div>
-                                <div class="control-group">
-                                    <button id="clear-filters-btn" class="secondary-button small">Clear Filters</button>
+
+                                <div class="filter-grid collapsed" id="filter-grid">
+                                    <div class="filter-group">
+                                        <label for="search-input" class="filter-label">
+                                            <span class="filter-icon">🔍</span>
+                                            Search
+                                        </label>
+                                        <input type="text" id="search-input" placeholder="Search cards by name..." class="search-input">
+                                    </div>
+
+                                    <div class="filter-group">
+                                        <label for="sort-select" class="filter-label">
+                                            <span class="filter-icon">↕️</span>
+                                            Sort By
+                                        </label>
+                                        <select id="sort-select" class="filter-select">
+                                            <option value="name">Name (A-Z)</option>
+                                            <option value="name-desc">Name (Z-A)</option>
+                                            <option value="rarity">Rarity</option>
+                                            <option value="type">Type</option>
+                                            <option value="cmc">Mana Cost</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="filter-group">
+                                        <label for="filter-rarity" class="filter-label">
+                                            <span class="filter-icon">⭐</span>
+                                            Rarity
+                                        </label>
+                                        <select id="filter-rarity" class="filter-select">
+                                            <option value="all">All Rarities</option>
+                                            <option value="mythic">Mythic Rare</option>
+                                            <option value="rare">Rare</option>
+                                            <option value="uncommon">Uncommon</option>
+                                            <option value="common">Common</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="filter-group">
+                                        <label for="filter-type" class="filter-label">
+                                            <span class="filter-icon">🏷️</span>
+                                            Type
+                                        </label>
+                                        <select id="filter-type" class="filter-select">
+                                            <option value="all">All Types</option>
+                                            <option value="creature">Creature</option>
+                                            <option value="instant">Instant</option>
+                                            <option value="sorcery">Sorcery</option>
+                                            <option value="enchantment">Enchantment</option>
+                                            <option value="artifact">Artifact</option>
+                                            <option value="planeswalker">Planeswalker</option>
+                                            <option value="land">Land</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="filter-group color-filter-group">
+                                        <label class="filter-label">
+                                            <span class="filter-icon">🎨</span>
+                                            Colors
+                                        </label>
+                                        <div class="color-filter-options">
+                                            <label class="color-checkbox">
+                                                <input type="checkbox" id="filter-color-w" value="W">
+                                                <span class="color-symbol" id="color-symbol-w"></span>
+                                            </label>
+                                            <label class="color-checkbox">
+                                                <input type="checkbox" id="filter-color-u" value="U">
+                                                <span class="color-symbol" id="color-symbol-u"></span>
+                                            </label>
+                                            <label class="color-checkbox">
+                                                <input type="checkbox" id="filter-color-b" value="B">
+                                                <span class="color-symbol" id="color-symbol-b"></span>
+                                            </label>
+                                            <label class="color-checkbox">
+                                                <input type="checkbox" id="filter-color-r" value="R">
+                                                <span class="color-symbol" id="color-symbol-r"></span>
+                                            </label>
+                                            <label class="color-checkbox">
+                                                <input type="checkbox" id="filter-color-g" value="G">
+                                                <span class="color-symbol" id="color-symbol-g"></span>
+                                            </label>
+                                            <label class="color-checkbox">
+                                                <input type="checkbox" id="filter-color-c" value="C">
+                                                <span class="color-symbol" id="color-symbol-c"></span>
+                                            </label>
+                                        </div>
+                                    </div>
+
+                                    <div class="filter-group commander-filter-group">
+                                        <label for="valid-commanders-only" class="filter-label commander-label">
+                                            <span class="filter-icon">👑</span>
+                                            <span class="commander-text">Commanders Only</span>
+                                            <input type="checkbox" id="valid-commanders-only" class="commander-checkbox">
+                                        </label>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -101,6 +163,9 @@
                             <div id="card-pool">
                                 <ul class="card-pool-list" id="card-pool-list-all"></ul>
                             </div>
+                        </div>
+                        <div id="card-pool-summary" class="card-pool-summary">
+                            <span id="card-count-display">0 cards</span>
                         </div>
                     </div>
                     <div id="commander-deck-section">
@@ -245,7 +310,8 @@
             rarityFilter: 'all',
             typeFilter: 'all',
             searchQuery: '',
-            showCommanderOnly: 'all'
+            validCommandersOnly: false,
+            colorFilter: []
         };
 
         // Helper: get symbology data
@@ -262,18 +328,27 @@
             return symbolData ? symbolData.svg_uri : null;
         }
 
+        // Helper: create mana symbol HTML with configurable size
+        function createManaSymbolHtml(symbol, size = 16, fallbackText = null) {
+            const svgUri = getManaSymbolSvgUri(symbol);
+
+            if (svgUri) {
+                return `<img src="${svgUri}" alt="${symbol}" width="${size}" height="${size}" style="display: block;">`;
+            } else {
+                // Fallback to text if SVG is not available
+                return fallbackText || symbol;
+            }
+        }
+
         // Helper: replace symbols in text with their SVG equivalents
         function replaceSymbolsInText(text) {
             if (!text) return '';
 
-            const symbology = getSymbologyData();
-            if (!symbology || !symbology.data) return text;
-
             // Replace symbols wrapped in curly braces with their SVG equivalents
             return text.replace(/\{([^}]+)\}/g, (match, symbol) => {
-                const symbolData = symbology.data.find(s => s.symbol === `{${symbol}}`);
-                if (symbolData && symbolData.svg_uri) {
-                    return `<img src="${symbolData.svg_uri}" alt="${symbol}" style="width: 16px; height: 16px; vertical-align: middle;">`;
+                const symbolHtml = createManaSymbolHtml(`{${symbol}}`, 16);
+                if (symbolHtml !== `{${symbol}}`) {
+                    return `<span style="vertical-align: middle;">${symbolHtml}</span>`;
                 }
                 return match; // Return original if symbol not found
             });
@@ -282,6 +357,68 @@
         // Helper: check if a card is a Legendary Creature
         function isLegendaryCreature(card) {
             return card && card.typeLine && card.typeLine.includes('Legendary Creature');
+        }
+
+        // Helper: get color identity for sorting (WUBRG order)
+        function getColorIdentity(card) {
+            if (!card || !card.colorIdentity || card.colorIdentity.length === 0) {
+                return 'C'; // Colorless
+            }
+
+            // WUBRG order: White, Blue, Black, Red, Green
+            const colorOrder = ['W', 'U', 'B', 'R', 'G'];
+
+            // Sort the card's colors according to WUBRG order
+            const sortedColors = card.colorIdentity
+                .filter(color => colorOrder.includes(color))
+                .sort((a, b) => colorOrder.indexOf(a) - colorOrder.indexOf(b));
+
+            return sortedColors.join('');
+        }
+
+                // Helper: get color identity sort value for WUBRG ordering
+        function getColorIdentitySortValue(card) {
+            const colorIdentity = getColorIdentity(card);
+
+            if (colorIdentity === 'C') {
+                return 999; // Colorless cards come last
+            }
+
+            // For colored cards, create a sort value based on WUBRG order
+            // Single colors get lower values, multi-colors get higher values
+            const colorOrder = ['W', 'U', 'B', 'R', 'G'];
+            let sortValue = 0;
+
+            for (let i = 0; i < colorIdentity.length; i++) {
+                const color = colorIdentity[i];
+                const colorIndex = colorOrder.indexOf(color);
+                sortValue += colorIndex * Math.pow(10, colorIdentity.length - 1 - i);
+            }
+
+            // Add a base value based on number of colors to ensure single colors come before multi-colors
+            sortValue += (colorIdentity.length - 1) * 1000;
+
+            return sortValue;
+        }
+
+        // Helper: populate color filter symbols with Scryfall mana symbols
+        function populateColorFilterSymbols() {
+            const colorSymbols = {
+                'W': '{W}',
+                'U': '{U}',
+                'B': '{B}',
+                'R': '{R}',
+                'G': '{G}',
+                'C': '{C}'
+            };
+
+            Object.keys(colorSymbols).forEach(color => {
+                const symbolElement = document.getElementById(`color-symbol-${color.toLowerCase()}`);
+                if (!symbolElement) return;
+
+                const symbolText = colorSymbols[color];
+                symbolElement.innerHTML = createManaSymbolHtml(symbolText, 20);
+            });
         }
 
         // Update card pool title with set name and image
@@ -798,16 +935,34 @@
                     if (filterState.typeFilter === 'land' && !typeLine.includes('Land')) return false;
                 }
 
+                // Color filter
+                if (filterState.colorFilter.length > 0) {
+                    const cardColors = card.cardData.colorIdentity || [];
+                    const isColorless = cardColors.length === 0;
+
+                    // Check if card matches any of the selected colors
+                    let matches = false;
+
+                    for (const selectedColor of filterState.colorFilter) {
+                        if (selectedColor === 'C' && isColorless) {
+                            matches = true;
+                            break;
+                        } else if (cardColors.includes(selectedColor)) {
+                            matches = true;
+                            break;
+                        }
+                    }
+
+                    if (!matches) return false;
+                }
+
                 // Search filter
                 if (filterState.searchQuery && !card.name.toLowerCase().includes(filterState.searchQuery.toLowerCase())) {
                     return false;
                 }
 
                 // Commander filter
-                if (filterState.showCommanderOnly === 'commander' && !isLegendaryCreature(card.cardData)) {
-                    return false;
-                }
-                if (filterState.showCommanderOnly === 'non-commander' && isLegendaryCreature(card.cardData)) {
+                if (filterState.validCommandersOnly && !isLegendaryCreature(card.cardData)) {
                     return false;
                 }
 
@@ -834,11 +989,23 @@
                         const aCmc = a.cardData.cmc || 0;
                         const bCmc = b.cardData.cmc || 0;
                         const cmcDiff = aCmc - bCmc;
-                        return cmcDiff !== 0 ? cmcDiff : a.name.localeCompare(b.name);
+                        if (cmcDiff !== 0) {
+                            return cmcDiff;
+                        }
+                        // If CMC is the same, sort by color identity (WUBRG order)
+                        const aColorSort = getColorIdentitySortValue(a.cardData);
+                        const bColorSort = getColorIdentitySortValue(b.cardData);
+                        const colorDiff = aColorSort - bColorSort;
+                        return colorDiff !== 0 ? colorDiff : a.name.localeCompare(b.name);
                     default:
                         return a.name.localeCompare(b.name);
                 }
             });
+
+            // Update card count display
+            const cardCountDisplay = document.getElementById('card-count-display');
+            const cardCount = filteredCards.length;
+            cardCountDisplay.textContent = `${cardCount} card${cardCount !== 1 ? 's' : ''}`;
 
             // Render all cards in the single list
             filteredCards.forEach(({ name, count, cardData, available, rarity }) => {
@@ -960,23 +1127,13 @@
             Object.keys(commanderDeck.basicLands).forEach(landType => {
                 const count = commanderDeck.basicLands[landType];
                 const symbol = landToSymbol[landType];
-                const svgUri = getManaSymbolSvgUri(symbol);
+                const symbolHtml = createManaSymbolHtml(symbol, 28);
 
-                let symbolButton = '';
-                if (svgUri) {
-                    symbolButton = `<button class="quick-add-btn quick-add-btn-${landType.toLowerCase()}" data-land="${landType}" title="${landType}">
-                        <span class="mana-symbol mana-${symbol.charAt(1).toLowerCase()}">
-                            <img src="${svgUri}" alt="${symbol}" width="28" height="28" style="display: block;">
-                        </span>
-                    </button>`;
-                } else {
-                    // Fallback to text if SVG is not available
-                    symbolButton = `<button class="quick-add-btn quick-add-btn-${landType.toLowerCase()}" data-land="${landType}" title="${landType}">
-                        <span class="mana-symbol mana-${symbol.charAt(1).toLowerCase()}">
-                            ${symbol}
-                        </span>
-                    </button>`;
-                }
+                const symbolButton = `<button class="quick-add-btn quick-add-btn-${landType.toLowerCase()}" data-land="${landType}" title="${landType}">
+                    <span class="mana-symbol mana-${symbol.charAt(1).toLowerCase()}">
+                        ${symbolHtml}
+                    </span>
+                </button>`;
                 const li = document.createElement('li');
                 li.innerHTML = `
                     <div class="basic-land-item" style="display: flex; align-items: center; gap: 1em;">
@@ -1016,6 +1173,8 @@
             scryfallAPI.fetchSymbology().then((data) => {
                 symbologyData = data;
                 console.log('Symbology data loaded and cached');
+                // Populate color filter symbols with mana symbols
+                populateColorFilterSymbols();
                 // Render commander deck after symbology data is loaded
                 renderCommanderDeck();
             }).catch(error => {
@@ -1038,27 +1197,92 @@
             document.getElementById('sort-select').addEventListener('change', function() {
                 filterState.sortBy = this.value;
                 renderCardPool();
+                updateActiveFiltersIndicator();
             });
 
             document.getElementById('filter-rarity').addEventListener('change', function() {
                 filterState.rarityFilter = this.value;
                 renderCardPool();
+                updateActiveFiltersIndicator();
             });
 
             document.getElementById('filter-type').addEventListener('change', function() {
                 filterState.typeFilter = this.value;
                 renderCardPool();
+                updateActiveFiltersIndicator();
             });
 
             document.getElementById('search-input').addEventListener('input', function() {
                 filterState.searchQuery = this.value;
                 renderCardPool();
+                updateActiveFiltersIndicator();
             });
 
-            document.getElementById('show-commander-only').addEventListener('change', function() {
-                filterState.showCommanderOnly = this.value;
+            document.getElementById('valid-commanders-only').addEventListener('change', function() {
+                filterState.validCommandersOnly = this.checked;
                 renderCardPool();
+                updateActiveFiltersIndicator();
             });
+
+            // Color filter event listeners
+            const colorCheckboxes = ['w', 'u', 'b', 'r', 'g', 'c'];
+            colorCheckboxes.forEach(color => {
+                document.getElementById(`filter-color-${color}`).addEventListener('change', function() {
+                    updateColorFilter();
+                    renderCardPool();
+                    updateActiveFiltersIndicator();
+                });
+            });
+
+            // Helper function to update color filter state
+            function updateColorFilter() {
+                filterState.colorFilter = [];
+                colorCheckboxes.forEach(color => {
+                    const checkbox = document.getElementById(`filter-color-${color}`);
+                    if (checkbox.checked) {
+                        filterState.colorFilter.push(checkbox.value);
+                    }
+                });
+            }
+
+            // Toggle filters panel
+            document.getElementById('toggle-filters-btn').addEventListener('click', function() {
+                const filterGrid = document.getElementById('filter-grid');
+                const filterHeader = document.querySelector('.filter-section-header');
+                const toggleIcon = this.querySelector('.toggle-icon');
+                const isCollapsed = filterGrid.classList.contains('collapsed');
+
+                if (isCollapsed) {
+                    filterGrid.classList.remove('collapsed');
+                    filterHeader.classList.remove('compact');
+                    toggleIcon.textContent = '▼';
+                    this.setAttribute('title', 'Collapse filters');
+                } else {
+                    filterGrid.classList.add('collapsed');
+                    filterHeader.classList.add('compact');
+                    toggleIcon.textContent = '▶';
+                    this.setAttribute('title', 'Expand filters');
+                }
+            });
+
+            // Set initial tooltip for collapsed state
+            document.getElementById('toggle-filters-btn').setAttribute('title', 'Expand filters');
+
+            // Set initial compact state
+            document.querySelector('.filter-section-header').classList.add('compact');
+
+            // Helper function to update active filters indicator
+            function updateActiveFiltersIndicator() {
+                const indicator = document.getElementById('active-filters-indicator');
+                const hasActiveFilters =
+                    filterState.rarityFilter !== 'all' ||
+                    filterState.typeFilter !== 'all' ||
+                    filterState.searchQuery !== '' ||
+                    filterState.validCommandersOnly ||
+                    filterState.colorFilter.length > 0;
+
+                indicator.style.display = hasActiveFilters ? 'flex' : 'none';
+            }
 
             document.getElementById('clear-filters-btn').addEventListener('click', function() {
                 // Reset all filters
@@ -1067,7 +1291,8 @@
                     rarityFilter: 'all',
                     typeFilter: 'all',
                     searchQuery: '',
-                    showCommanderOnly: 'all'
+                    validCommandersOnly: false,
+                    colorFilter: []
                 };
 
                 // Reset UI elements
@@ -1075,9 +1300,15 @@
                 document.getElementById('filter-rarity').value = 'all';
                 document.getElementById('filter-type').value = 'all';
                 document.getElementById('search-input').value = '';
-                document.getElementById('show-commander-only').value = 'all';
+                document.getElementById('valid-commanders-only').checked = false;
+
+                // Reset color checkboxes
+                colorCheckboxes.forEach(color => {
+                    document.getElementById(`filter-color-${color}`).checked = false;
+                });
 
                 renderCardPool();
+                updateActiveFiltersIndicator();
             });
 
             // Clear cache function (available for development purposes)
