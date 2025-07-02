@@ -178,7 +178,6 @@
                     <div id="commander-deck-section">
                         <h3 style="margin: 0 0 0.5em 0;">Deck</h3>
                         <div class="deck-controls-bar">
-                            <div id="commander-deck-stats" class="deck-stats-pane">0 / 60</div>
                             <div class="deck-controls-buttons">
                                 <button id="clear-deck-btn" class="secondary-button small">Clear Deck</button>
                                 <button id="export-deck-btn" class="secondary-button small">Export to Moxfield</button>
@@ -205,6 +204,9 @@
                                     </div>
                                 </details>
                             </div>
+                        </div>
+                        <div id="deck-summary" class="deck-summary">
+                            <span id="deck-count-display">0 / 60</span>
                         </div>
                     </div>
                 </div>
@@ -566,12 +568,26 @@
 
         // Update the stats pane
         function updateCommanderDeckStats() {
-            const statsPane = document.getElementById('commander-deck-stats');
+            const deckCountDisplay = document.getElementById('deck-count-display');
+            const deckSummary = document.getElementById('deck-summary');
             const commanderCount = commanderDeck.commander ? 1 : 0;
             const deckCount = commanderDeck.cards.length;
             const basicLandsCount = Object.values(commanderDeck.basicLands).reduce((sum, count) => sum + count, 0);
             const totalCount = commanderCount + deckCount + basicLandsCount;
-            statsPane.textContent = `${totalCount} / 60`;
+
+            // Always show "X / 60 Cards" format
+            deckCountDisplay.textContent = `${totalCount} / 60 Cards`;
+
+            // Change background to tasteful red if over 60
+            if (totalCount > 60) {
+                deckSummary.style.background = '#fef2f2';
+                deckSummary.style.borderColor = '#fecaca';
+                deckSummary.style.color = '#dc2626';
+            } else {
+                deckSummary.style.background = '#f8f9fa';
+                deckSummary.style.borderColor = '#e9ecef';
+                deckSummary.style.color = '#6c757d';
+            }
         }
 
                 // Clear the entire deck and return all cards to the pool
