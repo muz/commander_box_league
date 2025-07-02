@@ -132,13 +132,19 @@
                 <button id="close-card-view-overlay" class="close-btn">&times;</button>
             </div>
             <div class="overlay-body">
-                <div id="card-view-image-container" style="text-align: center; margin: 1em 0;">
-                    <img id="card-view-image" src="" alt="" style="max-width: 100%; max-height: 400px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.15);">
-                </div>
-                <div id="card-view-details" style="margin-top: 1em;">
-                    <p id="card-view-name" style="font-weight: 600; font-size: 1.1em; margin-bottom: 0.5em;"></p>
-                    <p id="card-view-type" style="color: #666; margin-bottom: 0.5em;"></p>
-                    <p id="card-view-text" style="white-space: pre-wrap; line-height: 1.5; color: #333;"></p>
+                <div class="card-view-layout">
+                    <div class="card-view-left">
+                        <div id="card-view-image-container">
+                            <img id="card-view-image" src="" alt="">
+                        </div>
+                    </div>
+                    <div class="card-view-right">
+                        <div id="card-view-details">
+                            <p id="card-view-name"></p>
+                            <p id="card-view-type"></p>
+                            <p id="card-view-text"></p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -206,6 +212,23 @@
 
             const symbolData = symbology.data.find(s => s.symbol === symbol);
             return symbolData ? symbolData.svg_uri : null;
+        }
+
+        // Helper: replace symbols in text with their SVG equivalents
+        function replaceSymbolsInText(text) {
+            if (!text) return '';
+
+            const symbology = getSymbologyData();
+            if (!symbology || !symbology.data) return text;
+
+            // Replace symbols wrapped in curly braces with their SVG equivalents
+            return text.replace(/\{([^}]+)\}/g, (match, symbol) => {
+                const symbolData = symbology.data.find(s => s.symbol === `{${symbol}}`);
+                if (symbolData && symbolData.svg_uri) {
+                    return `<img src="${symbolData.svg_uri}" alt="${symbol}" style="width: 16px; height: 16px; vertical-align: middle;">`;
+                }
+                return match; // Return original if symbol not found
+            });
         }
 
         // Helper: check if a card is a Legendary Creature
@@ -490,7 +513,7 @@
             document.getElementById('card-view-title').textContent = found.name;
             document.getElementById('card-view-name').textContent = found.name;
             document.getElementById('card-view-type').textContent = found.typeLine || '';
-            document.getElementById('card-view-text').textContent = found.oracleText || '';
+            document.getElementById('card-view-text').innerHTML = replaceSymbolsInText(found.oracleText || '');
 
             // Set card image
             const cardImage = document.getElementById('card-view-image');

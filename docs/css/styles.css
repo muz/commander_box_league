@@ -785,11 +785,37 @@ select:focus, input[type="number"]:focus, #deck-export-text:focus {
 
 /* Card view overlay specific styles */
 .card-view-content {
-    max-width: 800px;
+    max-width: 1000px;
     width: 95%;
 }
 
+/* Card view 2-column layout */
+.card-view-layout {
+    display: flex;
+    gap: 2em;
+    align-items: flex-start;
+}
+
+.card-view-left {
+    flex: 0 0 auto;
+    min-width: 300px;
+}
+
+.card-view-right {
+    flex: 1;
+    min-width: 0;
+}
+
+#card-view-image-container {
+    text-align: center;
+    margin: 0;
+}
+
 #card-view-image {
+    max-width: 100%;
+    max-height: 500px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
     transition: transform 0.2s ease;
 }
 
@@ -797,10 +823,55 @@ select:focus, input[type="number"]:focus, #deck-export-text:focus {
     transform: scale(1.05);
 }
 
+#card-view-details {
+    margin: 0;
+}
+
+#card-view-name {
+    font-weight: 600;
+    font-size: 1.3em;
+    margin-bottom: 0.5em;
+    color: #333;
+}
+
+#card-view-type {
+    color: #666;
+    margin-bottom: 1em;
+    font-size: 1em;
+}
+
+#card-view-text {
+    white-space: pre-wrap;
+    line-height: 1.6;
+    color: #333;
+    font-size: 0.95em;
+}
+
 /* Responsive design */
 @media (max-width: 1000px) {
     .scroll-section {
         max-height: 40vh;
+    }
+}
+
+/* Card view overlay responsive - stack on narrow screens */
+@media (max-width: 900px) {
+    .card-view-layout {
+        flex-direction: column;
+        gap: 1.5em;
+    }
+
+    .card-view-left {
+        min-width: 0;
+    }
+
+    .card-view-content {
+        max-width: 95%;
+        width: 95%;
+    }
+
+    #card-view-image {
+        max-height: 400px;
     }
 }
 
@@ -856,5 +927,10 @@ select:focus, input[type="number"]:focus, #deck-export-text:focus {
         max-width: none;
         height: auto; /* Allow natural height on mobile */
         min-height: 400px; /* Keep minimum height */
+    }
+
+    /* Card view overlay responsive - override for very small screens */
+    #card-view-image {
+        max-height: 300px;
     }
 }
