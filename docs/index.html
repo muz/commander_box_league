@@ -18,25 +18,32 @@
         </header>
 
         <main>
+            <div id="loading-overlay" class="loading-overlay" style="display: none;">
+                <div class="loading-content">
+                    <div class="loading-spinner"></div>
+                    <p>Loading card data...</p>
+                </div>
+            </div>
+
             <section id="controls">
                 <div class="set-selection">
                     <label for="set-select">Select Set:</label>
-                    <select id="set-select">
+                    <select id="set-select" disabled>
                     </select>
                 </div>
 
                 <div class="booster-type">
                     <label for="booster-type">Booster Type:</label>
-                    <select id="booster-type">
+                    <select id="booster-type" disabled>
                     </select>
                 </div>
 
                 <div class="box-size">
                     <label for="box-size">Box Size:</label>
-                    <input type="number" id="box-size" min="1" step="1" placeholder="Enter box size">
+                    <input type="number" id="box-size" min="1" step="1" placeholder="Enter box size" disabled>
                 </div>
 
-                <button id="open-booster" class="primary-button">Open Box!</button>
+                <button id="open-booster" class="primary-button" disabled>Loading...</button>
             </section>
 
             <section id="results">
@@ -247,6 +254,12 @@
                             <p id="card-view-name"></p>
                             <p id="card-view-type"></p>
                             <p id="card-view-text"></p>
+                            <div class="card-view-links">
+                                <a id="card-view-scryfall-link" href="#" target="_blank" rel="noopener noreferrer" class="scryfall-link">
+                                    <img src="https://avatars.githubusercontent.com/u/22605579?s=200&v=4" alt="Scryfall" class="scryfall-icon">
+                                    View on Scryfall
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -254,15 +267,12 @@
         </div>
     </div>
 
-    <!-- Footer panel with status, GitHub link and Scryfall reference -->
+    <!-- Footer with GitHub link and Scryfall reference -->
     <footer>
         <div class="footer-content">
             <div class="footer-left">
                 <span>Data provided by</span>
                 <a href="https://scryfall.com" target="_blank" rel="noopener noreferrer">Scryfall</a>
-            </div>
-            <div class="footer-center">
-                <span>Status: <span id="status-info">Ready</span></span>
             </div>
             <a href="https://github.com/muz/commander_box_league" class="footer-github-link" target="_blank" rel="noopener noreferrer">
                 <svg class="github-icon" viewBox="0 0 24 24" fill="currentColor">
@@ -714,6 +724,10 @@
                 cardImage.style.display = 'none';
             }
 
+            // Set Scryfall link
+            const scryfallLink = document.getElementById('card-view-scryfall-link');
+            scryfallLink.href = found.scryfall_uri || `https://scryfall.com/search?q=!"${encodeURIComponent(found.name)}"`;
+
             // Show overlay
             document.getElementById('card-view-overlay').style.display = 'flex';
         }
@@ -723,33 +737,7 @@
             document.getElementById('card-view-overlay').style.display = 'none';
         }
 
-        // Fetch card sets data
-        async function fetchCardSets() {
-            const setSelect = document.getElementById('set-select');
-            const openBoxBtn = document.getElementById('open-booster');
-            setSelect.disabled = true;
-            openBoxBtn.disabled = true;
-            updateStatus('Loading sets...');
-            try {
-                const response = await fetch('js/cardSets.json');
-                const data = await response.json();
-                cardSets = data.sets;
-                populateSetDropdown();
-                // Select the first available set by default
-                const firstEnabledSet = cardSets.find(set => set.enabled !== false);
-                if (firstEnabledSet) {
-                    setSelect.value = firstEnabledSet.code;
-                    setSelect.dispatchEvent(new Event('change'));
-                }
-                setSelect.disabled = false;
-                // openBoxBtn will be enabled after set data is loaded
-            } catch (error) {
-                console.error('Error fetching card sets:', error);
-                updateStatus('Error loading sets');
-                setSelect.disabled = false;
-                openBoxBtn.disabled = false;
-            }
-        }
+
 
         // Populate set dropdown
         function populateSetDropdown() {
@@ -770,9 +758,8 @@
         async function fetchSetData(setCode) {
             const openBoxBtn = document.getElementById('open-booster');
             try {
-                // Update status to loading
-                updateStatus(`Fetching ${setCode} data...`);
                 openBoxBtn.disabled = true;
+                openBoxBtn.textContent = 'Loading...';
 
                 // Fetch main set data from Scryfall API
                 setData = await scryfallAPI.fetchSetData(setCode);
@@ -780,7 +767,6 @@
 
                 // Fetch bonus sheet data if it exists
                 if (selectedSet.bonusSheet) {
-                    updateStatus(`Fetching ${selectedSet.bonusSheet.code} bonus sheet...`);
                     bonusSheetData = await scryfallAPI.fetchSetData(selectedSet.bonusSheet.code);
                     console.log(`Fetched bonus sheet data for ${selectedSet.bonusSheet.code}:`, bonusSheetData);
                 } else {
@@ -788,25 +774,53 @@
                     console.log('No bonus sheet for this set');
                 }
 
-                updateStatus('Ready');
-                openBoxBtn.disabled = false;
+                enableSetControls();
 
             } catch (error) {
                 console.error('Error fetching set data:', error);
                 setData = null;
                 bonusSheetData = null;
-                updateStatus('Error loading data');
-                openBoxBtn.disabled = false;
+                enableSetControls();
                 alert(`Error fetching data for set ${setCode}: ${error.message}`);
             }
         }
 
 
 
-        // Update status display
-        function updateStatus(status) {
-            const statusInfo = document.getElementById('status-info');
-            statusInfo.textContent = status;
+        // Loading state management
+        function setLoadingState(isLoading) {
+            const loadingOverlay = document.getElementById('loading-overlay');
+            const setSelect = document.getElementById('set-select');
+            const boosterTypeSelect = document.getElementById('booster-type');
+            const boxSizeInput = document.getElementById('box-size');
+            const openBoosterBtn = document.getElementById('open-booster');
+
+            if (isLoading) {
+                loadingOverlay.style.display = 'flex';
+                setSelect.disabled = true;
+                boosterTypeSelect.disabled = true;
+                boxSizeInput.disabled = true;
+                openBoosterBtn.disabled = true;
+                openBoosterBtn.textContent = 'Loading...';
+            } else {
+                loadingOverlay.style.display = 'none';
+                setSelect.disabled = false;
+                // Enable box size input when loading is complete
+                boxSizeInput.disabled = false;
+                openBoosterBtn.textContent = 'Open Box!';
+            }
+        }
+
+        // Enable controls after set data is loaded
+        function enableSetControls() {
+            const boosterTypeSelect = document.getElementById('booster-type');
+            const boxSizeInput = document.getElementById('box-size');
+            const openBoosterBtn = document.getElementById('open-booster');
+
+            boosterTypeSelect.disabled = false;
+            boxSizeInput.disabled = false;
+            openBoosterBtn.disabled = false;
+            openBoosterBtn.textContent = 'Open Box!';
         }
 
         // Update booster types based on selected set
@@ -823,7 +837,6 @@
 
                 // Fetch set metadata from Scryfall API
                 try {
-                    updateStatus(`Fetching metadata for ${selectedSet.code}...`);
                     setMetadata = await scryfallAPI.fetchSetMetadata(selectedSet.code);
                     console.log('Set metadata:', setMetadata);
 
@@ -1169,22 +1182,44 @@
         // Event listeners
         document.addEventListener('DOMContentLoaded', function() {
 
-            // Fetch symbology data on page load
-            scryfallAPI.fetchSymbology().then((data) => {
-                symbologyData = data;
-                console.log('Symbology data loaded and cached');
-                // Populate color filter symbols with mana symbols
-                populateColorFilterSymbols();
-                // Render commander deck after symbology data is loaded
-                renderCommanderDeck();
-            }).catch(error => {
-                console.warn('Failed to load symbology data:', error);
-                // Render commander deck even if symbology fails
-                renderCommanderDeck();
-            });
+            // Initialize loading state and fetch all required data
+            setLoadingState(true);
 
-            fetchCardSets();
-            updateStatus('Ready'); // Initialize status
+            // Fetch both symbology and card sets data
+            Promise.all([
+                scryfallAPI.fetchSymbology().catch(error => {
+                    console.warn('Failed to load symbology data:', error);
+                    return null;
+                }),
+                fetch('js/cardSets.json').then(response => response.json()).catch(error => {
+                    console.error('Error fetching card sets:', error);
+                    return { sets: [] };
+                })
+            ]).then(([symbologyData, cardSetsData]) => {
+                // Process symbology data
+                if (symbologyData) {
+                    symbologyData = symbologyData;
+                    console.log('Symbology data loaded and cached');
+                    populateColorFilterSymbols();
+                }
+
+                // Process card sets data
+                cardSets = cardSetsData.sets;
+                populateSetDropdown();
+
+                // Select the first available set by default
+                const firstEnabledSet = cardSets.find(set => set.enabled !== false);
+                if (firstEnabledSet) {
+                    document.getElementById('set-select').value = firstEnabledSet.code;
+                    document.getElementById('set-select').dispatchEvent(new Event('change'));
+                }
+
+                // Render commander deck
+                renderCommanderDeck();
+
+                // End loading state
+                setLoadingState(false);
+            });
 
             // Set selection change
             document.getElementById('set-select').addEventListener('change', updateBoosterTypes);

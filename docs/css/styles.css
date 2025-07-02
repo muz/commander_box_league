@@ -47,14 +47,10 @@ header h2 {
 
 /* Footer styles */
 footer {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
+    margin-top: 2em;
     padding: 1em;
     background: #f8f9fa;
     border-top: 1px solid #e9ecef;
-    z-index: 1000;
 }
 
 .footer-content {
@@ -108,7 +104,6 @@ main {
     box-shadow: 0 10px 30px rgba(0,0,0,0.2);
     display: flex;
     flex-direction: column;
-    min-height: calc(100vh - 200px); /* Account for header and footer */
 }
 
 /* Controls section */
@@ -125,6 +120,47 @@ main {
 .set-selection, .booster-type {
     flex: 1;
     min-width: 200px;
+}
+
+/* Loading overlay */
+.loading-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    border-radius: 15px;
+}
+
+.loading-content {
+    text-align: center;
+    color: #667eea;
+}
+
+.loading-spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid #667eea;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 0 auto 16px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.loading-content p {
+    margin: 0;
+    font-size: 1.1em;
+    font-weight: 500;
 }
 
 /* Form elements */
@@ -148,6 +184,28 @@ select, input[type="number"], input[type="text"] {
 select:focus, input[type="number"]:focus, input[type="text"]:focus, #deck-export-text:focus {
     outline: none;
     border-color: #667eea;
+}
+
+/* Disabled states */
+select:disabled, input[type="number"]:disabled, input[type="text"]:disabled {
+    background: #f8f9fa;
+    color: #6c757d;
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+.primary-button:disabled {
+    background: #6c757d;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+    opacity: 0.6;
+}
+
+.primary-button:disabled:hover {
+    background: #6c757d;
+    transform: none;
+    box-shadow: none;
 }
 
 /* Button styles */
@@ -1138,6 +1196,7 @@ select:focus, input[type="number"]:focus, input[type="text"]:focus, #deck-export
 .card-view-content {
     max-width: 1000px;
     width: 95%;
+    position: relative;
 }
 
 /* Card view 2-column layout */
@@ -1196,6 +1255,48 @@ select:focus, input[type="number"]:focus, input[type="text"]:focus, #deck-export
     line-height: 1.6;
     color: #333;
     font-size: 0.95em;
+}
+
+/* Card view links */
+.card-view-links {
+    position: absolute;
+    bottom: 1.5em;
+    right: 1.5em;
+    z-index: 10;
+}
+
+.scryfall-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5em;
+    color: #6b7280;
+    text-decoration: none;
+    font-size: 0.9em;
+    padding: 0.5em 0.75em;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+}
+
+.scryfall-link:hover {
+    color: #374151;
+    background: #f3f4f6;
+    border-color: #d1d5db;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.scryfall-icon {
+    width: 16px;
+    height: 16px;
+    opacity: 0.7;
+    border-radius: 2px;
+    object-fit: cover;
+}
+
+.scryfall-link:hover .scryfall-icon {
+    opacity: 1;
 }
 
 /* Responsive design */
