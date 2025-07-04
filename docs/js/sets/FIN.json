@@ -1,0 +1,61 @@
+{
+  "name": "Final Fantasy",
+  "code": "FIN",
+  "boosterTypes": {
+    "Play": {
+      "boxSize": 30,
+      "slots": [
+        {"slots": [1, 2, 3, 4, 5, 6], "name": "Common", "items": [{"set": "FIN", "collectorNumberRanges": [{"start": 1, "end": 293}], "rarity": "common", "probability": 1}]},
+        {"slot": 7, "name": "Common/Bonus Sheet", "items": [
+          {"set": "FIN", "rarity": "common", "probability": 0.667, "collectorNumberRanges": [{"start": 1, "end": 293}]},
+          {"probability": 0.21083333333, "set": "FCA", "rarity": "uncommon", "collectorNumberRanges": [{"start": 1, "end": 64}]},
+          {"probability": 0.09916666666, "set": "FCA", "rarity": "rare", "collectorNumberRanges": [{"start": 1, "end": 64}]},
+          {"probability": 0.02333333333, "set": "FCA", "rarity": "mythic", "collectorNumberRanges": [{"start": 1, "end": 64}]}
+        ]},
+        {"slots": [8, 9, 10], "name": "Uncommon", "items": [
+          {"probability": 0.988, "rarity": "uncommon", "set": "FIN", "collectorNumberRanges": [{"start": 1, "end": 293}], "exclusions": [216]},
+          {"probability": 0.003, "rarity": "uncommon", "set": "FIN", "collectorNumberRanges": [{"start": 315, "end": 518}], "exclusions": [407, 408, 409, 410, 411, 412, 413, 414, 415, 416, 417, 418, 419, 420, 480]},
+          {"probability": 0.009, "rarity": "uncommon", "set": "FIN", "collectorNumbers": [216, 407, 408, 409, 410, 411, 412, 413, 414, 415, 416, 417, 418, 419, 420, 480]}
+        ]},
+        {"slot": 11, "name": "Wildcard", "items": [
+          {"probability": 0.167, "rarity": "common", "set": "FIN", "collectorNumberRanges": [{"start": 1, "end": 293}]},
+          {"probability": 0.026, "rarity": "common", "set": "FIN", "collectorNumbers": [294, 298, 300, 303, 306, 358, 369, 371]},
+          {"probability": 0.576004, "rarity": "uncommon", "set": "FIN", "collectorNumberRanges": [{"start": 1, "end": 293}], "exclusions": [216]},
+          {"probability": 0.001749, "rarity": "uncommon", "set": "FIN", "collectorNumberRanges": [{"start": 315, "end": 518}], "exclusions": [407, 408, 409, 410, 411, 412, 413, 414, 415, 416, 417, 418, 419, 420, 480]},
+          {"probability": 0.005247, "rarity": "uncommon", "set": "FIN", "collectorNumbers": [216, 407, 408, 409, 410, 411, 412, 413, 414, 415, 416, 417, 418, 419, 420, 480]},
+          {"probability": 0.057, "rarity": "uncommon", "set": "FIN", "collectorNumberRanges": [{"start": 1, "end": 293}, {"start": 310, "end": 518}]},
+          {"probability": 0.1336, "rarity": "rare", "set": "FIN", "collectorNumberRanges": [{"start": 1, "end": 293}]},
+          {"probability": 0.0167, "rarity": "mythic", "set": "FIN", "collectorNumberRanges": [{"start": 1, "end": 293}]},
+          {"probability": 0.01336, "rarity": "rare", "set": "FIN", "collectorNumberRanges": [{"start": 421, "end": 518}]},
+          {"probability": 0.00167, "rarity": "mythic", "set": "FIN", "collectorNumberRanges": [{"start": 421, "end": 518}]},
+          {"probability": 0.00835, "rarity": "rare", "set": "FIN", "collectorNumberRanges": [{"start": 315, "end": 324}]},
+          {"probability": 0.00835, "rarity": "mythic", "set": "FIN", "collectorNumberRanges": [{"start": 315, "end": 324}, {"start": 577, "end": 577}]}
+        ]},
+        {"slot": 12, "name": "Non-foil rare/mythic", "items": [
+          {"probability": 0.8, "rarity": "rare", "set": "FIN", "collectorNumberRanges": [{"start": 1, "end": 293}]},
+          {"probability": 0.1, "rarity": "mythic", "set": "FIN", "collectorNumberRanges": [{"start": 1, "end": 293}]},
+          {"probability": 0.08, "rarity": "rare", "set": "FIN", "collectorNumberRanges": [{"start": 421, "end": 518}]},
+          {"probability": 0.01, "rarity": "mythic", "set": "FIN", "collectorNumberRanges": [{"start": 421, "end": 518}]},
+          {"probability": 0.05, "rarity": "rare", "set": "FIN", "collectorNumberRanges": [{"start": 315, "end": 324}]},
+          {"probability": 0.05, "rarity": "mythic", "set": "FIN", "collectorNumberRanges": [{"start": 315, "end": 324}, {"start": 577, "end": 577}]}
+        ]},
+        {"slot": 13, "name": "Traditional Foil", "items": [
+          {"probability": 0.5575, "rarity": "common", "set": "FIN", "collectorNumberRanges": [{"start": 1, "end": 293}]},
+          {"probability": 0.359, "rarity": "uncommon", "set": "FIN", "collectorNumberRanges": [{"start": 1, "end": 293}], "exclusions": [216]},
+          {"probability": 0.055, "rarity": "rare", "set": "FIN", "collectorNumberRanges": [{"start": 1, "end": 293}]},
+          {"probability": 0.0075, "rarity": "mythic", "set": "FIN", "collectorNumberRanges": [{"start": 1, "end": 293}]},
+          {"probability": 0.001, "rarity": "common", "set": "FIN", "collectorNumbers": [294, 298, 300, 303, 306, 358, 369, 371]},
+          {"probability": 0.005, "rarity": "uncommon", "set": "FIN", "collectorNumberRanges": [{"start": 310, "end": 406}, {"start": 421, "end": 518}]},
+          {"probability": 0.01, "rarity": "rare", "set": "FIN", "collectorNumberRanges": [{"start": 310, "end": 406}, {"start": 421, "end": 518}]},
+          {"probability": 0.0025, "rarity": "mythic", "set": "FIN", "collectorNumberRanges": [{"start": 310, "end": 406}, {"start": 421, "end": 518}, {"start": 577, "end": 577}]},
+          {"probability": 0.0025, "rarity": "uncommon", "set": "FIN", "collectorNumbers": [216, 407, 408, 409, 410, 411, 412, 413, 414, 415, 416, 417, 418, 419, 420]}
+        ]},
+        {"slot": 14, "name": "Land", "items": [
+          {"probability": 0.55, "rarity": "common", "set": "FIN", "collectorNumberRanges": [{"start": 271, "end": 293}]},
+          {"probability": 0.45, "rarity": "common", "set": "FIN", "collectorNumberRanges": [{"start": 294, "end": 309}]}
+        ]}
+      ]
+    }
+  },
+  "bonusSheet": {"name": "Final Fantasy Through the Ages", "code": "FCA"}
+} 
