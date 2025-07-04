@@ -1,0 +1,52 @@
+{
+  "name": "Aetherdrift",
+  "code": "DFT",
+  "boosterTypes": {
+    "Play": {
+      "boxSize": 30,
+      "slots": [
+        {"slots": [1, 2, 3, 4, 5, 6], "name": "Common", "items": [{"set": "DFT", "collectorNumberRanges": [{"start": 1, "end": 249}, {"start": 258, "end": 258}], "rarity": "common", "probability": 1}]},
+        {"slot": 7, "name": "Common/Bonus Sheet", "items": [
+          {"set": "DFT", "collectorNumberRanges": [{"start": 1, "end": 249}], "rarity": "common", "probability": 0.985},
+          {"set": "SPG", "collectorNumberRanges": [{"start": 84, "end": 93}], "rarity": "mythic", "probability": 0.015}
+        ]},
+        {"slots": [8, 9, 10], "name": "Uncommon", "items": [
+          {"set": "DFT", "collectorNumberRanges": [{"start": 1, "end": 291}], "probability": 1, "rarity": "uncommon"}
+        ]},
+        {"slot": 11, "name": "Wildcard", "items": [
+          {"set": "DFT", "collectorNumberRanges": [{"start": 1, "end": 249}, {"start": 258, "end": 258}], "probability": 0.083, "rarity": "common"},
+          {"set": "DFT", "collectorNumberRanges": [{"start": 1, "end": 286}], "probability": 0.625, "rarity": "uncommon"},
+          {"set": "DFT", "collectorNumberRanges": [{"start": 1, "end": 286}], "probability": 0.16224, "rarity": "rare"},
+          {"set": "DFT", "collectorNumberRanges": [{"start": 1, "end": 286}], "probability": 0.02704, "rarity": "mythic"},
+          {"set": "DFT", "collectorNumberRanges": [{"start": 292, "end": 376}], "probability": 0.01664, "rarity": "rare"},
+          {"set": "DFT", "collectorNumberRanges": [{"start": 292, "end": 376}], "probability": 0.00208, "rarity": "mythic"},
+          {"set": "DFT", "collectorNumberRanges": [{"start": 292, "end": 376}], "probability": 0.0415, "rarity": "common"},
+          {"set": "DFT", "collectorNumberRanges": [{"start": 292, "end": 376}], "probability": 0.0415, "rarity": "uncommon"}
+        ]},
+        {"slot": 12, "name": "Non-foil rare/mythic", "items": [
+          {"set": "DFT", "collectorNumberRanges": [{"start": 1, "end": 291}], "probability": 0.78, "rarity": "rare"},
+          {"set": "DFT", "collectorNumberRanges": [{"start": 1, "end": 291}], "probability": 0.13, "rarity": "mythic"},
+          {"set": "DFT", "collectorNumberRanges": [{"start": 292, "end": 376}], "probability": 0.08, "rarity": "rare"},
+          {"set": "DFT", "collectorNumberRanges": [{"start": 292, "end": 376}], "probability": 0.01, "rarity": "mythic"}
+
+        ]},
+        {"slot": 13, "name": "Traditional Foil", "items": [
+          {"set": "DFT", "collectorNumberRanges": [{"start": 1, "end": 249}, {"start": 258, "end": 258}], "probability": 0.605, "rarity": "common"},
+          {"set": "DFT", "collectorNumberRanges": [{"start": 1, "end": 291}], "probability": 0.30, "rarity": "uncommon"},
+          {"set": "DFT", "collectorNumberRanges": [{"start": 1, "end": 291}], "probability": 0.064, "rarity": "rare"},
+          {"set": "DFT", "collectorNumberRanges": [{"start": 1, "end": 291}], "probability": 0.011, "rarity": "mythic"},
+          {"set": "DFT", "collectorNumberRanges": [{"start": 292, "end": 376}], "probability": 0.005, "rarity": "common"},
+          {"set": "DFT", "collectorNumberRanges": [{"start": 292, "end": 376}], "probability": 0.005, "rarity": "uncommon"},
+          {"set": "DFT", "collectorNumberRanges": [{"start": 292, "end": 376}], "probability": 0.009, "rarity": "rare"},
+          {"set": "DFT", "collectorNumberRanges": [{"start": 292, "end": 376}], "probability": 0.001, "rarity": "mythic"}
+        ]},
+        {"slot": 14, "name": "Land", "items": [
+          {"set": "DFT", "collectorNumberRanges": [{"start": 250, "end": 267}], "exclusions": [258], "probability": 0.5, "rarity": "common"},
+          {"set": "DFT", "collectorNumberRanges": [{"start": 277, "end": 291}], "probability": 0.375, "rarity": "common"},
+          {"set": "DFT", "collectorNumberRanges": [{"start": 272, "end": 276}], "probability": 0.125, "rarity": "common"}
+        ]}
+      ]
+    }
+  },
+  "bonusSheet": {"name": "Special Guests", "code": "SPG"}
+}
