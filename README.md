@@ -15,12 +15,13 @@ A single-page web application that simulates opening random boosters from Magic 
 - **Set Selection**: Choose from different Magic the Gathering sets and formats
 - **Real-time Data**: Fetches card data directly from Scryfall.com API
 - **Browser Caching**: Caches fetched data to improve performance
+- **No Backend Required**: Pure static site, runs entirely in your browser
 
 ## Technology Stack
 
 - **Frontend**: HTML5, CSS3, JavaScript (ES6+)
 - **API Integration**: Scryfall.com API for real-time card data
-- **No Backend Required**: Pure client-side application with browser-based caching
+- **Static Site**: All files are served from the `docs/` directory (suitable for GitHub Pages)
 
 ## Project Structure
 
@@ -29,15 +30,24 @@ commander_box_league/
 ├── docs/
 │   ├── css/
 │   │   └── styles.css
-│   ├── index.html
-│   └── js/
-│       ├── cardSets.json
-│       └── scryfall-api.js
+│   ├── index.html           # Main entry point (open this in your browser)
+│   ├── js/
+│   │   ├── cardSetsSummary.json   # List of available sets and metadata
+│   │   ├── scryfall-api.js       # Scryfall API integration and caching
+│   │   └── sets/
+│   │       ├── DFT.json          # Example set configuration (one per set)
+│   │       ├── FIN.json
+│   │       └── TDM.json
 ├── notes/
 │   └── implementation_details.md
 ├── README.md
 └── test-api.html
 ```
+
+- **All application files are under the `docs/` directory.**
+- **Set definitions** are stored as individual JSON files in `docs/js/sets/` (e.g., `DFT.json`).
+- **Set summary and metadata** is in `docs/js/cardSetsSummary.json`.
+- **No backend/server required**: just open `docs/index.html` in your browser, or use GitHub Pages.
 
 ## Getting Started
 
@@ -53,7 +63,7 @@ To test the Scryfall API integration, open `test-api.html` in your browser. This
 
 ## Development
 
-This is a client-side only application, so no server setup is required. Simply edit the HTML, CSS, and JavaScript files and refresh your browser to see changes.
+This is a static, client-side only application. Simply edit the HTML, CSS, and JavaScript files in `docs/` and refresh your browser to see changes. No server setup is required.
 
 ## License
 
@@ -62,11 +72,11 @@ This project is for educational and entertainment purposes. Magic the Gathering 
 ## Contributing
 
 Feel free to contribute by:
-- Adding new card sets
+- Adding new card sets (add a new JSON file to `docs/js/sets/` and update `cardSetsSummary.json`)
 - Improving the UI/UX
 - Adding new features
 - Fixing bugs
-- Correct the pull distribution for a given set or across boosters...
+- Correcting the pull distribution for a given set or across boosters...
 
 ---
 
