@@ -26,24 +26,26 @@
             </div>
 
             <section id="controls">
-                <div class="set-selection">
-                    <label for="set-select">Select Set:</label>
-                    <select id="set-select" disabled>
-                    </select>
-                </div>
+                <div class="control-row">
+                    <div class="control-item">
+                        <label for="set-select">Set:</label>
+                        <select id="set-select" disabled>
+                        </select>
+                    </div>
 
-                <div class="booster-type">
-                    <label for="booster-type">Booster Type:</label>
-                    <select id="booster-type" disabled>
-                    </select>
-                </div>
+                    <div class="control-item">
+                        <label for="booster-type">Boosters:</label>
+                        <select id="booster-type" disabled>
+                        </select>
+                    </div>
 
-                <div class="box-size">
-                    <label for="box-size">Box Size:</label>
-                    <input type="number" id="box-size" min="1" step="1" placeholder="Enter box size" disabled>
-                </div>
+                    <div class="control-item">
+                        <label for="box-size">Box Size:</label>
+                        <input type="number" id="box-size" min="1" step="1" placeholder="Enter box size" disabled>
+                    </div>
 
-                <button id="open-booster" class="primary-button" disabled>Loading...</button>
+                    <button id="open-booster" class="primary-button" disabled>Loading...</button>
+                </div>
             </section>
 
             <section id="results">

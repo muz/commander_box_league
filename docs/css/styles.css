@@ -108,18 +108,30 @@ main {
 
 /* Controls section */
 #controls {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 15px;
-    align-items: end;
     margin-bottom: 20px;
     padding-bottom: 15px;
     border-bottom: 2px solid #f0f0f0;
 }
 
-.set-selection, .booster-type {
+.control-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    align-items: center;
+}
+
+.control-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
     flex: 1;
     min-width: 200px;
+}
+
+.control-item label {
+    margin-bottom: 0;
+    white-space: nowrap;
+    font-size: 0.9em;
 }
 
 /* Loading overlay */
