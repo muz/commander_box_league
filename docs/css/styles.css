@@ -389,10 +389,6 @@ select:disabled, input[type="number"]:disabled, input[type="text"]:disabled {
     padding: 16px;
 }
 
-
-
-
-
 /* Booster panel styles */
 .booster-panel {
     width: 100%;
@@ -1490,4 +1486,33 @@ select:disabled, input[type="number"]:disabled, input[type="text"]:disabled {
     #card-view-image {
         max-height: 300px;
     }
+}
+
+/* --- Overlay footer for export modal --- */
+.overlay-footer {
+    display: flex;
+    gap: 1em;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 1.2em 1.5em 1.5em 1.5em;
+    border-top: 1px solid #e5e7eb;
+}
+
+.footer-button {
+    min-width: 150px;
+    height: 48px;
+    font-size: 18px;
+    font-weight: 600;
+    border-radius: 8px;
+    padding: 0 30px;
+    box-sizing: border-box;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Ensure .footer-button works with .primary-button and .secondary-button */
+.primary-button.footer-button,
+.secondary-button.footer-button {
+    margin-bottom: 0;
 }

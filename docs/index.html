@@ -51,7 +51,10 @@
             <section id="results">
                 <div id="card-pool-and-deck-wrapper">
                     <div id="card-pool-section">
-                        <h3>Card Pool</h3>
+                        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.5em;">
+                            <h3>Card Pool</h3>
+                            <button id="export-cardpool-btn" class="secondary-button small">Export to Moxfield</button>
+                        </div>
                         <div class="card-pool-controls">
                             <div class="filter-section">
                                 <div class="filter-section-header">
@@ -230,16 +233,16 @@
     <div id="export-overlay" class="overlay" style="display: none;">
         <div class="overlay-content">
             <div class="overlay-header">
-                <h3>Export Deck to Moxfield</h3>
+                <h3>Export list to Moxfield</h3>
                 <button id="close-export-overlay" class="close-btn">&times;</button>
             </div>
             <div class="overlay-body">
-                <p>Copy the deck list below and paste it into Moxfield's import function:</p>
+                <p>Copy the card list below and paste it into Moxfield's import function:</p>
                 <textarea id="deck-export-text" readonly></textarea>
             </div>
             <div class="overlay-footer">
-                <button id="copy-deck-btn" class="primary-button">Copy to Clipboard</button>
-                <button id="cancel-export-btn" class="secondary-button">Close</button>
+                <button id="copy-deck-btn" class="primary-button footer-button">Copy to Clipboard</button>
+                <button id="cancel-export-btn" class="secondary-button footer-button">Close</button>
             </div>
         </div>
     </div>
@@ -1643,7 +1646,47 @@
                 // After renderCardPool is called, also render the commander deck
                 renderCommanderDeck();
             });
+
+            // Export Card Pool button
+            document.getElementById('export-cardpool-btn').addEventListener('click', function() {
+                showCardPoolExportOverlay();
+            });
         });
+
+        // Generate card pool list in Moxfield format
+        function generateMoxfieldCardPoolList() {
+            // Aggregate all cards in the card pool by name
+            const poolCounts = {};
+            const poolDetails = {};
+            Object.keys(cardPool).forEach(rarity => {
+                Object.keys(cardPool[rarity]).forEach(cardName => {
+                    const count = cardPool[rarity][cardName];
+                    poolCounts[cardName] = (poolCounts[cardName] || 0) + count;
+                    poolDetails[cardName] = cardDataMap[cardName];
+                });
+            });
+            // Format for Moxfield: N Card Name (SET) COLLECTOR
+            let lines = [];
+            Object.keys(poolCounts).sort().forEach(cardName => {
+                const count = poolCounts[cardName];
+                const card = poolDetails[cardName];
+                const setCode = card && card.setCode ? card.setCode : '';
+                const collectorNumber = card && card.collectorNumber ? card.collectorNumber : '';
+                lines.push(`${count} ${cardName}${setCode ? ` (${setCode}) ${collectorNumber}` : ''}`);
+            });
+            return lines.join('\n');
+        }
+
+        // Show export overlay for card pool
+        function showCardPoolExportOverlay() {
+            const poolList = generateMoxfieldCardPoolList();
+            if (!poolList) {
+                alert('Your card pool is empty. Open boosters to add cards.');
+                return;
+            }
+            document.getElementById('deck-export-text').value = poolList;
+            document.getElementById('export-overlay').style.display = 'flex';
+        }
     </script>
 </body>
 </html>
