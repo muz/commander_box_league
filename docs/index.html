@@ -300,17 +300,20 @@
         let setMetadata = null; // Global variable to store set metadata
         let scryfallAPI = new ScryfallAPI();
         let symbologyData = null; // Global variable to store symbology data
+        // Constants
+        const BASIC_LANDS_STRUCTURE = {
+            Plains: 0,
+            Island: 0,
+            Swamp: 0,
+            Mountain: 0,
+            Forest: 0
+        };
+
         // Commander deck state
         let commanderDeck = {
             commander: null, // { name, ... }
             cards: [], // for future deck-building
-            basicLands: {
-                Plains: 0,
-                Island: 0,
-                Swamp: 0,
-                Mountain: 0,
-                Forest: 0
-            }
+            basicLands: { ...BASIC_LANDS_STRUCTURE }
         };
         // Add at the top-level script scope:
         let cardPool = {
@@ -357,6 +360,41 @@
             }
         }
 
+        // Helper: generate card image HTML with consistent logic
+        function generateCardImageHtml(card, options = {}) {
+            const {
+                showClickHandler = false,
+                clickHandler = null,
+                additionalClasses = '',
+                additionalStyles = ''
+            } = options;
+
+            let cardImageHtml = '';
+
+            if (card.imageUris) {
+                if (card.imageUris.normal) {
+                    const clickAttr = showClickHandler && clickHandler ? ` onclick="${clickHandler}" style="cursor: pointer; ${additionalStyles}"` : '';
+                    cardImageHtml = `<div class="card-image-container"><img src="${card.imageUris.normal}" alt="${card.name}" class="card-thumbnail ${additionalClasses}" loading="lazy"${clickAttr}></div>`;
+                } else if (card.imageUris.small) {
+                    const clickAttr = showClickHandler && clickHandler ? ` onclick="${clickHandler}" style="cursor: pointer; ${additionalStyles}"` : '';
+                    cardImageHtml = `<div class="card-image-container"><img src="${card.imageUris.small}" alt="${card.name}" class="card-thumbnail ${additionalClasses}" loading="lazy"${clickAttr}></div>`;
+                }
+            }
+
+            if (!cardImageHtml) {
+                const clickAttr = showClickHandler && clickHandler ? ` onclick="${clickHandler}" style="cursor: pointer; ${additionalStyles}"` : '';
+                cardImageHtml = `<div class='card-fallback-text'${clickAttr}><strong>${card.name}</strong><br><span>${card.typeLine||''}</span></div>`;
+            }
+
+            return cardImageHtml;
+        }
+
+        // Helper: update all deck-related UI components
+        function updateDeckUI() {
+            renderCommanderDeck();
+            renderCardPool();
+        }
+
         // Helper: replace symbols in text with their SVG equivalents
         function replaceSymbolsInText(text) {
             if (!text) return '';
@@ -393,7 +431,7 @@
             return sortedColors.join('');
         }
 
-                // Helper: get color identity sort value for WUBRG ordering
+        // Helper: get color identity sort value for WUBRG ordering
         function getColorIdentitySortValue(card) {
             const colorIdentity = getColorIdentity(card);
 
@@ -475,17 +513,8 @@
                 const count = deckCounts[name];
                 const card = commanderDeck.cards.find(c => c.name === name);
                 const li = document.createElement('li');
-                let cardImageHtml = '';
-                if (card.imageUris) {
-                    if (card.imageUris.normal) {
-                        cardImageHtml = `<div class=\"card-image-container\"><img src=\"${card.imageUris.normal}\" alt=\"${card.name}\" class=\"card-thumbnail\" loading=\"lazy\"></div>`;
-                    } else if (card.imageUris.small) {
-                        cardImageHtml = `<div class=\"card-image-container\"><img src=\"${card.imageUris.small}\" alt=\"${card.name}\" class=\"card-thumbnail\" loading=\"lazy\"></div>`;
-                    }
-                }
-                if (!cardImageHtml) {
-                    cardImageHtml = `<div class='card-fallback-text'><strong>${card.name}</strong><br><span>${card.typeLine||''}</span></div>`;
-                }
+
+                const cardImageHtml = generateCardImageHtml(card);
                 let countBadge = '';
                 if (count >= 2) {
                     countBadge = `<span class=\"card-count-badge\">${count}</span>`;
@@ -509,9 +538,7 @@
                     const idx = commanderDeck.cards.findIndex(c => c.name === cardName);
                     if (idx !== -1) {
                         commanderDeck.cards.splice(idx, 1);
-                        renderCommanderDeck();
-                        renderDeckCards();
-                        renderCardPool();
+                        updateDeckUI();
                     }
                 });
             });
@@ -525,17 +552,8 @@
             if (commanderDeck.commander) {
                 const card = commanderDeck.commander;
                 const li = document.createElement('li');
-                let cardImageHtml = '';
-                if (card.imageUris) {
-                    if (card.imageUris.normal) {
-                        cardImageHtml = `<div class=\"card-image-container\"><img src=\"${card.imageUris.normal}\" alt=\"${card.name}\" class=\"card-thumbnail\" loading=\"lazy\"></div>`;
-                    } else if (card.imageUris.small) {
-                        cardImageHtml = `<div class=\"card-image-container\"><img src=\"${card.imageUris.small}\" alt=\"${card.name}\" class=\"card-thumbnail\" loading=\"lazy\"></div>`;
-                    }
-                }
-                if (!cardImageHtml) {
-                    cardImageHtml = `<div class='card-fallback-text'><strong>${card.name}</strong><br><span>${card.typeLine||''}</span></div>`;
-                }
+
+                const cardImageHtml = generateCardImageHtml(card);
                 li.innerHTML = `
                     <div class=\"card-pool-item\">
                         <div class=\"card-image-action-container\" data-card-name=\"${card.name}\">
@@ -560,8 +578,7 @@
             if (unsetBtn) {
                 unsetBtn.addEventListener('click', function() {
                     commanderDeck.commander = null;
-                    renderCommanderDeck();
-                    renderCardPool();
+                    updateDeckUI();
                 });
             }
         }
@@ -590,7 +607,7 @@
             }
         }
 
-                // Clear the entire deck and return all cards to the pool
+        // Clear the entire deck and return all cards to the pool
         function clearDeck() {
             if (commanderDeck.cards.length === 0 && !commanderDeck.commander &&
                 Object.values(commanderDeck.basicLands).every(count => count === 0)) {
@@ -604,21 +621,14 @@
             commanderDeck.cards = [];
 
             // Clear basic lands
-            commanderDeck.basicLands = {
-                Plains: 0,
-                Island: 0,
-                Swamp: 0,
-                Mountain: 0,
-                Forest: 0
-            };
+            commanderDeck.basicLands = { ...BASIC_LANDS_STRUCTURE };
 
             // Re-render everything
-            renderCommanderDeck();
-            renderCardPool();
+            updateDeckUI();
             updateCardPoolTitle(); // Update title to reflect current set
         }
 
-                // Generate deck list in Moxfield format
+        // Generate deck list in Moxfield format
         function generateMoxfieldDeckList() {
             let deckList = '';
 
@@ -733,12 +743,8 @@
 
             // Set card image
             const cardImage = document.getElementById('card-view-image');
-            if (found.imageUris && found.imageUris.normal) {
-                cardImage.src = found.imageUris.normal;
-                cardImage.alt = found.name;
-                cardImage.style.display = 'block';
-            } else if (found.imageUris && found.imageUris.small) {
-                cardImage.src = found.imageUris.small;
+            if (found.imageUris && (found.imageUris.normal || found.imageUris.small)) {
+                cardImage.src = found.imageUris.normal || found.imageUris.small;
                 cardImage.alt = found.name;
                 cardImage.style.display = 'block';
             } else {
@@ -757,8 +763,6 @@
         function hideCardViewOverlay() {
             document.getElementById('card-view-overlay').style.display = 'none';
         }
-
-
 
         // Populate set dropdown
         function populateSetDropdown() {
@@ -806,9 +810,7 @@
             }
         }
 
-
-
-        // Loading state management
+        // Loading state gimanagement
         function setLoadingState(isLoading) {
             const loadingOverlay = document.getElementById('loading-overlay');
             const setSelect = document.getElementById('set-select');
@@ -1044,17 +1046,8 @@
             // Render all cards in the single list
             filteredCards.forEach(({ name, count, cardData, available, rarity }) => {
                 const li = document.createElement('li');
-                let cardImageHtml = '';
-                if (cardData.imageUris) {
-                    if (cardData.imageUris.normal) {
-                        cardImageHtml = `<div class=\"card-image-container\"><img src=\"${cardData.imageUris.normal}\" alt=\"${cardData.name}\" class=\"card-thumbnail\" loading=\"lazy\"></div>`;
-                    } else if (cardData.imageUris.small) {
-                        cardImageHtml = `<div class=\"card-image-container\"><img src=\"${cardData.imageUris.small}\" alt=\"${cardData.name}\" class=\"card-thumbnail\" loading=\"lazy\"></div>`;
-                    }
-                }
-                if (!cardImageHtml) {
-                    cardImageHtml = `<div class='card-fallback-text'><strong>${cardData.name}</strong><br><span>${cardData.typeLine||''}</span></div>`;
-                }
+
+                const cardImageHtml = generateCardImageHtml(cardData);
                 let actionIcons = '';
                 // Always include commander button position (top)
                 if (isLegendaryCreature(cardData)) {
@@ -1102,8 +1095,7 @@
                     }
                     if (found) {
                         commanderDeck.commander = found;
-                        renderCommanderDeck();
-                        renderCardPool();
+                        updateDeckUI();
                     }
                 });
             });
@@ -1121,9 +1113,7 @@
                     }
                     if (found) {
                         commanderDeck.cards.push(found);
-                        renderCommanderDeck();
-                        renderDeckCards();
-                        renderCardPool();
+                        updateDeckUI();
                     }
                 });
             });
@@ -1395,7 +1385,7 @@
                 console.log('Cache cleared!');
             }
 
-                        // Clear deck button
+            // Clear deck button
             document.getElementById('clear-deck-btn').addEventListener('click', function() {
                 if (commanderDeck.cards.length === 0 && !commanderDeck.commander &&
                     Object.values(commanderDeck.basicLands).every(count => count === 0)) {
@@ -1455,13 +1445,7 @@
                 // Reset commander deck
                 commanderDeck.commander = null;
                 commanderDeck.cards = [];
-                commanderDeck.basicLands = {
-                    Plains: 0,
-                    Island: 0,
-                    Swamp: 0,
-                    Mountain: 0,
-                    Forest: 0
-                };
+                commanderDeck.basicLands = { ...BASIC_LANDS_STRUCTURE };
                 renderCommanderDeck();
 
                 const setSelect = document.getElementById('set-select');
@@ -1616,15 +1600,12 @@
                             }
                         }
                         let cardImageHtml = '';
-                        if (card && card.imageUris) {
-                            if (card.imageUris.normal) {
-                                cardImageHtml = `<div class="card-image-container"><img src="${card.imageUris.normal}" alt="${card.name}" class="card-thumbnail" loading="lazy" onclick="showCardViewOverlay('${card.name.replace(/'/g, "\\'")}')" style="cursor: pointer;"></div>`;
-                            } else if (card.imageUris.small) {
-                                cardImageHtml = `<div class="card-image-container"><img src="${card.imageUris.small}" alt="${card.name}" class="card-thumbnail" loading="lazy" onclick="showCardViewOverlay('${card.name.replace(/'/g, "\\'")}')" style="cursor: pointer;"></div>`;
-                            }
-                        }
-                        if (!cardImageHtml && card) {
-                            cardImageHtml = `<div class='card-fallback-text' onclick="showCardViewOverlay('${card.name.replace(/'/g, "\\'")}')" style="cursor: pointer;"><strong>${card.name}</strong><br><span>${card.typeLine||''}</span></div>`;
+                        if (card) {
+                            const clickHandler = `showCardViewOverlay('${card.name.replace(/'/g, "\\'")}')`;
+                            cardImageHtml = generateCardImageHtml(card, {
+                                showClickHandler: true,
+                                clickHandler: clickHandler
+                            });
                         }
                         slotResults += `
                             <details class="booster-panel">
