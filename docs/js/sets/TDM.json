@@ -1,6 +1,4 @@
 {
-  "name": "Tarkir: Dragonstorm",
-  "code": "TDM",
   "boosterTypes": {
     "Play": {
       "boxSize": 30,
@@ -66,4 +64,4 @@
     }
   },
   "bonusSheet": {"name": "Special Guests", "code": "SPG"}
-} 
+}

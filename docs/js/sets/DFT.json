@@ -1,6 +1,4 @@
 {
-  "name": "Aetherdrift",
-  "code": "DFT",
   "boosterTypes": {
     "Play": {
       "boxSize": 30,

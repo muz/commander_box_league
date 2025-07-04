@@ -1,6 +1,4 @@
 {
-  "name": "Final Fantasy",
-  "code": "FIN",
   "boosterTypes": {
     "Play": {
       "boxSize": 30,
@@ -58,4 +56,4 @@
     }
   },
   "bonusSheet": {"name": "Final Fantasy Through the Ages", "code": "FCA"}
-} 
+}

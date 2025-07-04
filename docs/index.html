@@ -298,6 +298,7 @@
         let cardSets = [];
         let selectedSet = null;
         let setMetadata = null; // Global variable to store set metadata
+        let selectedSetSummary = null; // <-- Add this to store the summary object for the selected set
         let scryfallAPI = new ScryfallAPI();
         let symbologyData = null; // Global variable to store symbology data
         // Constants
@@ -481,17 +482,17 @@
             const cardPoolSection = document.getElementById('card-pool-section');
             const titleElement = cardPoolSection.querySelector('h3');
 
-            if (setMetadata && selectedSet) {
+            if (setMetadata && selectedSetSummary) { // Use selectedSetSummary
                 // Create the new title with set image and name
                 let titleHtml = '';
 
                 // Add set icon if available
                 if (setMetadata.icon_svg_uri) {
-                    titleHtml += `<img src="${setMetadata.icon_svg_uri}" alt="${setMetadata.name}" style="width: 24px; height: 24px; margin-right: 8px; vertical-align: middle;">`;
+                    titleHtml += `<img src="${setMetadata.icon_svg_uri}" alt="${selectedSetSummary.name}" style="width: 24px; height: 24px; margin-right: 8px; vertical-align: middle;">`;
                 }
 
                 // Add set name
-                titleHtml += `${setMetadata.name} Card Pool`;
+                titleHtml += `${selectedSetSummary.name} Card Pool`;
 
                 titleElement.innerHTML = titleHtml;
             } else {
@@ -833,6 +834,7 @@
             if (setSelect.value) {
                 // Get summary, fetch full config
                 let summarySet = cardSets.find(set => set.code === setSelect.value);
+                selectedSetSummary = summarySet; // <-- Store the summary object
 
                 // Fetch set metadata (optional, for icon/title)
                 try {
@@ -866,7 +868,7 @@
 
                 // --- Fetch Scryfall card data for set and bonus sheet (if any) ---
                 try {
-                    selectedSet.cardData = await scryfallAPI.fetchSetData(selectedSet.code);
+                    selectedSet.cardData = await scryfallAPI.fetchSetData(summarySet.code);
                     if (selectedSet.bonusSheet && selectedSet.bonusSheet.code) {
                         selectedSet.bonusSheet.cardData = await scryfallAPI.fetchSetData(selectedSet.bonusSheet.code);
                     } else {
@@ -878,6 +880,7 @@
                 // Optionally, update the UI here if needed (e.g., renderCardPool())
             } else {
                 selectedSet = null;
+                selectedSetSummary = null;
                 setLoadingState(false);
             }
         }
@@ -1452,7 +1455,7 @@
                 }
 
                 console.log('Opening booster:', {
-                    set: selectedSet.name,
+                    set: selectedSetSummary ? selectedSetSummary.name : '',
                     boosterType: boosterTypeSelect.value,
                     boxSize: boxSize,
                     setData: selectedSet.cardData,
