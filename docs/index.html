@@ -350,7 +350,7 @@
             const svgUri = getManaSymbolSvgUri(symbol);
 
             if (svgUri) {
-                return `<img src="${svgUri}" alt="${symbol}" width="${size}" height="${size}" style="display: block;">`;
+                return `<img src="${svgUri}" alt="${symbol}" width="${size}" height="${size}" style="display: inline-block; vertical-align: middle;">`;
             } else {
                 // Fallback to text if SVG is not available
                 return fallbackText || symbol;
@@ -365,7 +365,7 @@
             return text.replace(/\{([^}]+)\}/g, (match, symbol) => {
                 const symbolHtml = createManaSymbolHtml(`{${symbol}}`, 16);
                 if (symbolHtml !== `{${symbol}}`) {
-                    return `<span style="vertical-align: middle;">${symbolHtml}</span>`;
+                    return symbolHtml;
                 }
                 return match; // Return original if symbol not found
             });
