@@ -21,7 +21,7 @@
             <div id="loading-overlay" class="loading-overlay" style="display: none;">
                 <div class="loading-content">
                     <div class="loading-spinner"></div>
-                    <p>Loading card data...</p>
+                    <p class="loading-message">Loading...</p>
                 </div>
             </div>
 
@@ -808,6 +808,8 @@
 
             if (isLoading) {
                 loadingOverlay.style.display = 'flex';
+                loadingOverlay.style.pointerEvents = 'all';
+                loadingOverlay.style.opacity = '1';
                 setSelect.disabled = true;
                 boosterTypeSelect.disabled = true;
                 boxSizeInput.disabled = true;
@@ -1189,6 +1191,7 @@
             openBoosterBtn.textContent = 'Loading...';
 
             // Fetch both symbology and card sets data
+            setLoadingState(true);
             Promise.all([
                 scryfallAPI.fetchSymbology().catch(error => {
                     console.warn('Failed to load symbology data:', error);
@@ -1223,6 +1226,8 @@
                 renderCommanderDeck();
 
                 // End loading state (Open Box! will be re-enabled by updateBoosterTypes after all fetching)
+                setLoadingState(false);
+            }).catch(() => {
                 setLoadingState(false);
             });
 
@@ -1551,8 +1556,10 @@
                     }
                 });
 
+                // Instead of a flat allBoosterCards array, group by booster
+                let boosterCardsByBooster = [];
                 for (let i = 0; i < boxSize; i++) {
-                    let slotResults = '';
+                    let boosterCards = [];
                     slots.forEach((slot, slotIdx) => {
                         let cardName = '(no card found)';
                         let cardRarity = null;
@@ -1560,7 +1567,6 @@
                         let card = null;
                         while (attempts < 10) {
                             const pickedItem = pickWeighted(slot.items);
-                            // Get card pool for this item
                             const cards = getCardsFromSet(
                                 pickedItem.set,
                                 pickedItem.rarity || pickedItem.rarities || slot.rarity,
@@ -1576,7 +1582,6 @@
                             }
                             attempts++;
                         }
-                        // Aggregate card pool by rarity
                         if (card && cardRarity) {
                             let rarityKey = cardRarity;
                             if (rarityKey === 'mythic') rarityKey = 'mythic';
@@ -1586,35 +1591,50 @@
                             if (cardPool[rarityKey]) {
                                 if (!cardPool[rarityKey][card.name]) {
                                     cardPool[rarityKey][card.name] = 1;
-                                    // Store full card data for reference
                                     cardDataMap[card.name] = card;
                                 } else {
                                     cardPool[rarityKey][card.name]++;
                                 }
                             }
                         }
-                        let cardImageHtml = '';
                         if (card) {
-                            const clickHandler = `showCardViewOverlay('${card.name.replace(/'/g, "\\'")}')`;
-                            cardImageHtml = generateCardImageHtml(card, {
-                                showClickHandler: true,
-                                clickHandler: clickHandler
+                            boosterCards.push({
+                                card,
+                                slotName: slot.name
                             });
                         }
-                        slotResults += `
-                            <details class="booster-panel">
-                                <summary>Slot ${slotIdx + 1}: ${slot.name}</summary>
-                                <div>${cardImageHtml}</div>
-                            </details>
-                        `;
                     });
-                    output += `
-                        <details class="booster-panel">
-                            <summary>Booster ${i + 1}</summary>
-                            <div>${slotResults}</div>
-                        </details>
-                    `;
+                    boosterCardsByBooster.push(boosterCards);
                 }
+
+                // Render a single collapsible panel with each booster as a group
+                output = `
+                    <details class="booster-panel" open>
+                        <summary>All Booster Cards</summary>
+                        <div class="all-boosters-group">
+                            ${boosterCardsByBooster.map((boosterCards, idx) => `
+                                <div class="booster-group">
+                                    <div class="booster-group-header">Booster ${idx + 1}</div>
+                                    <div class="booster-card-grid">
+                                        ${boosterCards.map(({card, slotName}) => {
+                                            const clickHandler = `showCardViewOverlay('${card.name.replace(/'/g, "\\'")}')`;
+                                            const cardImageHtml = generateCardImageHtml(card, {
+                                                showClickHandler: true,
+                                                clickHandler: clickHandler
+                                            });
+                                            return `
+                                                <div class="booster-card-tile" title="Slot: ${slotName}">
+                                                    <div class="booster-card-slot-label">${slotName}</div>
+                                                    <div>${cardImageHtml}</div>
+                                                </div>
+                                            `;
+                                        }).join('')}
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </details>
+                `;
 
                 // Update card pool title with set information
                 updateCardPoolTitle();
@@ -1623,25 +1643,6 @@
                 renderCardPool();
 
                 boosterDisplay.innerHTML = output;
-
-                // --- Dynamically create Expand/Collapse All Button ---
-                const detailsList = boosterDisplay.querySelectorAll('details');
-                let toggleAllBtn = document.getElementById('toggle-all-boosters');
-                if (toggleAllBtn) toggleAllBtn.remove(); // Remove any previous button
-                if (detailsList.length > 0) {
-                    toggleAllBtn = document.createElement('button');
-                    toggleAllBtn.id = 'toggle-all-boosters';
-                    toggleAllBtn.className = 'secondary-button';
-                    toggleAllBtn.style.marginBottom = '1em';
-                    toggleAllBtn.textContent = 'Expand All';
-                    let expanded = false;
-                    toggleAllBtn.onclick = function() {
-                        expanded = !expanded;
-                        detailsList.forEach(d => d.open = expanded);
-                        toggleAllBtn.textContent = expanded ? 'Collapse All' : 'Expand All';
-                    };
-                    boosterDisplay.prepend(toggleAllBtn);
-                }
 
                 // After renderCardPool is called, also render the commander deck
                 renderCommanderDeck();
