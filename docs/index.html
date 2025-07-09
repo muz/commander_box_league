@@ -793,9 +793,8 @@
                 console.error('Error fetching set config:', error);
                 selectedSet = null;
                 alert(`Error fetching config for set ${setCode}: ${error.message}`);
-            } finally {
-                setLoadingState(false);
             }
+            // Do not call setLoadingState(false) here; let the caller handle it
         }
 
         // Loading state gimanagement
