@@ -873,10 +873,21 @@
                 // --- Fetch Scryfall card data for set and bonus sheet (if any) ---
                 try {
                     selectedSet.cardData = await scryfallAPI.fetchSetData(summarySet.code);
-                    if (selectedSet.bonusSheet && selectedSet.bonusSheet.code) {
+                    // Handle bonusSheet as an array
+                    if (Array.isArray(selectedSet.bonusSheet)) {
+                        // Fetch card data for each bonus sheet
+                        for (const sheet of selectedSet.bonusSheet) {
+                            if (sheet.code) {
+                                sheet.cardData = await scryfallAPI.fetchSetData(sheet.code);
+                            } else {
+                                sheet.cardData = null;
+                            }
+                        }
+                    } else if (selectedSet.bonusSheet && selectedSet.bonusSheet.code) {
+                        // Backward compatibility: single object
                         selectedSet.bonusSheet.cardData = await scryfallAPI.fetchSetData(selectedSet.bonusSheet.code);
-                    } else {
-                        if (selectedSet.bonusSheet) selectedSet.bonusSheet.cardData = null;
+                    } else if (selectedSet.bonusSheet) {
+                        selectedSet.bonusSheet.cardData = null;
                     }
                 } finally {
                     setLoadingState(false);
@@ -1466,7 +1477,10 @@
                     boosterType: boosterTypeSelect.value,
                     boxSize: boxSize,
                     setData: selectedSet.cardData,
-                    bonusSheetData: selectedSet.bonusSheet ? selectedSet.bonusSheet.cardData : null
+                    // For bonusSheet, collect all cardData arrays if array, else single
+                    bonusSheetData: Array.isArray(selectedSet.bonusSheet)
+                        ? selectedSet.bonusSheet.map(sheet => sheet.cardData)
+                        : (selectedSet.bonusSheet ? selectedSet.bonusSheet.cardData : null)
                 });
 
                 // Simulate opening packs and display results
@@ -1499,7 +1513,17 @@
                     let cardPool = [];
                     let cardData = null;
                     if (selectedSet.cardData && selectedSet.cardData.setCode === setCode) cardData = selectedSet.cardData.cards;
-                    else if (selectedSet.bonusSheet && selectedSet.bonusSheet.cardData && selectedSet.bonusSheet.cardData.setCode === setCode) cardData = selectedSet.bonusSheet.cardData.cards;
+                    // If bonusSheet is an array, search all
+                    else if (Array.isArray(selectedSet.bonusSheet)) {
+                        for (const sheet of selectedSet.bonusSheet) {
+                            if (sheet.cardData && sheet.cardData.setCode === setCode) {
+                                cardData = sheet.cardData.cards;
+                                break;
+                            }
+                        }
+                    } else if (selectedSet.bonusSheet && selectedSet.bonusSheet.cardData && selectedSet.bonusSheet.cardData.setCode === setCode) {
+                        cardData = selectedSet.bonusSheet.cardData.cards;
+                    }
                     if (!cardData) return [];
 
                     // Filter by rarity
