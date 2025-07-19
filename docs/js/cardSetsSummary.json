@@ -1,5 +1,6 @@
 {
   "sets": [
+    { "name": "Edge of Eternities", "code": "EOE" },
     { "name": "Final Fantasy", "code": "FIN" },
     { "name": "Tarkir: Dragonstorm", "code": "TDM" },
     { "name": "Aetherdrift", "code": "DFT" }

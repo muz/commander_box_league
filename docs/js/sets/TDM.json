@@ -63,5 +63,5 @@
       ]
     }
   },
-  "bonusSheet": {"name": "Special Guests", "code": "SPG"}
+  "bonusSheet": [{"name": "Special Guests", "code": "SPG"}]
 }
