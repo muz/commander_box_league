@@ -1,0 +1,54 @@
+{
+  "boosterTypes": {
+    "Play": {
+      "boxSize": 30,
+      "slots": [
+        {"slots": [1, 2, 3, 4, 5, 6], "name": "Common", "items": [{"set": "EOE", "collectorNumberRanges": [{"start": 1, "end": 261}], "rarity": "common", "probability": 1}]},
+        {"slot": 7, "name": "Common/Bonus Sheet", "items": [
+          {"set": "EOE", "rarity": "common", "probability": 0.982, "collectorNumberRanges": [{"start": 1, "end": 261}]},
+          {"probability": 0.018, "set": "SPG", "rarity": "mythic", "collectorNumberRanges": [{"start": 119, "end": 128}]}
+        ]},
+        {"slots": [8, 9, 10], "name": "Uncommon", "items": [{"set": "EOE", "collectorNumberRanges": [{"start": 1, "end": 261}], "rarity": "uncommon", "probability": 1}]},
+        {"slot": 11, "name": "Wildcard", "items": [
+          {"set": "EOE", "collectorNumberRanges": [{"start": 1, "end": 261}], "rarity": "common", "probability": 0.125},
+          {"set": "EOE", "collectorNumberRanges": [{"start": 1, "end": 261}], "rarity": "uncommon", "probability": 0.625},
+          {"set": "EOE", "collectorNumberRanges": [{"start": 1, "end": 261}], "rarity": "rare", "probability": 0.106},
+          {"set": "EOE", "collectorNumberRanges": [{"start": 1, "end": 261}], "rarity": "mythic", "probability": 0.00225},
+          {"set": "EOS", "collectorNumberRanges": [{"start": 1, "end": 45}], "rarity": "rare", "probability": 0.10},
+          {"set": "EOS", "collectorNumberRanges": [{"start": 1, "end": 45}], "rarity": "mythic", "probability": 0.025},
+          {"set": "EOE", "collectorNumberRanges": [{"start": 277, "end": 286}], "rarity": "rare", "probability": 0.01},
+          {"set": "EOE", "collectorNumberRanges": [{"start": 277, "end": 286}], "rarity": "mythic", "probability": 0.00225},
+          {"set": "EOE", "collectorNumberRanges": [{"start": 287, "end": 316}], "rarity": "rare", "probability": 0.00225},
+          {"set": "EOE", "collectorNumberRanges": [{"start": 287, "end": 316}], "rarity": "mythic", "probability": 0.00225}
+        ]},
+        {"slot": 12, "name": "Non-foil rare/mythic", "items": [
+          {"set": "EOE", "collectorNumberRanges": [{"start": 1, "end": 261}], "rarity": "rare", "probability": 0.804},
+          {"set": "EOE", "collectorNumberRanges": [{"start": 1, "end": 261}], "rarity": "mythic", "probability": 0.142},
+          {"set": "EOE", "collectorNumberRanges": [{"start": 287, "end": 316}], "rarity": "rare", "probability": 0.02},
+          {"set": "EOE", "collectorNumberRanges": [{"start": 287, "end": 316}], "rarity": "mythic", "probability": 0.004666666667}
+          {"set": "EOE", "collectorNumberRanges": [{"start": 303, "end": 316}], "rarity": "rare", "probability": 0.02},
+          {"set": "EOE", "collectorNumberRanges": [{"start": 303, "end": 316}], "rarity": "mythic", "probability": 0.004666666667},
+          {"set": "EOE", "collectorNumberRanges": [{"start": 277, "end": 286}], "rarity": "mythic", "probability": 0.004666666667}
+        ]},
+        {"slot": 13, "name": "Traditional Foil", "items": [
+          {"set": "EOE", "collectorNumberRanges": [{"start": 1, "end": 261}], "rarity": "common", "probability": 0.58},
+          {"set": "EOE", "collectorNumberRanges": [{"start": 1, "end": 261}], "rarity": "uncommon", "probability": 0.32},
+          {"set": "EOE", "collectorNumberRanges": [{"start": 1, "end": 261}], "rarity": "rare", "probability": 0.064},
+          {"set": "EOE", "collectorNumberRanges": [{"start": 1, "end": 261}], "rarity": "mythic", "probability": 0.011},
+          {"set": "EOS", "collectorNumberRanges": [{"start": 1, "end": 45}], "rarity": "rare", "probability": 0.01},
+          {"set": "EOS", "collectorNumberRanges": [{"start": 1, "end": 45}], "rarity": "mythic", "probability": 0.005},
+          {"set": "EOE", "collectorNumberRanges": [{"start": 277, "end": 316}], "rarity": "mythic", "probability": 0.005},
+          {"set": "EOE", "collectorNumberRanges": [{"start": 277, "end": 316}], "rarity": "mythic", "probability": 0.005}
+        ]},
+        {"slot": 14, "name": "Land", "items": [
+          {"set": "EOE", "collectorNumberRanges": [{"start": 267, "end": 276}], "rarity": "common", "probability": 0.8},
+          {"set": "EOE", "collectorNumberRanges": [{"start": 262, "end": 266}], "rarity": "common", "probability": 0.2},
+        ]}
+      ]
+    }
+  },
+  "bonusSheet": [
+    {"name": "Special Guests", "code": "SPG"},
+    {"name": "Edge of Eternities: Stellar Sights", "code": "EOS"}
+  ]
+}

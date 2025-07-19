@@ -55,5 +55,5 @@
       ]
     }
   },
-  "bonusSheet": {"name": "Final Fantasy Through the Ages", "code": "FCA"}
+  "bonusSheet": [{"name": "Final Fantasy Through the Ages", "code": "FCA"}]
 }
