@@ -31,30 +31,30 @@
           {"set": "EOE", "collectorNumberRanges": [{"start": 277, "end": 286}], "rarity": "mythic", "probability": 0.004666666667}
         ]},
         {"slot": 13, "name": "Traditional Foil", "items": [
-          {"set": "EOE", "collectorNumberRanges": [{"start": 1, "end": 261}], "rarity": "common", "probability": 0.58},
-          {"set": "EOE", "collectorNumberRanges": [{"start": 1, "end": 261}], "rarity": "uncommon", "probability": 0.32},
-          {"set": "EOE", "collectorNumberRanges": [{"start": 1, "end": 261}], "rarity": "rare", "probability": 0.064},
-          {"set": "EOE", "collectorNumberRanges": [{"start": 1, "end": 261}], "rarity": "mythic", "probability": 0.011},
-          {"set": "EOS", "collectorNumberRanges": [{"start": 1, "end": 45}], "rarity": "rare", "probability": 0.01},
-          {"set": "EOS", "collectorNumberRanges": [{"start": 1, "end": 45}], "rarity": "mythic", "probability": 0.005},
-          {"set": "EOE", "collectorNumberRanges": [{"start": 277, "end": 316}], "rarity": "mythic", "probability": 0.005},
-          {"set": "EOE", "collectorNumberRanges": [{"start": 277, "end": 316}], "rarity": "mythic", "probability": 0.005}
+          {"set": "EOE", "collectorNumberRanges": [{"start": 1, "end": 261}], "rarity": "common", "probability": 0.58, "foilRate": 1},
+          {"set": "EOE", "collectorNumberRanges": [{"start": 1, "end": 261}], "rarity": "uncommon", "probability": 0.32, "foilRate": 1},
+          {"set": "EOE", "collectorNumberRanges": [{"start": 1, "end": 261}], "rarity": "rare", "probability": 0.064, "foilRate": 1},
+          {"set": "EOE", "collectorNumberRanges": [{"start": 1, "end": 261}], "rarity": "mythic", "probability": 0.011, "foilRate": 1},
+          {"set": "EOS", "collectorNumberRanges": [{"start": 1, "end": 45}], "rarity": "rare", "probability": 0.01, "foilRate": 1},
+          {"set": "EOS", "collectorNumberRanges": [{"start": 1, "end": 45}], "rarity": "mythic", "probability": 0.005, "foilRate": 1},
+          {"set": "EOE", "collectorNumberRanges": [{"start": 277, "end": 316}], "rarity": "mythic", "probability": 0.005, "foilRate": 1},
+          {"set": "EOE", "collectorNumberRanges": [{"start": 277, "end": 316}], "rarity": "mythic", "probability": 0.005, "foilRate": 1}
         ]},
         {"slot": 14, "name": "Land", "items": [
-          {"set": "EOE", "collectorNumberRanges": [{"start": 267, "end": 276}], "rarity": "common", "probability": 0.8},
-          {"set": "EOE", "collectorNumberRanges": [{"start": 262, "end": 266}], "rarity": "common", "probability": 0.2}
+          {"set": "EOE", "collectorNumberRanges": [{"start": 267, "end": 276}], "rarity": "common", "probability": 0.8, "foilRate": 0.25},
+          {"set": "EOE", "collectorNumberRanges": [{"start": 262, "end": 266}], "rarity": "common", "probability": 0.2, "foilRate": 0.25}
         ]}
       ]
     },
     "Collector": {
       "boxSize": 12,
       "slots": [
-        {"slots": [1, 2, 3, 4, 5], "name": "Common", "items": [{"set": "EOE", "collectorNumberRanges": [{"start": 1, "end": 261}], "rarity": "common", "probability": 1}]},
-        {"slots": [6, 7, 8, 9], "name": "Uncommon", "items": [{"set": "EOE", "collectorNumberRanges": [{"start": 1, "end": 261}], "rarity": "uncommon", "probability": 1}]},
-        {"slot": 10, "name": "Celestial Basic Land", "items": [{"set": "EOE", "collectorNumberRanges": [{"start": 262, "end": 266}], "rarity": "common", "probability": 1}]},
+        {"slots": [1, 2, 3, 4, 5], "name": "Common", "items": [{"set": "EOE", "collectorNumberRanges": [{"start": 1, "end": 261}], "rarity": "common", "probability": 1, "foilRate": 1}]},
+        {"slots": [6, 7, 8, 9], "name": "Uncommon", "items": [{"set": "EOE", "collectorNumberRanges": [{"start": 1, "end": 261}], "rarity": "uncommon", "probability": 1, "foilRate": 1}]},
+        {"slot": 10, "name": "Celestial Basic Land", "items": [{"set": "EOE", "collectorNumberRanges": [{"start": 262, "end": 266}], "rarity": "common", "probability": 1, "foilRate": 1}]},
         {"slot": 11, "name": "Rare/Mythic", "items": [
-          {"set": "EOE", "collectorNumberRanges": [{"start": 1, "end": 261}], "rarity": "rare", "probability": 0.86},
-          {"set": "EOE", "collectorNumberRanges": [{"start": 1, "end": 261}], "rarity": "mythic", "probability": 0.14}
+          {"set": "EOE", "collectorNumberRanges": [{"start": 1, "end": 261}], "rarity": "rare", "probability": 0.86, "foilRate": 1},
+          {"set": "EOE", "collectorNumberRanges": [{"start": 1, "end": 261}], "rarity": "mythic", "probability": 0.14, "foilRate": 1}
         ]},
         {"slot": 12, "name": "Edge of Eternities Commander", "items": [
           {"set": "EOC", "collectorNumberRanges": [{"start": 1, "end": 4}], "rarity": "mythic", "probability": 0.09},
@@ -75,29 +75,29 @@
           {"set": "EOS", "collectorNumberRanges": [{"start": 1, "end": 45}], "rarity": "mythic", "probability": 0.09},
           {"set": "EOS", "collectorNumberRanges": [{"start": 46, "end": 90}], "rarity": "rare", "probability": 0.18},
           {"set": "EOS", "collectorNumberRanges": [{"start": 46, "end": 90}], "rarity": "mythic", "probability": 0.04},
-          {"set": "EOS", "collectorNumberRanges": [{"start": 1, "end": 45}], "rarity": "rare", "probability": 0.12},
-          {"set": "EOS", "collectorNumberRanges": [{"start": 1, "end": 45}], "rarity": "mythic", "probability": 0.03},
-          {"set": "EOS", "collectorNumberRanges": [{"start": 46, "end": 90}], "rarity": "rare", "probability": 0.06},
-          {"set": "EOS", "collectorNumberRanges": [{"start": 46, "end": 90}], "rarity": "mythic", "probability": 0.015},
-          {"set": "EOS", "collectorNumberRanges": [{"start": 91, "end": 135}], "rarity": "rare", "probability": 0.06},
-          {"set": "EOS", "collectorNumberRanges": [{"start": 91, "end": 135}], "rarity": "mythic", "probability": 0.015},
-          {"set": "EOS", "collectorNumberRanges": [{"start": 136, "end": 180}], "rarity": "rare", "probability": 0.03},
-          {"set": "EOS", "collectorNumberRanges": [{"start": 136, "end": 180}], "rarity": "mythic", "probability": 0.005}
+          {"set": "EOS", "collectorNumberRanges": [{"start": 1, "end": 45}], "rarity": "rare", "probability": 0.12, "foilRate": 1},
+          {"set": "EOS", "collectorNumberRanges": [{"start": 1, "end": 45}], "rarity": "mythic", "probability": 0.03, "foilRate": 1},
+          {"set": "EOS", "collectorNumberRanges": [{"start": 46, "end": 90}], "rarity": "rare", "probability": 0.06, "foilRate": 1},
+          {"set": "EOS", "collectorNumberRanges": [{"start": 46, "end": 90}], "rarity": "mythic", "probability": 0.015, "foilRate": 1},
+          {"set": "EOS", "collectorNumberRanges": [{"start": 91, "end": 135}], "rarity": "rare", "probability": 0.06, "foilRate": 1},
+          {"set": "EOS", "collectorNumberRanges": [{"start": 91, "end": 135}], "rarity": "mythic", "probability": 0.015, "foilRate": 1},
+          {"set": "EOS", "collectorNumberRanges": [{"start": 136, "end": 180}], "rarity": "rare", "probability": 0.03, "foilRate": 1},
+          {"set": "EOS", "collectorNumberRanges": [{"start": 136, "end": 180}], "rarity": "mythic", "probability": 0.005, "foilRate": 1}
         ]},
         {"slot": 15, "name": "Booster Fun", "items": [
-          {"set": "EOE", "collectorNumberRanges": [{"start": 317, "end": 356}], "rarity": "rare", "probability": 0.38},
-          {"set": "EOE", "collectorNumberRanges": [{"start": 317, "end": 356}], "rarity": "mythic", "probability": 0.04},
-          {"set": "EOE", "collectorNumberRanges": [{"start": 277, "end": 286}], "rarity": "rare", "probability": 0.06},
-          {"set": "EOE", "collectorNumberRanges": [{"start": 277, "end": 286}], "rarity": "mythic", "probability": 0.03},
-          {"set": "EOE", "collectorNumberRanges": [{"start": 287, "end": 302}], "rarity": "rare", "probability": 0.13},
-          {"set": "EOE", "collectorNumberRanges": [{"start": 287, "end": 302}], "rarity": "mythic", "probability": 0.02},
-          {"set": "EOE", "collectorNumberRanges": [{"start": 303, "end": 316}], "rarity": "rare", "probability": 0.12},
-          {"set": "EOE", "collectorNumberRanges": [{"start": 303, "end": 316}], "rarity": "mythic", "probability": 0.02},
-          {"probability": 0.06, "set": "SPG", "rarity": "mythic", "collectorNumberRanges": [{"start": 119, "end": 128}]},
-          {"set": "EOE", "collectorNumberRanges": [{"start": 357, "end": 366}], "rarity": "mythic", "probability": 0.1},
-          {"set": "EOE", "collectorNumberRanges": [{"start": 357, "end": 366}], "rarity": "rare", "probability": 0.02},
-          {"set": "EOE", "collectorNumberRanges": [{"start": 357, "end": 366}], "rarity": "mythic", "probability": 0.01},
-          {"set": "EOE", "collectorNumberRanges": [{"start": 382, "end": 382}], "rarity": "mythic", "probability": 0.0005}
+          {"set": "EOE", "collectorNumberRanges": [{"start": 317, "end": 356}], "rarity": "rare", "probability": 0.38, "foilRate": 1},
+          {"set": "EOE", "collectorNumberRanges": [{"start": 317, "end": 356}], "rarity": "mythic", "probability": 0.04, "foilRate": 1},
+          {"set": "EOE", "collectorNumberRanges": [{"start": 277, "end": 286}], "rarity": "rare", "probability": 0.06, "foilRate": 1},
+          {"set": "EOE", "collectorNumberRanges": [{"start": 277, "end": 286}], "rarity": "mythic", "probability": 0.03, "foilRate": 1},
+          {"set": "EOE", "collectorNumberRanges": [{"start": 287, "end": 302}], "rarity": "rare", "probability": 0.13, "foilRate": 1},
+          {"set": "EOE", "collectorNumberRanges": [{"start": 287, "end": 302}], "rarity": "mythic", "probability": 0.02, "foilRate": 1},
+          {"set": "EOE", "collectorNumberRanges": [{"start": 303, "end": 316}], "rarity": "rare", "probability": 0.12, "foilRate": 1},
+          {"set": "EOE", "collectorNumberRanges": [{"start": 303, "end": 316}], "rarity": "mythic", "probability": 0.02, "foilRate": 1},
+          {"probability": 0.06, "set": "SPG", "rarity": "mythic", "collectorNumberRanges": [{"start": 119, "end": 128}], "foilRate": 1},
+          {"set": "EOE", "collectorNumberRanges": [{"start": 357, "end": 366}], "rarity": "mythic", "probability": 0.1, "foilRate": 1},
+          {"set": "EOE", "collectorNumberRanges": [{"start": 357, "end": 366}], "rarity": "rare", "probability": 0.02, "foilRate": 1},
+          {"set": "EOE", "collectorNumberRanges": [{"start": 357, "end": 366}], "rarity": "mythic", "probability": 0.01, "foilRate": 1},
+          {"set": "EOE", "collectorNumberRanges": [{"start": 382, "end": 382}], "rarity": "mythic", "probability": 0.0005, "foilRate": 1}
         ]}
       ]
     }
