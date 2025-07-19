@@ -124,6 +124,7 @@
                                             <option value="enchantment">Enchantment</option>
                                             <option value="artifact">Artifact</option>
                                             <option value="planeswalker">Planeswalker</option>
+                                            <option value="spacecraft">Spacecraft</option>
                                             <option value="land">Land</option>
                                         </select>
                                     </div>
@@ -413,9 +414,12 @@
             });
         }
 
-        // Helper: check if a card is a Legendary Creature
-        function isLegendaryCreature(card) {
-            return card && card.typeLine && card.typeLine.includes('Legendary Creature');
+        // Helper: check if a card is a valid Commander (Legendary Creature or Legendary Spacecraft)
+        function isValidCommander(card) {
+            return card && card.typeLine && (
+                card.typeLine.includes('Legendary Creature') ||
+                (card.typeLine.includes('Legendary') && card.typeLine.includes('Spacecraft'))
+            );
         }
 
         // Helper: get color identity for sorting (WUBRG order)
@@ -970,6 +974,7 @@
                     if (filterState.typeFilter === 'artifact' && !typeLine.includes('Artifact')) return false;
                     if (filterState.typeFilter === 'planeswalker' && !typeLine.includes('Planeswalker')) return false;
                     if (filterState.typeFilter === 'land' && !typeLine.includes('Land')) return false;
+                    if (filterState.typeFilter === 'spacecraft' && !typeLine.includes('Spacecraft')) return false;
                 }
 
                 // Color filter
@@ -999,7 +1004,7 @@
                 }
 
                 // Commander filter
-                if (filterState.validCommandersOnly && !isLegendaryCreature(card.cardData)) {
+                if (filterState.validCommandersOnly && !isValidCommander(card.cardData)) {
                     return false;
                 }
 
@@ -1051,13 +1056,13 @@
                 const cardImageHtml = generateCardImageHtml(cardData);
                 let actionIcons = '';
                 // Always include commander button position (top)
-                if (isLegendaryCreature(cardData)) {
+                if (isValidCommander(cardData)) {
                     actionIcons += `<button class=\"icon-btn set-commander-btn\" data-card-name=\"${cardData.name.replace(/\"/g, '&quot;')}\" aria-label=\"Set as Commander\"><span class=\"icon crown\"></span></button>`;
                 } else {
                     actionIcons += `<div class=\"icon-btn-placeholder\"></div>`;
                 }
                 // Always include add to deck button position (bottom)
-                if (!isLegendaryCreature(cardData) || cardData.name !== commanderName) {
+                if (!isValidCommander(cardData) || cardData.name !== commanderName) {
                     const inDeck = deckCounts[cardData.name] || 0;
                     if (count > inDeck) {
                         actionIcons += `<button class=\"icon-btn add-to-deck-btn\" data-card-name=\"${cardData.name.replace(/\"/g, '&quot;')}\" aria-label=\"Add to Deck\"><span class=\"icon plus\"></span></button>`;
