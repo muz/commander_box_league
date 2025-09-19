@@ -1,0 +1,60 @@
+{
+  "boosterTypes": {
+    "Play": {
+      "boxSize": 30,
+      "slots": [
+        {"slots": [1, 2, 3, 4, 5, 6], "name": "Common", "items": [{"set": "SPM", "collectorNumberRanges": [{"start": 1, "end": 188}], "exclusions": [181, 183, 184, 185, 186], "rarity": "common", "probability": 1}]},
+        {"slot": 7, "name": "Common/Bonus Sheet", "items": [
+          {"set": "SPM", "rarity": "common", "probability": 0.9583333333, "collectorNumberRanges": [{"start": 1, "end": 188}], "exclusions": [181, 183, 184, 185, 186]},
+          {"probability": 0.04166666667, "set": "MAR", "rarity": "mythic", "collectorNumberRanges": [{"start": 1, "end": 40}]}
+        ]},
+        {"slots": [8, 9, 10], "name": "Uncommon", "items": [
+          {"set": "SPM", "collectorNumberRanges": [{"start": 1, "end": 179}, {"start": 199, "end": 207}], "rarity": "uncommon", "probability": 1}
+        ]},
+        {"slot": 11, "name": "Wildcard", "items": [
+          {"set": "SPM", "collectorNumberRanges": [{"start": 1, "end": 178}], "exclusions": [181, 183, 184, 185, 186], "rarity": "common", "probability": 0.708},
+          {"set": "SPM", "collectorNumberRanges": [{"start": 1, "end": 179}], "rarity": "uncommon", "probability": 0.041},
+          {"set": "SPM", "collectorNumberRanges": [{"start": 1, "end": 187}], "rarity": "rare", "probability": 0.209},
+          {"set": "SPM", "collectorNumberRanges": [{"start": 1, "end": 122}], "rarity": "mythic", "probability": 0.029},
+          {"set": "SPM", "collectorNumberRanges": [{"start": 208, "end": 217}], "rarity": "rare", "probability": 0.008157142857},
+          {"set": "SPM", "collectorNumberRanges": [{"start": 208, "end": 217}], "rarity": "mythic", "probability": 0.008157142857},
+          {"set": "SPM", "collectorNumberRanges": [{"start": 218, "end": 231}], "rarity": "rare", "probability": 0.008157142857},
+          {"set": "SPM", "collectorNumberRanges": [{"start": 218, "end": 231}], "rarity": "mythic", "probability": 0.008157142857},
+          {"set": "SPM", "collectorNumberRanges": [{"start": 199, "end": 207}], "rarity": "uncommon", "probability": 0.008157142857},
+          {"set": "SPM", "collectorNumberRanges": [{"start": 199, "end": 207}], "rarity": "rare", "probability": 0.008157142857},
+          {"set": "SPM", "collectorNumberRanges": [{"start": 199, "end": 207}], "rarity": "mythic", "probability": 0.008157142857}
+        ]},
+        {"slot": 12, "name": "Non-foil rare/mythic", "items": [
+          {"set": "SPM", "collectorNumberRanges": [{"start": 1, "end": 187}], "rarity": "rare", "probability": 0.837},
+          {"set": "SPM", "collectorNumberRanges": [{"start": 1, "end": 122}], "rarity": "mythic", "probability": 0.117},
+          {"set": "SPM", "collectorNumberRanges": [{"start": 208, "end": 217}], "rarity": "rare", "probability": 0.012},
+          {"set": "SPM", "collectorNumberRanges": [{"start": 208, "end": 217}], "rarity": "mythic", "probability": 0.001},
+          {"set": "SPM", "collectorNumberRanges": [{"start": 218, "end": 231}], "rarity": "rare", "probability": 0.021},
+          {"set": "SPM", "collectorNumberRanges": [{"start": 218, "end": 231}], "rarity": "mythic", "probability": 0.001},
+          {"set": "SPM", "collectorNumberRanges": [{"start": 199, "end": 207}], "rarity": "rare", "probability": 0.01},
+          {"set": "SPM", "collectorNumberRanges": [{"start": 199, "end": 207}], "rarity": "mythic", "probability": 0.001}
+        ]},
+        {"slot": 13, "name": "Traditional Foil", "items": [
+          {"set": "SPM", "collectorNumberRanges": [{"start": 1, "end": 188}], "exclusions": [181, 183, 184, 185, 186], "rarity": "common", "probability": 0.658, "foilRate": 1},
+          {"set": "SPM", "collectorNumberRanges": [{"start": 1, "end": 179}], "rarity": "uncommon", "probability": 0.241, "foilRate": 1},
+          {"set": "SPM", "collectorNumberRanges": [{"start": 1, "end": 187}], "rarity": "rare", "probability": 0.078, "foilRate": 1},
+          {"set": "SPM", "collectorNumberRanges": [{"start": 1, "end": 122}], "rarity": "mythic", "probability": 0.011, "foilRate": 1},
+          {"set": "SPM", "collectorNumberRanges": [{"start": 208, "end": 217}], "rarity": "rare", "probability": 0.002, "foilRate": 1},
+          {"set": "SPM", "collectorNumberRanges": [{"start": 208, "end": 217}], "rarity": "mythic", "probability": 0.002, "foilRate": 1},
+          {"set": "SPM", "collectorNumberRanges": [{"start": 218, "end": 231}], "rarity": "rare", "probability": 0.002, "foilRate": 1},
+          {"set": "SPM", "collectorNumberRanges": [{"start": 218, "end": 231}], "rarity": "mythic", "probability": 0.002, "foilRate": 1},
+          {"set": "SPM", "collectorNumberRanges": [{"start": 199, "end": 207}], "rarity": "rare", "probability": 0.002, "foilRate": 1},
+          {"set": "SPM", "collectorNumberRanges": [{"start": 199, "end": 207}], "rarity": "mythic", "probability": 0.002, "foilRate": 1}
+        ]},
+        {"slot": 14, "name": "Land", "items": [
+          {"set": "SPM", "collectorNumberRanges": [{"start": 181, "end": 186}], "rarity": "common", "probability": 0.5, "foilRate": 0.2},
+          {"set": "SPM", "collectorNumberRanges": [{"start": 189, "end": 193}], "rarity": "common", "probability": 0.25, "foilRate": 0.2},
+          {"set": "SPM", "collectorNumberRanges": [{"start": 193, "end": 198}], "rarity": "common", "probability": 0.25, "foilRate": 0.2}
+        ]}
+      ]
+    }
+  },
+  "bonusSheet": [
+    {"name": "Marvel Universe", "code": "MAR"}
+  ]
+}
