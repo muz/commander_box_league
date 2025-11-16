@@ -1,5 +1,6 @@
 {
   "sets": [
+    { "name": "Avatar: The Last Airbender", "code": "TLA"},
     { "name": "Marvel's Spider-Man", "code": "SPM" },
     { "name": "Edge of Eternities", "code": "EOE" },
     { "name": "Final Fantasy", "code": "FIN" },
