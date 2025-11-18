@@ -3,9 +3,9 @@
     "Play": {
       "boxSize": 30,
       "slots": [
-        {"slots": [1, 2, 3, 4, 5, 6], "name": "Common", "items": [{"set": "TLA", "collectorNumberRanges": [{"start": 1, "end": 264}], "rarity": "common", "probability": 1}]},
+        {"slots": [1, 2, 3, 4, 5, 6], "name": "Common", "items": [{"set": "TLA", "collectorNumberRanges": [{"start": 1, "end": 264}, {"start": 277, "end": 277}], "rarity": "common", "probability": 1}]},
         {"slot": 7, "name": "Common/Bonus Sheet", "items": [
-          {"set": "TLA", "rarity": "common", "probability": 0.9615384615, "collectorNumberRanges": [{"start": 1, "end": 264}]},
+          {"set": "TLA", "rarity": "common", "probability": 0.9615384615, "collectorNumberRanges": [{"start": 1, "end": 264}, {"start": 277, "end": 277}]},
           {"probability": 0.04166666667, "set": "TLE", "rarity": "unknown", "collectorNumberRanges": [{"start": 1, "end": 61}]}
         ]},
         {"slots": [8, 9, 10], "name": "Uncommon", "items": [
@@ -13,7 +13,7 @@
           {"set": "TLA", "collectorNumberRanges": [{"start": 299, "end": 306}], "rarity": "uncommon", "probability": 0.036}
         ]},
         {"slot": 11, "name": "Wildcard", "items": [
-          {"set": "TLA", "collectorNumberRanges": [{"start": 1, "end": 264}], "rarity": "common", "probability": 0.042},
+          {"set": "TLA", "collectorNumberRanges": [{"start": 1, "end": 264}, {"start": 277, "end": 277}], "rarity": "common", "probability": 0.042},
           {"set": "TLA", "collectorNumberRanges": [{"start": 1, "end": 281}], "rarity": "uncommon", "probability": 0.741},
           {"set": "TLA", "collectorNumberRanges": [{"start": 1, "end": 281}], "rarity": "rare", "probability": 0.167},
           {"set": "TLA", "collectorNumberRanges": [{"start": 1, "end": 281}], "rarity": "mythic", "probability": 0.026},
@@ -42,7 +42,7 @@
           {"set": "TLA", "collectorNumberRanges": [{"start": 354, "end": 358}], "rarity": "mythic", "probability": 0.004}
         ]},
         {"slot": 13, "name": "Traditional Foil", "items": [
-          {"set": "TLA", "collectorNumberRanges": [{"start": 1, "end": 264}], "rarity": "common", "probability": 0.539, "foilRate": 1},
+          {"set": "TLA", "collectorNumberRanges": [{"start": 1, "end": 264}, {"start": 277, "end": 277}], "rarity": "common", "probability": 0.539, "foilRate": 1},
           {"set": "TLA", "collectorNumberRanges": [{"start": 1, "end": 281}], "rarity": "uncommon", "probability": 0.367, "foilRate": 1},
           {"set": "TLA", "collectorNumberRanges": [{"start": 1, "end": 281}], "rarity": "rare", "probability": 0.067, "foilRate": 1},
           {"set": "TLA", "collectorNumberRanges": [{"start": 1, "end": 281}], "rarity": "mythic", "probability": 0.012, "foilRate": 1},
@@ -58,11 +58,11 @@
           {"set": "TLA", "collectorNumberRanges": [{"start": 354, "end": 358}], "rarity": "mythic", "probability": 0.0005, "foilRate": 1}
         ]},
         {"slot": 14, "name": "Land", "items": [
-          {"set": "TLA", "collectorNumberRanges": [{"start": 265, "end": 281}], "rarity": "common", "probability": 0.4},
+          {"set": "TLA", "collectorNumberRanges": [{"start": 265, "end": 281}], "exclusions": [277], "rarity": "common", "probability": 0.4},
           {"set": "TLA", "collectorNumberRanges": [{"start": 282, "end": 285}], "rarity": "common", "probability": 0.2},
           {"set": "TLA", "collectorNumberRanges": [{"start": 292, "end": 296}], "rarity": "common", "probability": 0.1},
           {"set": "TLA", "collectorNumberRanges": [{"start": 287, "end": 291}], "rarity": "common", "probability": 0.1},
-          {"set": "TLA", "collectorNumberRanges": [{"start": 265, "end": 281}], "rarity": "common", "probability": 0.1, "foilRate": 1},
+          {"set": "TLA", "collectorNumberRanges": [{"start": 265, "end": 281}], "exclusions": [277], "rarity": "common", "probability": 0.1, "foilRate": 1},
           {"set": "TLA", "collectorNumberRanges": [{"start": 282, "end": 285}], "rarity": "common", "probability": 0.05, "foilRate": 1},
           {"set": "TLA", "collectorNumberRanges": [{"start": 292, "end": 296}], "rarity": "common", "probability": 0.025, "foilRate": 1},
           {"set": "TLA", "collectorNumberRanges": [{"start": 287, "end": 291}], "rarity": "common", "probability": 0.025, "foilRate": 1}
