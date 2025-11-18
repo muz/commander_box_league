@@ -6,7 +6,7 @@
         {"slots": [1, 2, 3, 4, 5, 6], "name": "Common", "items": [{"set": "TLA", "collectorNumberRanges": [{"start": 1, "end": 264}, {"start": 277, "end": 277}], "rarity": "common", "probability": 1}]},
         {"slot": 7, "name": "Common/Bonus Sheet", "items": [
           {"set": "TLA", "rarity": "common", "probability": 0.9615384615, "collectorNumberRanges": [{"start": 1, "end": 264}, {"start": 277, "end": 277}]},
-          {"probability": 0.04166666667, "set": "TLE", "rarity": "unknown", "collectorNumberRanges": [{"start": 1, "end": 61}]}
+          {"probability": 0.04166666667, "set": "TLE", "rarity": "mythic", "collectorNumberRanges": [{"start": 1, "end": 61}]}
         ]},
         {"slots": [8, 9, 10], "name": "Uncommon", "items": [
           {"set": "TLA", "collectorNumberRanges": [{"start": 1, "end": 281}], "rarity": "uncommon", "probability": 0.964},
