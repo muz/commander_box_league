@@ -1,0 +1,56 @@
+{
+  "boosterTypes": {
+    "Play": {
+      "boxSize": 30,
+      "slots": [
+        {"slots": [1, 2, 3, 4, 5, 6], "name": "Common", "items": [{"set": "ECL", "collectorNumberRanges": [{"start": 1, "end": 268}], "rarity": "common", "probability": 1}]},
+        {"slot": 7, "name": "Common/Bonus Sheet", "items": [
+          {"set": "ECL", "collectorNumberRanges": [{"start": 1, "end": 268}], "rarity": "common", "probability": 0.9818},
+          {"set": "SPG", "collectorNumberRanges": [{"start": 129, "end": 148}], "rarity": "mythic", "probability": 0.0182}
+        ]},
+        {"slots": [8, 9, 10], "name": "Uncommon", "items": [
+          {"set": "ECL", "collectorNumberRanges": [{"start": 1, "end": 268}], "probability": 0.9, "rarity": "uncommon"},
+          {"set": "ECL", "collectorNumberRanges": [{"start": 297, "end": 346}], "probability": 0.1, "rarity": "uncommon"}
+        ]},
+        {"slot": 11, "name": "Wildcard", "items": [
+          {"set": "ECL", "collectorNumberRanges": [{"start": 1, "end": 268}], "probability": 0.18, "rarity": "common"},
+          {"set": "ECL", "collectorNumberRanges": [{"start": 1, "end": 268}], "probability": 0.58, "rarity": "uncommon"},
+          {"set": "ECL", "collectorNumberRanges": [{"start": 1, "end": 268}], "probability": 0.19, "rarity": "rare"},
+          {"set": "ECL", "collectorNumberRanges": [{"start": 1, "end": 268}], "probability": 0.015, "rarity": "mythic"},
+          {"set": "ECL", "collectorNumberRanges": [{"start": 297, "end": 346}], "probability": 0.015, "rarity": "uncommon"},
+          {"set": "ECL", "collectorNumberRanges": [{"start": 297, "end": 346}], "probability": 0.004, "rarity": "rare"},
+          {"set": "ECL", "collectorNumberRanges": [{"start": 297, "end": 346}], "probability": 0.002, "rarity": "mythic"},
+          {"set": "ECL", "collectorNumberRanges": [{"start": 284, "end": 296}], "probability": 0.01, "rarity": "rare"},
+          {"set": "ECL", "collectorNumberRanges": [{"start": 284, "end": 296}], "probability": 0.002, "rarity": "mythic"},
+          {"set": "ECL", "collectorNumberRanges": [{"start": 347, "end": 351}], "probability": 0.002, "rarity": "rare"}
+        ]},
+        {"slot": 12, "name": "Non-foil rare/mythic", "items": [
+          {"set": "ECL", "collectorNumberRanges": [{"start": 1, "end": 268}], "probability": 0.782, "rarity": "rare"},
+          {"set": "ECL", "collectorNumberRanges": [{"start": 1, "end": 268}], "probability": 0.136, "rarity": "mythic"},
+          {"set": "ECL", "collectorNumberRanges": [{"start": 297, "end": 346}], "probability": 0.046, "rarity": "rare"},
+          {"set": "ECL", "collectorNumberRanges": [{"start": 297, "end": 346}], "probability": 0.012, "rarity": "mythic"},
+          {"set": "ECL", "collectorNumberRanges": [{"start": 284, "end": 296}], "probability": 0.009, "rarity": "rare"},
+          {"set": "ECL", "collectorNumberRanges": [{"start": 284, "end": 296}], "probability": 0.007, "rarity": "mythic"},
+          {"set": "ECL", "collectorNumberRanges": [{"start": 347, "end": 351}], "probability": 0.008, "rarity": "rare"}
+        ]},
+        {"slot": 13, "name": "Traditional Foil", "items": [
+          {"set": "ECL", "collectorNumberRanges": [{"start": 1, "end": 268}], "probability": 0.604, "rarity": "common"},
+          {"set": "ECL", "collectorNumberRanges": [{"start": 1, "end": 268}], "probability": 0.298, "rarity": "uncommon"},
+          {"set": "ECL", "collectorNumberRanges": [{"start": 1, "end": 268}], "probability": 0.065, "rarity": "rare"},
+          {"set": "ECL", "collectorNumberRanges": [{"start": 1, "end": 268}], "probability": 0.011, "rarity": "mythic"},
+          {"set": "ECL", "collectorNumberRanges": [{"start": 297, "end": 346}], "probability": 0.01, "rarity": "uncommon"},
+          {"set": "ECL", "collectorNumberRanges": [{"start": 297, "end": 346}], "probability": 0.01, "rarity": "rare"},
+          {"set": "ECL", "collectorNumberRanges": [{"start": 297, "end": 346}], "probability": 0.0005, "rarity": "mythic"},
+          {"set": "ECL", "collectorNumberRanges": [{"start": 284, "end": 296}], "probability": 0.0005, "rarity": "rare"},
+          {"set": "ECL", "collectorNumberRanges": [{"start": 284, "end": 296}], "probability": 0.0005, "rarity": "mythic"},
+          {"set": "ECL", "collectorNumberRanges": [{"start": 347, "end": 351}], "probability": 0.0005, "rarity": "rare"}
+        ]},
+        {"slot": 14, "name": "Land", "items": [
+          {"set": "ECL", "collectorNumberRanges": [{"start": 269, "end": 273}], "probability": 0.087, "rarity": "common"},
+          {"set": "ECL", "collectorNumberRanges": [{"start": 274, "end": 283}], "probability": 0.044, "rarity": "common"}
+        ]}
+      ]
+    }
+  },
+  "bonusSheet": [{"name": "Special Guests", "code": "SPG"}]
+}
