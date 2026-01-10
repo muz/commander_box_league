@@ -1,5 +1,6 @@
 {
   "sets": [
+    { "name": "Lorwyn Eclipsed", "code": "ECL" },
     { "name": "Avatar: The Last Airbender", "code": "TLA"},
     { "name": "Marvel's Spider-Man", "code": "SPM" },
     { "name": "Edge of Eternities", "code": "EOE" },
